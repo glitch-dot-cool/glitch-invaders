@@ -107,7 +107,7 @@ const game = (s) => {
   s.renderScore = () => {
     s.fill(200);
     s.textSize(24);
-    s.text(`score: ${player.score}`, 5, s.height - 35);
+    s.text(`score: ${player.score.toLocaleString()}`, 5, s.height - 35);
     s.textSize(16);
     s.text(`multiplier: ${player.multiplier}x`, 5, s.height - 15);
   };

@@ -1,4 +1,4 @@
-export class Ship {
+export class Player {
   constructor(s, sprite) {
     this.size = 32;
     this.speed = 5;

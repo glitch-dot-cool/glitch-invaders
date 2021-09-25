@@ -1,4 +1,4 @@
-import { Ship } from "./Ship.js";
+import { Player } from "./Player.js";
 import { EnemyManager } from "./EnemyManager.js";
 import { Gun } from "./Gun.js";
 import { ParticleManager } from "./ParticleManager.js";
@@ -16,7 +16,7 @@ const game = (s) => {
     playerHasSelectedCharacter = false;
 
   const setSelectedPlayer = (character) => {
-    player = new Ship(s, character);
+    player = new Player(s, character);
     playerHasSelectedCharacter = true;
   };
 

@@ -18,6 +18,8 @@ const game = (s) => {
   const setSelectedPlayer = (character) => {
     player = new Player(s, character);
     playerHasSelectedCharacter = true;
+    enemyManager = new EnemyManager(s, particleManager, sprites.enemies);
+    enemyManager.spawnEnemies(s);
   };
 
   s.preload = () => {
@@ -30,8 +32,6 @@ const game = (s) => {
     s.createCanvas(s.windowWidth, s.windowHeight);
     gun = new Gun(sprites.bullet);
     particleManager = new ParticleManager();
-    enemyManager = new EnemyManager(s, particleManager, sprites.enemies);
-    enemyManager.spawnEnemies(s);
     starField = new StarField(s);
     const spriteSize = 48;
     possiblePlayerCharacters = sprites.player.map((sprite, idx) => {

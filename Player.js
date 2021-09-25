@@ -6,8 +6,8 @@ export class Player {
     this.y = s.height - this.size * 2;
     this.score = 0;
     this.multiplier = 1;
-    this.maxGas = 100;
-    this.gas = 100;
+    this.maxBattery = 100;
+    this.battery = 100;
     this.isSprinting = false;
     this.sprite = sprite;
   }
@@ -15,13 +15,14 @@ export class Player {
   show = (s) => {
     s.image(this.sprite, this.x, this.y, this.size, this.size);
 
-    // refill gas when not sprinting
-    if (!this.isSprinting && this.gas < this.maxGas) this.gas += 0.125;
+    // recharge battery when not sprinting
+    if (!this.isSprinting && this.battery < this.maxBattery)
+      this.battery += 0.125;
   };
 
   controls = (s) => {
     // sprint
-    if (s.keyIsDown(s.SHIFT) && this.gas) {
+    if (s.keyIsDown(s.SHIFT) && this.battery) {
       this.speed = 15;
       this.isSprinting = true;
     } else {
@@ -37,7 +38,7 @@ export class Player {
   };
 
   move = (s, direction) => {
-    this.gasCheck();
+    this.batteryCheck();
 
     if (direction === "LEFT" && this.x > 0) {
       this.x -= this.speed;
@@ -45,9 +46,9 @@ export class Player {
       this.x += this.speed;
     }
 
-    // consume gas when sprinting
-    if (this.isSprinting && this.gas > 0) {
-      this.gas -= 1;
+    // consume battery when sprinting
+    if (this.isSprinting && this.battery > 0) {
+      this.battery -= 1;
     }
   };
 
@@ -61,18 +62,18 @@ export class Player {
     this.multiplier = 1;
   };
 
-  showGas = (s) => {
-    const greenAmount = s.map(this.gas, 0, 100, 30, 255);
+  showBattery = (s) => {
+    const greenAmount = s.map(this.battery, 0, 100, 30, 255);
     s.noStroke();
     s.fill(30, greenAmount, 30);
-    s.rect(s.width - this.maxGas - 20, s.height - 50, this.gas, 30);
-    s.fill(50, this.gas * 2.55);
-    s.text("gas", s.width - this.maxGas - 10, s.height - 30);
+    s.rect(s.width - this.maxBattery - 20, s.height - 50, this.battery, 30);
+    s.fill(50, this.battery * 2.55);
+    s.text("battery", s.width - this.maxBattery - 10, s.height - 30);
   };
 
-  gasCheck = () => {
-    // cancel sprint when out of gas
-    if (this.gas <= 0) {
+  batteryCheck = () => {
+    // cancel sprint when out of battery
+    if (this.battery <= 0) {
       this.isSprinting = false;
       this.speed = 5;
     }

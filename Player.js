@@ -1,6 +1,6 @@
 export class Player {
   constructor(s, sprite, gun) {
-    this.size = 32;
+    this.size = 40;
     this.speed = 5;
     this.x = s.width * 0.5;
     this.y = s.height - this.size * 3;

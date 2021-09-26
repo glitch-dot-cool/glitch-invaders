@@ -1,6 +1,6 @@
 export class Enemy {
   constructor(s, enemySprites) {
-    this.size = 20;
+    this.size = 24;
     this.scale = 4;
     this.x = Math.random() * s.width;
     this.y = 0;

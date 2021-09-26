@@ -3,7 +3,7 @@ export class Bullet {
     this.x = x;
     this.y = y;
     this.xOffset = xOffset;
-    this.size = 10;
+    this.size = 20;
     this.speed = 10;
     this.sprite = sprite;
   }

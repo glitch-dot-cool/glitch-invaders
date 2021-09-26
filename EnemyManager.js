@@ -34,7 +34,7 @@ export class EnemyManager {
 
     // retrigger subsequent waves on a shorter and shorter timescale
     setTimeout(this.spawnEnemies.bind(null, s), this.waveTimer);
-    this.waveTimer *= 0.95;
+    this.waveTimer = Math.max(this.waveTimer * 0.96, 5_000);
     this.wave++;
   };
 

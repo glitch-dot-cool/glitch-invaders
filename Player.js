@@ -1,5 +1,5 @@
 export class Player {
-  constructor(s, sprite) {
+  constructor(s, sprite, gun) {
     this.size = 32;
     this.speed = 5;
     this.x = s.width * 0.5;
@@ -12,6 +12,7 @@ export class Player {
     this.sprite = sprite;
     this.maxHealth = 100;
     this.health = this.maxHealth;
+    this.gun = gun;
   }
 
   show = (s) => {
@@ -61,6 +62,10 @@ export class Player {
       this.move(s, "LEFT");
     } else if (s.keyIsDown(s.RIGHT_ARROW)) {
       this.move(s, "RIGHT");
+    }
+
+    if (s.keyIsDown(32) && s.frameCount % this.gun.rateOfFire === 0) {
+      this.gun.shoot(this.x, this.y);
     }
   };
 

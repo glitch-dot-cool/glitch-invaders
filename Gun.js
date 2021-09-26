@@ -4,6 +4,7 @@ export class Gun {
   constructor(sprite) {
     this.bullets = [];
     this.sprite = sprite;
+    this.rateOfFire = 15;
   }
 
   show = (s) => {
@@ -14,12 +15,10 @@ export class Gun {
     });
   };
 
-  shoot = (keyCode, x, y) => {
-    if (keyCode === 32) {
-      this.bullets.push(new Bullet(x, y, 0, this.sprite));
-      this.bullets.push(new Bullet(x, y, -1, this.sprite));
-      this.bullets.push(new Bullet(x, y, 1, this.sprite));
-    }
+  shoot = (x, y) => {
+    this.bullets.push(new Bullet(x, y, 0, this.sprite));
+    // this.bullets.push(new Bullet(x, y, -1, this.sprite));
+    // this.bullets.push(new Bullet(x, y, 1, this.sprite));
   };
 
   clearOffscreenBullet = (bullet, index) => {

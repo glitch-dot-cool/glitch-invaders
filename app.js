@@ -18,7 +18,8 @@ const game = (s) => {
     gameState = gameStates.CHARACTER_SELECT;
 
   const setSelectedPlayer = (character) => {
-    player = new Player(s, character);
+    gun = new Gun(sprites.bullet);
+    player = new Player(s, character, gun);
     gameState = gameStates.PLAYING;
     possiblePlayerCharacters = null;
     enemyManager = new EnemyManager(s, particleManager, sprites.enemies);
@@ -37,7 +38,6 @@ const game = (s) => {
 
   s.setup = () => {
     s.createCanvas(s.windowWidth, s.windowHeight);
-    gun = new Gun(sprites.bullet);
     particleManager = new ParticleManager();
     starField = new StarField(s);
     const spriteSize = 48;
@@ -97,12 +97,6 @@ const game = (s) => {
     const button = s.createButton("restart");
     button.position(s.width / 2, s.height / 2 + 50);
     button.mousePressed(() => location.reload());
-  };
-
-  s.keyPressed = () => {
-    if (gameState === gameStates.PLAYING) {
-      gun.shoot(s.keyCode, player.x, player.y);
-    }
   };
 
   s.mousePressed = () => {

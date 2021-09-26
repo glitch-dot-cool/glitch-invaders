@@ -6,7 +6,7 @@ export class Enemy {
     this.y = 0;
     this.pointValues = [5, 10, 15, 20];
     this.pointValue = s.random(this.pointValues);
-    this.speed = this.pointValue * 0.05;
+    this.speed = this.pointValue * 0.075;
     this.sprite =
       enemySprites[
         Math.floor(

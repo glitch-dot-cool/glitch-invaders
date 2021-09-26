@@ -91,7 +91,8 @@ const game = (s) => {
 
   s.deathScene = () => {
     s.fill(175, 0, 0);
-    s.text("YOU ARE DEAD", s.width / 2 - 50, s.height / 2);
+    s.textSize(64);
+    s.text("YOU ARE DEAD", s.width / 2 - 200, s.height / 2);
   };
 
   s.keyPressed = () => {

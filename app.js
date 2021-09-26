@@ -47,7 +47,8 @@ const game = (s) => {
         s.height / 2,
         sprite,
         spriteSize,
-        setSelectedPlayer
+        setSelectedPlayer,
+        s
       );
     });
   };
@@ -169,6 +170,10 @@ const game = (s) => {
 
   s.preloadBulletSprite = () => {
     sprites.bullet = s.loadImage("assets/logo_bullet.png");
+  };
+
+  s.windowResized = () => {
+    s.resizeCanvas(s.windowWidth, s.windowHeight);
   };
 };
 

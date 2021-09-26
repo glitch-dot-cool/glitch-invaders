@@ -20,6 +20,7 @@ export class StarField {
   resetStar = (star) => {
     if (star.y > this.renderer.height) {
       star.y = -10;
+      star.x = Math.random() * this.renderer.width;
     }
   };
 }

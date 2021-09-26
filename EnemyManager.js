@@ -2,12 +2,13 @@ import { Enemy } from "./Enemy.js";
 
 export class EnemyManager {
   constructor(s, powerupManager, particleManager, enemySprites) {
-    this.numEnemies = 30;
-    this.enemies = Array(this.numEnemies)
+    this.baseEnemiesPerRound = 10;
+    this.enemies = Array(this.baseEnemiesPerRound)
       .fill()
       .map((_) => new Enemy(s, enemySprites));
     this.wave = 0;
     this.waveTimer = 10_000;
+    this.minWaveTime = 5_000;
     this.enemySprites = enemySprites;
     this.particleManager = particleManager;
     this.powerupManager = powerupManager;
@@ -24,7 +25,9 @@ export class EnemyManager {
   };
 
   spawnEnemies = (s) => {
-    for (let i = 0; i < this.wave ** 1.5; i++) {
+    const enemiesThisRound =
+      Math.floor((this.wave + 1) ** 1.5) + this.baseEnemiesPerRound;
+    for (let i = 0; i < enemiesThisRound; i++) {
       this.enemies.push(new Enemy(s, this.enemySprites));
     }
 
@@ -34,7 +37,7 @@ export class EnemyManager {
 
     // retrigger subsequent waves on a shorter and shorter timescale
     setTimeout(this.spawnEnemies.bind(null, s), this.waveTimer);
-    this.waveTimer = Math.max(this.waveTimer * 0.96, 5_000);
+    this.waveTimer = Math.max(this.waveTimer * 0.96, this.minWaveTime);
     this.wave++;
   };
 

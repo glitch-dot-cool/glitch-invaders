@@ -143,6 +143,18 @@ const game = (s) => {
         enemyManager.killEnemy(s, enemyIdx);
       }
     });
+    // handle collisions w/ powerups
+    powerupManager.activePowerups.forEach((powerup, idx) => {
+      if (
+        player.x > powerup.x &&
+        player.x < powerup.x + powerup.width &&
+        player.y > powerup.y &&
+        player.y < powerup.y + powerup.height
+      ) {
+        powerup.consume();
+        powerupManager.purge(idx);
+      }
+    });
   };
 
   s.renderScore = () => {
@@ -183,8 +195,8 @@ const game = (s) => {
 
   s.preloadPowerupSprites = () => {
     sprites.powerups = {
-      bulletSpeed: s.loadImage("assets/powerups/fire_rate.png"),
-      bulletFan: s.loadImage("assets/powerups/increase_bullets.png"),
+      rateOfFire: s.loadImage("assets/powerups/fire_rate.png"),
+      numBullets: s.loadImage("assets/powerups/increase_bullets.png"),
     };
   };
 

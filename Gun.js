@@ -6,6 +6,7 @@ export class Gun {
     this.sprite = sprite;
     this.rateOfFire = 15;
     this.bulletSpeed = 10;
+    this.numBullets = 1;
   }
 
   show = (s) => {
@@ -17,9 +18,17 @@ export class Gun {
   };
 
   shoot = (x, y) => {
-    this.bullets.push(new Bullet(x, y, 0, this.sprite, this.bulletSpeed));
-    // this.bullets.push(new Bullet(x, y, -1, this.sprite));
-    // this.bullets.push(new Bullet(x, y, 1, this.sprite));
+    for (let i = 0; i < this.numBullets; i++) {
+      this.bullets.push(
+        new Bullet(
+          x,
+          y,
+          (i % this.numBullets) - Math.floor(this.numBullets / 2), // fan bullets out
+          this.sprite,
+          this.bulletSpeed
+        )
+      );
+    }
   };
 
   clearOffscreenBullet = (bullet, index) => {
@@ -31,6 +40,10 @@ export class Gun {
   };
 
   consumePowerup = (effect) => {
-    this[effect.stat] += effect.value;
+    if (effect.stat === "rateOfFire") {
+      this.rateOfFire = Math.max(Math.floor(this.rateOfFire * effect.value), 1);
+    } else {
+      this[effect.stat] += effect.value;
+    }
   };
 }

@@ -4,7 +4,7 @@ export class PowerupManager {
   constructor(s, powerupSprites, gun) {
     this.p5 = s;
     this.sprites = powerupSprites;
-    this.POWERUPS = { BULLET_SPEED: "bulletSpeed", BULLET_FAN: "bulletFan" };
+    this.POWERUPS = { RATE_OF_FIRE: "rateOfFire", BULLET_FAN: "numBullets" };
     this.period = 1; // how many rounds between powerups
     this.activePowerups = [];
     this.lastPowerup = this.POWERUPS.BULLET_FAN;
@@ -23,12 +23,16 @@ export class PowerupManager {
     this.activePowerups.push(nextPowerup);
   };
 
+  purge = (idx) => {
+    this.activePowerups.splice(idx, 1);
+  };
+
   selectNextPowerup = () => {
-    if (this.lastPowerup === this.POWERUPS.BULLET_SPEED) {
+    if (this.lastPowerup === this.POWERUPS.RATE_OF_FIRE) {
       this.lastPowerup = this.POWERUPS.BULLET_FAN;
       return this.createNextPowerup(this.lastPowerup);
     } else {
-      this.lastPowerup = this.POWERUPS.BULLET_SPEED;
+      this.lastPowerup = this.POWERUPS.RATE_OF_FIRE;
       return this.createNextPowerup(this.lastPowerup);
     }
   };
@@ -39,8 +43,8 @@ export class PowerupManager {
       y: this.p5.random(this.p5.height * 0.5),
       sprite: this.sprites[type],
       effect: {
-        stat: this.POWERUPS[type],
-        value: type === this.POWERUPS.BULLET_SPEED ? 5 : 1, // +5 bulletSpeed or +1 bullet for fan
+        stat: type,
+        value: type === this.POWERUPS.RATE_OF_FIRE ? 0.9 : 1, // +10% RoF or +1 bullet for fan
       },
       target: this.target,
     });

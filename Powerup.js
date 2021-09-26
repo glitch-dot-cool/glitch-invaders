@@ -19,6 +19,6 @@ export class Powerup {
   };
 
   consume = () => {
-    this.target.consume(this.effect);
+    this.target.consumePowerup(this.effect);
   };
 }

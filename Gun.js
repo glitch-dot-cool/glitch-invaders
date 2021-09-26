@@ -5,7 +5,7 @@ export class Gun {
     this.bullets = [];
     this.sprite = sprite;
     this.rateOfFire = 15;
-    this.bulletSpeed = 10;
+    this.bulletSpeed = 20;
     this.numBullets = 1;
   }
 
@@ -43,7 +43,8 @@ export class Gun {
     if (effect.stat === "rateOfFire") {
       this.rateOfFire = Math.max(Math.floor(this.rateOfFire * effect.value), 1);
     } else {
-      this[effect.stat] += effect.value;
+      this.numBullets += effect.value;
+      this.bulletSpeed *= 0.9;
     }
   };
 }

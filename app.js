@@ -18,7 +18,8 @@ const game = (s) => {
     possiblePlayerCharacters,
     sprites = {},
     gameState = gameStates.CHARACTER_SELECT,
-    font;
+    font,
+    restartButton;
 
   const setSelectedPlayer = (character) => {
     gun = new Gun(sprites.bullet);
@@ -50,6 +51,8 @@ const game = (s) => {
   s.setup = () => {
     s.createCanvas(s.windowWidth, s.windowHeight);
     s.textFont(font);
+    restartButton = s.createButton("restart");
+    restartButton.mousePressed(() => location.reload());
     particleManager = new ParticleManager();
     starField = new StarField(s);
     const spriteSize = 48;
@@ -107,9 +110,13 @@ const game = (s) => {
     s.fill(175, 0, 0);
     s.textSize(64);
     s.text("YOU ARE DEAD", s.width / 2 - 200, s.height / 2);
-    const button = s.createButton("restart");
-    button.position(s.width / 2, s.height / 2 + 50);
-    button.mousePressed(() => location.reload());
+    restartButton.position(s.width / 2, s.height / 2 + 50);
+
+    if (s.frameCount % 3 === 0) {
+      particleManager.emit(s, { x: s.random(s.width), y: s.random(s.height) });
+    }
+    particleManager.purgeParticles();
+    particleManager.renderParticles(s);
   };
 
   s.mousePressed = () => {

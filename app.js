@@ -93,6 +93,9 @@ const game = (s) => {
     s.fill(175, 0, 0);
     s.textSize(64);
     s.text("YOU ARE DEAD", s.width / 2 - 200, s.height / 2);
+    const button = s.createButton("restart");
+    button.position(s.width / 2, s.height / 2 + 50);
+    button.mousePressed(() => location.reload());
   };
 
   s.keyPressed = () => {

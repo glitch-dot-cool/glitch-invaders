@@ -100,7 +100,9 @@ const game = (s) => {
   };
 
   s.keyPressed = () => {
-    if (gameStates.PLAYING) gun.shoot(s.keyCode, player.x, player.y);
+    if (gameState === gameStates.PLAYING) {
+      gun.shoot(s.keyCode, player.x, player.y);
+    }
   };
 
   s.mousePressed = () => {

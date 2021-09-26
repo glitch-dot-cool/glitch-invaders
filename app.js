@@ -5,6 +5,7 @@ import { ParticleManager } from "./ParticleManager.js";
 import { StarField } from "./StarField.js";
 import { PlayerPreview } from "./PlayerPreview.js";
 import { PowerupManager } from "./PowerupManager.js";
+import { Server } from "./Server.js";
 
 const game = (s) => {
   const gameStates = { CHARACTER_SELECT: 0, PLAYING: 1, DEAD: 2 };
@@ -19,7 +20,8 @@ const game = (s) => {
     sprites = {},
     gameState = gameStates.CHARACTER_SELECT,
     font,
-    restartButton;
+    restartButton,
+    server;
 
   const setSelectedPlayer = (character) => {
     gun = new Gun(sprites.bullet);
@@ -55,6 +57,7 @@ const game = (s) => {
     restartButton.mousePressed(() => location.reload());
     particleManager = new ParticleManager();
     starField = new StarField(s);
+    server = new Server();
     const spriteSize = 48;
     possiblePlayerCharacters = sprites.player.map((sprite, idx) => {
       return new PlayerPreview(
@@ -98,6 +101,7 @@ const game = (s) => {
     s.collisionTest();
     gun.show(s);
     player.show(s);
+    server.show(s);
     enemyManager.show(s);
     enemyManager.displayCurrentWave(s);
     powerupManager.show(s);
@@ -131,6 +135,7 @@ const game = (s) => {
       if (enemy.y > s.height) {
         enemyManager.killEnemy(s, enemyIdx);
         player.applyPenalty(enemy.pointValue);
+        server.takeDamage(enemy.pointValue, setGameState, gameStates);
       }
 
       // handle bullet collisions with enemies

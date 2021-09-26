@@ -33,11 +33,11 @@ export class Player {
       0,
       s.width * 0.334
     );
-    s.rect(s.width * 0.334, s.height - 25, healthBarWidth, 10);
+    s.rect(s.width * 0.334, s.height - 65, healthBarWidth, 10);
     s.text(
-      `${this.health}/${this.maxHealth}hp`,
-      s.width * 0.5 - 35,
-      s.height - 35
+      `moderator sanity: ${this.health}/${this.maxHealth}`,
+      s.width * 0.5 - 125,
+      s.height - 75
     );
   };
 

@@ -15,7 +15,8 @@ const game = (s) => {
     starField,
     possiblePlayerCharacters,
     sprites = {},
-    gameState = gameStates.CHARACTER_SELECT;
+    gameState = gameStates.CHARACTER_SELECT,
+    font;
 
   const setSelectedPlayer = (character) => {
     gun = new Gun(sprites.bullet);
@@ -34,16 +35,18 @@ const game = (s) => {
     s.preloadCharacterSprites();
     s.preloadEnemySprites();
     s.preloadBulletSprite();
+    font = s.loadFont("assets/JetBrainsMono-Regular.ttf");
   };
 
   s.setup = () => {
     s.createCanvas(s.windowWidth, s.windowHeight);
+    s.textFont(font);
     particleManager = new ParticleManager();
     starField = new StarField(s);
     const spriteSize = 48;
     possiblePlayerCharacters = sprites.player.map((sprite, idx) => {
       return new PlayerPreview(
-        s.width / 2 + idx * (spriteSize * 1.2) - 220,
+        s.width / 2 + idx * (spriteSize * 1.2) - 250,
         s.height / 2,
         sprite,
         spriteSize,
@@ -73,7 +76,7 @@ const game = (s) => {
   s.characterSelectionScene = () => {
     s.fill(200);
     s.textSize(24);
-    s.text("choose your fighter", s.width / 2 - 60, s.height / 2 - 60);
+    s.text("choose your fighter", s.width / 2 - 120, s.height / 2 - 60);
     possiblePlayerCharacters.forEach((character) => character.show(s));
   };
 

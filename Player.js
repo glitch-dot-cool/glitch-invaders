@@ -36,7 +36,7 @@ export class Player {
     s.rect(s.width * 0.334, s.height - 25, healthBarWidth, 10);
     s.text(
       `${this.health}/${this.maxHealth}hp`,
-      s.width * 0.5 - 25,
+      s.width * 0.5 - 35,
       s.height - 35
     );
   };

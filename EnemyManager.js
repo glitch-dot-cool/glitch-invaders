@@ -8,7 +8,6 @@ export class EnemyManager {
       .map((_) => new Enemy(s, enemySprites));
     this.wave = 0;
     this.waveTimer = 10_000;
-    this.maxWaves = 10;
     this.enemySprites = enemySprites;
     this.particleManager = particleManager;
   }
@@ -28,15 +27,14 @@ export class EnemyManager {
       this.enemies.push(new Enemy(s, this.enemySprites));
     }
 
-    if (this.wave < this.maxWaves) {
-      setTimeout(this.spawnEnemies.bind(null, s), this.waveTimer);
-      this.waveTimer *= 0.9;
-      this.wave++;
-    }
+    // retrigger subsequent waves on a shorter and shorter timescale
+    setTimeout(this.spawnEnemies.bind(null, s), this.waveTimer);
+    this.waveTimer *= 0.95;
+    this.wave++;
   };
 
   displayCurrentWave = (s) => {
     s.fill(100, 100, 200);
-    s.text(`wave #${this.wave}/${this.maxWaves}`, s.width - 100, s.height - 60);
+    s.text(`wave #${this.wave}`, s.width - 100, s.height - 60);
   };
 }

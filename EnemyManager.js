@@ -24,7 +24,7 @@ export class EnemyManager {
   };
 
   spawnEnemies = (s) => {
-    for (let i = 0; i < this.wave * 5; i++) {
+    for (let i = 0; i < this.wave ** 1.5; i++) {
       this.enemies.push(new Enemy(s, this.enemySprites));
     }
 

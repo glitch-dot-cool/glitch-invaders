@@ -20,6 +20,7 @@ const game = (s) => {
   const setSelectedPlayer = (character) => {
     player = new Player(s, character);
     gameState = gameStates.PLAYING;
+    possiblePlayerCharacters = null;
     enemyManager = new EnemyManager(s, particleManager, sprites.enemies);
     enemyManager.spawnEnemies(s);
   };
@@ -98,8 +99,9 @@ const game = (s) => {
   };
 
   s.mousePressed = () => {
-    // select a player
-    possiblePlayerCharacters.forEach((character) => character.clicked(s));
+    if (gameState === gameStates.CHARACTER_SELECT) {
+      possiblePlayerCharacters.forEach((character) => character.clicked(s));
+    }
   };
 
   s.collisionTest = () => {

@@ -4,6 +4,7 @@ import { Gun } from "./Gun.js";
 import { ParticleManager } from "./ParticleManager.js";
 import { StarField } from "./StarField.js";
 import { PlayerPreview } from "./PlayerPreview.js";
+import { PowerupManager } from "./PowerupManager.js";
 
 const game = (s) => {
   const gameStates = { CHARACTER_SELECT: 0, PLAYING: 1, DEAD: 2 };
@@ -12,6 +13,7 @@ const game = (s) => {
     gun,
     enemyManager,
     particleManager,
+    powerupManager,
     starField,
     possiblePlayerCharacters,
     sprites = {},
@@ -23,7 +25,13 @@ const game = (s) => {
     player = new Player(s, character, gun);
     gameState = gameStates.PLAYING;
     possiblePlayerCharacters = null;
-    enemyManager = new EnemyManager(s, particleManager, sprites.enemies);
+    powerupManager = new PowerupManager(s, sprites.powerups, gun);
+    enemyManager = new EnemyManager(
+      s,
+      powerupManager,
+      particleManager,
+      sprites.enemies
+    );
     enemyManager.spawnEnemies(s);
   };
 
@@ -35,6 +43,7 @@ const game = (s) => {
     s.preloadCharacterSprites();
     s.preloadEnemySprites();
     s.preloadBulletSprite();
+    s.preloadPowerupSprites();
     font = s.loadFont("assets/JetBrainsMono-Regular.ttf");
   };
 
@@ -88,6 +97,7 @@ const game = (s) => {
     player.show(s);
     enemyManager.show(s);
     enemyManager.displayCurrentWave(s);
+    powerupManager.show(s);
     s.renderScore();
     particleManager.purgeParticles();
     particleManager.renderParticles(s);
@@ -169,6 +179,13 @@ const game = (s) => {
 
   s.preloadBulletSprite = () => {
     sprites.bullet = s.loadImage("assets/logo_bullet.png");
+  };
+
+  s.preloadPowerupSprites = () => {
+    sprites.powerups = {
+      bulletSpeed: s.loadImage("assets/powerups/fire_rate.png"),
+      bulletFan: s.loadImage("assets/powerups/increase_bullets.png"),
+    };
   };
 
   s.windowResized = () => {

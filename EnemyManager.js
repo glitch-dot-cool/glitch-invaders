@@ -1,7 +1,7 @@
 import { Enemy } from "./Enemy.js";
 
 export class EnemyManager {
-  constructor(s, particleManager, enemySprites) {
+  constructor(s, powerupManager, particleManager, enemySprites) {
     this.numEnemies = 30;
     this.enemies = Array(this.numEnemies)
       .fill()
@@ -10,6 +10,7 @@ export class EnemyManager {
     this.waveTimer = 10_000;
     this.enemySprites = enemySprites;
     this.particleManager = particleManager;
+    this.powerupManager = powerupManager;
   }
 
   show = (s) => {
@@ -25,6 +26,10 @@ export class EnemyManager {
   spawnEnemies = (s) => {
     for (let i = 0; i < 5 + this.wave * 5; i++) {
       this.enemies.push(new Enemy(s, this.enemySprites));
+    }
+
+    if (this.wave % this.powerupManager.period === 0) {
+      this.powerupManager.dispatchPowerup();
     }
 
     // retrigger subsequent waves on a shorter and shorter timescale

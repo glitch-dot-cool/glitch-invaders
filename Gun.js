@@ -5,6 +5,7 @@ export class Gun {
     this.bullets = [];
     this.sprite = sprite;
     this.rateOfFire = 15;
+    this.bulletSpeed = 10;
   }
 
   show = (s) => {
@@ -16,7 +17,7 @@ export class Gun {
   };
 
   shoot = (x, y) => {
-    this.bullets.push(new Bullet(x, y, 0, this.sprite));
+    this.bullets.push(new Bullet(x, y, 0, this.sprite, this.bulletSpeed));
     // this.bullets.push(new Bullet(x, y, -1, this.sprite));
     // this.bullets.push(new Bullet(x, y, 1, this.sprite));
   };
@@ -27,5 +28,9 @@ export class Gun {
 
   deleteBullet = (index) => {
     this.bullets.splice(index, 1);
+  };
+
+  consumePowerup = (effect) => {
+    this[effect.stat] += effect.value;
   };
 }

@@ -16,7 +16,12 @@ export class Server {
     );
 
     // draw toxicity
-    s.fill(0, 20, 125);
+    const toxicityColor = s.color(
+      s.map(this.toxicity, 0, this.maxToxicity, 0, 200),
+      20,
+      s.map(this.toxicity, 0, this.maxToxicity, 125, 0)
+    );
+    s.fill(toxicityColor);
     const toxicityBarWidth = s.map(
       this.toxicity,
       0,

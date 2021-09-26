@@ -6,6 +6,8 @@ import { StarField } from "./StarField.js";
 import { PlayerPreview } from "./PlayerPreview.js";
 
 const game = (s) => {
+  const gameStates = { CHARACTER_SELECT: 0, PLAYING: 1, DEAD: 2 };
+
   let player,
     gun,
     enemyManager,
@@ -13,13 +15,17 @@ const game = (s) => {
     starField,
     possiblePlayerCharacters,
     sprites = {},
-    playerHasSelectedCharacter = false;
+    gameState = gameStates.CHARACTER_SELECT;
 
   const setSelectedPlayer = (character) => {
     player = new Player(s, character);
-    playerHasSelectedCharacter = true;
+    gameState = gameStates.PLAYING;
     enemyManager = new EnemyManager(s, particleManager, sprites.enemies);
     enemyManager.spawnEnemies(s);
+  };
+
+  const setGameState = (state) => {
+    gameState = state;
   };
 
   s.preload = () => {
@@ -48,10 +54,17 @@ const game = (s) => {
   s.draw = () => {
     s.background(0);
     starField.update();
-    if (playerHasSelectedCharacter) {
-      s.gameScene();
-    } else {
-      s.characterSelectionScene();
+
+    switch (gameState) {
+      case gameStates.CHARACTER_SELECT:
+        s.characterSelectionScene();
+        break;
+      case gameStates.PLAYING:
+        s.gameScene();
+        break;
+      case gameStates.DEAD:
+        s.deathScene();
+        break;
     }
   };
 
@@ -75,8 +88,13 @@ const game = (s) => {
     particleManager.renderParticles(s);
   };
 
+  s.deathScene = () => {
+    s.fill(175, 0, 0);
+    s.text("YOU ARE DEAD", s.width / 2 - 50, s.height / 2);
+  };
+
   s.keyPressed = () => {
-    if (playerHasSelectedCharacter) gun.shoot(s.keyCode, player.x, player.y);
+    if (gameStates.PLAYING) gun.shoot(s.keyCode, player.x, player.y);
   };
 
   s.mousePressed = () => {
@@ -101,6 +119,13 @@ const game = (s) => {
           player.updateScore(enemy.pointValue);
         }
       });
+
+      // handle enemies hitting player
+      const dist = s.dist(enemy.x, enemy.y, player.x, player.y);
+      if (dist < enemy.size) {
+        player.hit(enemy, setGameState, gameStates);
+        enemyManager.killEnemy(s, enemyIdx);
+      }
     });
   };
 

@@ -15,7 +15,6 @@ export class PlayerPreview {
   clicked = (s) => {
     const dist = s.dist(s.mouseX, s.mouseY, this.x, this.y);
     if (dist < this.size / 2) {
-      console.log(`clicked ${this.sprite}`);
       this.setSelectedPlayer(this.sprite);
     }
   };

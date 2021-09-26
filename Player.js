@@ -3,21 +3,48 @@ export class Player {
     this.size = 32;
     this.speed = 5;
     this.x = s.width * 0.5;
-    this.y = s.height - this.size * 2;
+    this.y = s.height - this.size * 3;
     this.score = 0;
     this.multiplier = 1;
     this.maxBattery = 100;
     this.battery = 100;
     this.isSprinting = false;
     this.sprite = sprite;
+    this.maxHealth = 100;
+    this.health = this.maxHealth;
   }
 
   show = (s) => {
     s.image(this.sprite, this.x, this.y, this.size, this.size);
+    this.showHealth(s);
 
     // recharge battery when not sprinting
     if (!this.isSprinting && this.battery < this.maxBattery)
       this.battery += 0.125;
+  };
+
+  showHealth = (s) => {
+    s.fill(0, 125, 20);
+    const healthBarWidth = s.map(
+      this.health,
+      0,
+      this.maxHealth,
+      0,
+      s.width * 0.334
+    );
+    s.rect(s.width * 0.334, s.height - 25, healthBarWidth, 10);
+    s.text(
+      `${this.health}/${this.maxHealth}hp`,
+      s.width * 0.5 - 25,
+      s.height - 35
+    );
+  };
+
+  hit = (enemy, setGameState, gameStates) => {
+    this.health -= enemy.pointValue * 2;
+    if (this.health <= 0) {
+      setGameState(gameStates.DEAD);
+    }
   };
 
   controls = (s) => {
@@ -63,9 +90,9 @@ export class Player {
   };
 
   showBattery = (s) => {
-    const greenAmount = s.map(this.battery, 0, 100, 30, 255);
+    const greenAmount = s.map(this.battery, 0, 100, 30, 125);
     s.noStroke();
-    s.fill(30, greenAmount, 30);
+    s.fill(0, greenAmount, 20);
     s.rect(s.width - this.maxBattery - 20, s.height - 50, this.battery, 30);
     s.fill(50, this.battery * 2.55);
     s.text("battery", s.width - this.maxBattery - 10, s.height - 30);

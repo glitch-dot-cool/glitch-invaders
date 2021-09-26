@@ -1,5 +1,15 @@
 body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: black;
+}
+
+button {
+  background: #1c1c1c;
+  color: #efefef;
+  border: none;
+  padding: 1rem;
+  font-family: monospace;
+  border-radius: 3px;
 }

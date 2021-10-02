@@ -30,15 +30,13 @@ export class Player {
   };
 
   showHealth = (s) => {
+    const oneThird = s.width * 0.334;
+    const y = s.height - 65;
+    s.fill(50, 50, 50);
+    s.rect(oneThird, y, oneThird, 10);
     s.fill(0, 125, 20);
-    const healthBarWidth = s.map(
-      this.health,
-      0,
-      this.maxHealth,
-      0,
-      s.width * 0.334
-    );
-    s.rect(s.width * 0.334, s.height - 65, healthBarWidth, 10);
+    const healthBarWidth = s.map(this.health, 0, this.maxHealth, 0, oneThird);
+    s.rect(oneThird, y, healthBarWidth, 10);
     s.text(
       `moderator sanity: ${this.health}/${this.maxHealth}`,
       s.width * 0.5 - 125,

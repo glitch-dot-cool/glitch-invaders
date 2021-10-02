@@ -157,11 +157,24 @@ const game = (s) => {
     });
     // handle collisions w/ powerups
     powerupManager.activePowerups.forEach((powerup, idx) => {
+      const halfPlayerSize = player.size * 0.5;
+      const playerRight = player.x + halfPlayerSize;
+      const playerLeft = player.x - halfPlayerSize;
+      const playerTop = player.y - halfPlayerSize;
+      const playerBottom = player.y + halfPlayerSize;
+
+      const halfPowerupWidth = powerup.width * 0.5;
+      const halfPowerupHeight = powerup.height * 0.5;
+      const powerupRight = powerup.x + halfPowerupWidth;
+      const powerupLeft = powerup.x - halfPowerupHeight;
+      const powerupTop = powerup.y - halfPowerupHeight;
+      const powerupBottom = powerup.y + halfPowerupHeight;
+
       if (
-        player.x > powerup.x &&
-        player.x < powerup.x + powerup.width &&
-        player.y > powerup.y &&
-        player.y < powerup.y + powerup.height
+        playerRight > powerupLeft &&
+        playerLeft < powerupRight &&
+        playerBottom > powerupTop &&
+        playerTop < powerupBottom
       ) {
         powerup.consume();
         powerupManager.purge(idx);

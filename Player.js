@@ -72,9 +72,9 @@ export class Player {
   move = (s, direction) => {
     this.batteryCheck();
 
-    if (direction === "LEFT" && this.x > 0) {
+    if (direction === "LEFT" && this.x > this.size * 0.5) {
       this.x -= this.speed;
-    } else if (direction === "RIGHT" && this.x < s.width - this.size) {
+    } else if (direction === "RIGHT" && this.x < s.width - this.size * 0.5) {
       this.x += this.speed;
     }
 

@@ -8,6 +8,8 @@ import { PowerupManager } from "./item/PowerupManager.js";
 import { Server } from "./character/Server.js";
 import { rectCollisionDetect } from "./utils/rectCollisionDetect.js";
 import { getEntityBounds } from "./utils/getEntityBounds.js";
+import { spriteFileNames } from "./constants.js";
+import { loadSprites } from "./utils/loadSprites.js";
 
 const game = (s) => {
   const gameStates = { CHARACTER_SELECT: 0, PLAYING: 1, DEAD: 2 };
@@ -19,7 +21,7 @@ const game = (s) => {
     powerupManager,
     starField,
     possiblePlayerCharacters,
-    sprites = {},
+    sprites,
     gameState = gameStates.CHARACTER_SELECT,
     font,
     restartButton,
@@ -45,10 +47,7 @@ const game = (s) => {
   };
 
   s.preload = () => {
-    s.preloadCharacterSprites();
-    s.preloadEnemySprites();
-    s.preloadBulletSprite();
-    s.preloadPowerupSprites();
+    s.preloadSprites();
     font = s.loadFont("../assets/JetBrainsMono-Regular.ttf");
   };
 
@@ -217,38 +216,15 @@ const game = (s) => {
     s.text(`multiplier: ${player.multiplier}x`, 5, s.height - 15);
   };
 
-  s.preloadCharacterSprites = () => {
-    sprites.player = [
-      s.loadImage("../assets/characters/woulg.png"),
-      s.loadImage("../assets/characters/nuan.png"),
-      s.loadImage("../assets/characters/soup.png"),
-      s.loadImage("../assets/characters/mfs_square.png"),
-      s.loadImage("../assets/characters/oddlogic.png"),
-      s.loadImage("../assets/characters/jim.png"),
-      s.loadImage("../assets/characters/meii.png"),
-      s.loadImage("../assets/characters/sunnk.png"),
-      s.loadImage("../assets/characters/vaeprism.png"),
-      s.loadImage("../assets/characters/abroxis.png"),
-    ];
-  };
-
-  s.preloadEnemySprites = () => {
-    sprites.enemies = [
-      s.loadImage("../assets/enemies/tears1.png"),
-      s.loadImage("../assets/enemies/tears2.png"),
-      s.loadImage("../assets/enemies/tears3.png"),
-      s.loadImage("../assets/enemies/tears4.png"),
-    ];
-  };
-
-  s.preloadBulletSprite = () => {
-    sprites.bullet = s.loadImage("../assets/logo_bullet.png");
-  };
-
-  s.preloadPowerupSprites = () => {
-    sprites.powerups = {
-      rateOfFire: s.loadImage("../assets/powerups/fire_rate.png"),
-      numBullets: s.loadImage("../assets/powerups/increase_bullets.png"),
+  s.preloadSprites = () => {
+    sprites = {
+      player: loadSprites(s, spriteFileNames.players, "characters"),
+      enemies: loadSprites(s, spriteFileNames.enemies, "enemies"),
+      bullet: s.loadImage("../assets/logo_bullet.png"),
+      powerups: {
+        rateOfFire: s.loadImage("../assets/powerups/fire_rate.png"),
+        numBullets: s.loadImage("../assets/powerups/increase_bullets.png"),
+      },
     };
   };
 

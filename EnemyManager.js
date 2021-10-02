@@ -2,7 +2,7 @@ import { Enemy } from "./Enemy.js";
 
 export class EnemyManager {
   constructor(s, powerupManager, particleManager, enemySprites) {
-    this.baseEnemiesPerRound = 10;
+    this.baseEnemiesPerRound = 5;
     this.enemies = Array(this.baseEnemiesPerRound)
       .fill()
       .map((_) => new Enemy(s, enemySprites));
@@ -26,7 +26,7 @@ export class EnemyManager {
 
   spawnEnemies = (s) => {
     const enemiesThisRound =
-      Math.floor((this.wave + 1) ** 1.5) + this.baseEnemiesPerRound;
+      Math.floor((this.wave + 1) ** 1.55) + this.baseEnemiesPerRound;
     for (let i = 0; i < enemiesThisRound; i++) {
       this.enemies.push(new Enemy(s, this.enemySprites, 1 + this.wave * 0.05));
     }

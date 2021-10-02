@@ -157,6 +157,7 @@ const game = (s) => {
     });
     // handle collisions w/ powerups
     powerupManager.activePowerups.forEach((powerup, idx) => {
+      // todo make this a util
       const halfPlayerSize = player.size * 0.5;
       const playerRight = player.x + halfPlayerSize;
       const playerLeft = player.x - halfPlayerSize;

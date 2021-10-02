@@ -6,6 +6,8 @@ import { StarField } from "./fx/StarField.js";
 import { PlayerPreview } from "./character/PlayerPreview.js";
 import { PowerupManager } from "./item/PowerupManager.js";
 import { Server } from "./character/Server.js";
+import { rectCollisionDetect } from "./utils/rectCollisionDetect.js";
+import { getEntityBounds } from "./utils/getEntityBounds.js";
 
 const game = (s) => {
   const gameStates = { CHARACTER_SELECT: 0, PLAYING: 1, DEAD: 2 };
@@ -189,32 +191,19 @@ const game = (s) => {
     });
     // handle collisions w/ powerups
     powerupManager.activePowerups.forEach((powerup, idx) => {
-      // todo make this a util
-      const halfPlayerSize = player.size * 0.5;
-      const playerRight = player.x + halfPlayerSize;
-      const playerLeft = player.x - halfPlayerSize;
-      const playerTop = player.y - halfPlayerSize;
-      const playerBottom = player.y + halfPlayerSize;
-
-      const halfPowerupWidth = powerup.width * 0.5;
-      const halfPowerupHeight = powerup.height * 0.5;
-      const powerupRight = powerup.x + halfPowerupWidth;
-      const powerupLeft = powerup.x - halfPowerupHeight;
-      const powerupTop = powerup.y - halfPowerupHeight;
-      const powerupBottom = powerup.y + halfPowerupHeight;
-
-      if (
-        playerRight > powerupLeft &&
-        playerLeft < powerupRight &&
-        playerBottom > powerupTop &&
-        playerTop < powerupBottom
-      ) {
+      const playerBounds = getEntityBounds(player);
+      const powerupBounds = getEntityBounds(powerup, "rect");
+      const isPowerupCollidingPlayer = rectCollisionDetect(
+        playerBounds,
+        powerupBounds
+      );
+      if (isPowerupCollidingPlayer) {
         powerup.consume();
         powerupManager.purge(idx);
       }
 
       // handle powerups going offscreen
-      if (powerupTop > s.height) {
+      if (powerupBounds.top > s.height) {
         powerupManager.purge(idx);
       }
     });

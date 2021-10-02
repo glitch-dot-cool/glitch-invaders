@@ -1,7 +1,11 @@
 export class Player {
   constructor(s, sprite, gun) {
     this.size = 40;
-    this.speed = 5;
+    this.shootingMovementPenalty = 8.5 / 10;
+    this.inverseShootingMovementPenalty = 10 / 8.5;
+    this.baseSpeed = 5;
+    this.speed = this.baseSpeed;
+    this.sprintModifier = 3;
     this.x = s.width * 0.5;
     this.y = s.height - this.size * 3;
     this.score = 0;
@@ -49,23 +53,30 @@ export class Player {
   };
 
   controls = (s) => {
+    // shoot
+    if (s.keyIsDown(32)) {
+      if (s.frameCount % this.gun.rateOfFire === 0) {
+        this.gun.shoot(this.x, this.y);
+      }
+      this.speed = this.baseSpeed * this.shootingMovementPenalty;
+    } else {
+      this.speed = Math.floor(
+        this.baseSpeed * this.inverseShootingMovementPenalty
+      );
+    }
+
     // sprint
     if (s.keyIsDown(s.SHIFT) && this.battery) {
-      this.speed = 15;
       this.isSprinting = true;
     } else {
-      this.speed = 5;
       this.isSprinting = false;
     }
 
+    // move
     if (s.keyIsDown(s.LEFT_ARROW)) {
       this.move(s, "LEFT");
     } else if (s.keyIsDown(s.RIGHT_ARROW)) {
       this.move(s, "RIGHT");
-    }
-
-    if (s.keyIsDown(32) && s.frameCount % this.gun.rateOfFire === 0) {
-      this.gun.shoot(this.x, this.y);
     }
   };
 
@@ -73,9 +84,11 @@ export class Player {
     this.batteryCheck();
 
     if (direction === "LEFT" && this.x > this.size * 0.5) {
-      this.x -= this.speed;
+      if (this.isSprinting) this.x -= this.speed * this.sprintModifier;
+      else this.x -= this.speed;
     } else if (direction === "RIGHT" && this.x < s.width - this.size * 0.5) {
-      this.x += this.speed;
+      if (this.isSprinting) this.x += this.speed * this.sprintModifier;
+      else this.x += this.speed;
     }
 
     // consume battery when sprinting
@@ -107,7 +120,6 @@ export class Player {
     // cancel sprint when out of battery
     if (this.battery <= 0) {
       this.isSprinting = false;
-      this.speed = 5;
     }
   };
 }

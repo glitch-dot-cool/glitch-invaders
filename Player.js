@@ -12,6 +12,7 @@ export class Player {
     this.multiplier = 1;
     this.maxBattery = 100;
     this.battery = 100;
+    this.batteryLock = false;
     this.isSprinting = false;
     this.sprite = sprite;
     this.maxHealth = 100;
@@ -66,7 +67,7 @@ export class Player {
     }
 
     // sprint
-    if (s.keyIsDown(s.SHIFT) && this.battery) {
+    if (s.keyIsDown(s.SHIFT) && this.battery && !this.batteryLock) {
       this.isSprinting = true;
     } else {
       this.isSprinting = false;
@@ -120,6 +121,12 @@ export class Player {
     // cancel sprint when out of battery
     if (this.battery <= 0) {
       this.isSprinting = false;
+      this.batteryLock = true;
+    }
+
+    // unlock sprinting when battery recharges to > 20% it's max capacity
+    if (this.battery > this.maxBattery * 0.2) {
+      this.batteryLock = false;
     }
   };
 }

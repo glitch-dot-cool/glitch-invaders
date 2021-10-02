@@ -114,13 +114,45 @@ const game = (s) => {
     s.fill(175, 0, 0);
     s.textSize(64);
     s.text("YOU ARE DEAD", s.width / 2 - 200, s.height / 2);
-    restartButton.position(s.width / 2, s.height / 2 + 50);
+    restartButton.position(s.width / 2 - 35, s.height / 2 + 50);
 
     if (s.frameCount % 3 === 0) {
       particleManager.emit(s, { x: s.random(s.width), y: s.random(s.height) });
     }
     particleManager.purgeParticles();
     particleManager.renderParticles(s);
+    s.showHighScores();
+  };
+
+  s.saveScore = () => {
+    const existingScores = JSON.parse(
+      localStorage.getItem("glitchInvadersScores")
+    );
+    const updatedScores = existingScores
+      ? [...existingScores, player.score]
+      : [player.score];
+    localStorage.setItem("glitchInvadersScores", JSON.stringify(updatedScores));
+  };
+
+  s.showHighScores = () => {
+    const existingScores = JSON.parse(
+      localStorage.getItem("glitchInvadersScores")
+    );
+    const topFiveScores = existingScores
+      .slice(0, 5)
+      .sort((a, b) => b - a)
+      .map((num) => String(num));
+    s.textSize(18);
+    s.fill(150, 150, 150);
+    s.text("your high scores:", s.width / 2 - 90, s.height / 2 + 150);
+
+    topFiveScores.forEach((score, i) => {
+      s.text(
+        score,
+        s.width / 2 - score.length * 2,
+        s.height / 2 + 150 + 25 * (i + 1)
+      );
+    });
   };
 
   s.mousePressed = () => {
@@ -151,7 +183,7 @@ const game = (s) => {
       // handle enemies hitting player
       const dist = s.dist(enemy.x, enemy.y, player.x, player.y);
       if (dist < enemy.size) {
-        player.hit(enemy, setGameState, gameStates);
+        player.hit(enemy, setGameState, gameStates, s.saveScore);
         enemyManager.killEnemy(s, enemyIdx);
       }
     });

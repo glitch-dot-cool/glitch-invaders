@@ -46,10 +46,11 @@ export class Player {
     );
   };
 
-  hit = (enemy, setGameState, gameStates) => {
+  hit = (enemy, setGameState, gameStates, saveScore) => {
     this.health -= enemy.pointValue * 2;
     if (this.health <= 0) {
       setGameState(gameStates.DEAD);
+      saveScore();
     }
   };
 

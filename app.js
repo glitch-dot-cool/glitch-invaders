@@ -139,8 +139,8 @@ const game = (s) => {
       localStorage.getItem("glitchInvadersScores")
     );
     const topFiveScores = existingScores
-      .slice(0, 5)
       .sort((a, b) => b - a)
+      .slice(0, 5)
       .map((num) => String(num));
     s.textSize(18);
     s.fill(150, 150, 150);

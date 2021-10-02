@@ -28,7 +28,9 @@ export class EnemyManager {
     const enemiesThisRound =
       Math.floor((this.wave + 1) ** 1.55) + this.baseEnemiesPerRound;
     for (let i = 0; i < enemiesThisRound; i++) {
-      this.enemies.push(new Enemy(s, this.enemySprites, 1 + this.wave * 0.05));
+      this.enemies.push(
+        new Enemy(s, this.enemySprites, 1 + this.wave * 0.0525)
+      );
     }
 
     if (this.wave % this.powerupManager.period === 0) {

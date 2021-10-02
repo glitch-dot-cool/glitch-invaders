@@ -1,11 +1,11 @@
-import { Player } from "./Player.js";
-import { EnemyManager } from "./EnemyManager.js";
-import { Gun } from "./Gun.js";
-import { ParticleManager } from "./ParticleManager.js";
-import { StarField } from "./StarField.js";
-import { PlayerPreview } from "./PlayerPreview.js";
-import { PowerupManager } from "./PowerupManager.js";
-import { Server } from "./Server.js";
+import { Player } from "./character/Player.js";
+import { EnemyManager } from "./enemy/EnemyManager.js";
+import { Gun } from "./item/Gun.js";
+import { ParticleManager } from "./fx/ParticleManager.js";
+import { StarField } from "./fx/StarField.js";
+import { PlayerPreview } from "./character/PlayerPreview.js";
+import { PowerupManager } from "./item/PowerupManager.js";
+import { Server } from "./character/Server.js";
 
 const game = (s) => {
   const gameStates = { CHARACTER_SELECT: 0, PLAYING: 1, DEAD: 2 };
@@ -47,7 +47,7 @@ const game = (s) => {
     s.preloadEnemySprites();
     s.preloadBulletSprite();
     s.preloadPowerupSprites();
-    font = s.loadFont("assets/JetBrainsMono-Regular.ttf");
+    font = s.loadFont("../assets/JetBrainsMono-Regular.ttf");
   };
 
   s.setup = () => {
@@ -230,36 +230,36 @@ const game = (s) => {
 
   s.preloadCharacterSprites = () => {
     sprites.player = [
-      s.loadImage("assets/characters/woulg.png"),
-      s.loadImage("assets/characters/nuan.png"),
-      s.loadImage("assets/characters/soup.png"),
-      s.loadImage("assets/characters/mfs_square.png"),
-      s.loadImage("assets/characters/oddlogic.png"),
-      s.loadImage("assets/characters/jim.png"),
-      s.loadImage("assets/characters/meii.png"),
-      s.loadImage("assets/characters/sunnk.png"),
-      s.loadImage("assets/characters/vaeprism.png"),
-      s.loadImage("assets/characters/abroxis.png"),
+      s.loadImage("../assets/characters/woulg.png"),
+      s.loadImage("../assets/characters/nuan.png"),
+      s.loadImage("../assets/characters/soup.png"),
+      s.loadImage("../assets/characters/mfs_square.png"),
+      s.loadImage("../assets/characters/oddlogic.png"),
+      s.loadImage("../assets/characters/jim.png"),
+      s.loadImage("../assets/characters/meii.png"),
+      s.loadImage("../assets/characters/sunnk.png"),
+      s.loadImage("../assets/characters/vaeprism.png"),
+      s.loadImage("../assets/characters/abroxis.png"),
     ];
   };
 
   s.preloadEnemySprites = () => {
     sprites.enemies = [
-      s.loadImage("assets/enemies/tears1.png"),
-      s.loadImage("assets/enemies/tears2.png"),
-      s.loadImage("assets/enemies/tears3.png"),
-      s.loadImage("assets/enemies/tears4.png"),
+      s.loadImage("../assets/enemies/tears1.png"),
+      s.loadImage("../assets/enemies/tears2.png"),
+      s.loadImage("../assets/enemies/tears3.png"),
+      s.loadImage("../assets/enemies/tears4.png"),
     ];
   };
 
   s.preloadBulletSprite = () => {
-    sprites.bullet = s.loadImage("assets/logo_bullet.png");
+    sprites.bullet = s.loadImage("../assets/logo_bullet.png");
   };
 
   s.preloadPowerupSprites = () => {
     sprites.powerups = {
-      rateOfFire: s.loadImage("assets/powerups/fire_rate.png"),
-      numBullets: s.loadImage("assets/powerups/increase_bullets.png"),
+      rateOfFire: s.loadImage("../assets/powerups/fire_rate.png"),
+      numBullets: s.loadImage("../assets/powerups/increase_bullets.png"),
     };
   };
 

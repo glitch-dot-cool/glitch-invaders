@@ -212,6 +212,11 @@ const game = (s) => {
         powerup.consume();
         powerupManager.purge(idx);
       }
+
+      // handle powerups going offscreen
+      if (powerupTop > s.height) {
+        powerupManager.purge(idx);
+      }
     });
   };
 

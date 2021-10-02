@@ -135,9 +135,9 @@ const game = (s) => {
   };
 
   s.showHighScores = () => {
-    const existingScores = JSON.parse(
-      localStorage.getItem("glitchInvadersScores")
-    );
+    const existingScores = [
+      ...new Set(JSON.parse(localStorage.getItem("glitchInvadersScores"))),
+    ];
     const topFiveScores = existingScores
       .sort((a, b) => b - a)
       .slice(0, 5)

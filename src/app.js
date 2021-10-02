@@ -32,7 +32,7 @@ const game = (s) => {
     player = new Player(s, character, gun);
     gameState = gameStates.PLAYING;
     possiblePlayerCharacters = null;
-    powerupManager = new PowerupManager(s, sprites.powerups, gun);
+    powerupManager = new PowerupManager(s, sprites.powerups, gun, player);
     enemyManager = new EnemyManager(
       s,
       powerupManager,
@@ -222,8 +222,9 @@ const game = (s) => {
       enemies: loadSprites(s, spriteFileNames.enemies, "enemies"),
       bullet: s.loadImage("../assets/logo_bullet.png"),
       powerups: {
-        rateOfFire: s.loadImage("../assets/powerups/fire_rate.png"),
-        numBullets: s.loadImage("../assets/powerups/increase_bullets.png"),
+        RATE_OF_FIRE: s.loadImage("../assets/powerups/fire_rate.png"),
+        BULLET_FAN: s.loadImage("../assets/powerups/increase_bullets.png"),
+        BATTERY: s.loadImage("../assets/powerups/battery.png"),
       },
     };
   };

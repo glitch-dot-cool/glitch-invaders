@@ -13,6 +13,7 @@ export class Player {
     this.maxBattery = 100;
     this.battery = 100;
     this.batteryLock = false;
+    this.batteryRechargeRate = 0.125;
     this.isSprinting = false;
     this.sprite = sprite;
     this.maxHealth = 100;
@@ -26,7 +27,7 @@ export class Player {
 
     // recharge battery when not sprinting
     if (!this.isSprinting && this.battery < this.maxBattery)
-      this.battery += 0.125;
+      this.battery += this.batteryRechargeRate;
   };
 
   showHealth = (s) => {
@@ -108,12 +109,14 @@ export class Player {
   };
 
   showBattery = (s) => {
-    const greenAmount = s.map(this.battery, 0, 100, 30, 125);
+    const greenAmount = s.map(this.battery, 0, this.maxBattery, 30, 125);
+    const maxWidth = 120;
+    const barWidth = s.map(this.battery, 0, this.maxBattery, 0, maxWidth);
     s.noStroke();
     s.fill(0, greenAmount, 20);
-    s.rect(s.width - this.maxBattery - 20, s.height - 50, this.battery, 30);
+    s.rect(s.width - maxWidth - 20, s.height - 50, barWidth, 30);
     s.fill(50, this.battery * 2.55);
-    s.text("battery", s.width - this.maxBattery - 10, s.height - 30);
+    s.text("battery", s.width - maxWidth - 10, s.height - 30);
   };
 
   batteryCheck = () => {
@@ -126,6 +129,13 @@ export class Player {
     // unlock sprinting when battery recharges to > 20% it's max capacity
     if (this.battery > this.maxBattery * 0.2) {
       this.batteryLock = false;
+    }
+  };
+
+  consumePowerup = (effect) => {
+    if (effect.stat === "BATTERY") {
+      this.batteryRechargeRate *= 1.25;
+      this.maxBattery += 25;
     }
   };
 }

@@ -1,14 +1,17 @@
 import { Powerup } from "./Powerup.js";
 
 export class PowerupManager {
-  constructor(s, powerupSprites, gun) {
+  constructor(s, powerupSprites, gun, player) {
     this.p5 = s;
     this.sprites = powerupSprites;
-    this.POWERUPS = { RATE_OF_FIRE: "rateOfFire", BULLET_FAN: "numBullets" };
+    this.powerups = [
+      { name: "RATE_OF_FIRE", value: 0.9, target: gun },
+      { name: "BULLET_FAN", value: 1, target: gun },
+      { name: "BATTERY", value: null, target: player },
+    ];
     this.period = 1; // how many rounds between powerups
     this.activePowerups = [];
-    this.lastPowerup = this.POWERUPS.BULLET_FAN;
-    this.target = gun;
+    this.currentPowerup = 0;
   }
 
   show = (s) => {
@@ -28,25 +31,23 @@ export class PowerupManager {
   };
 
   selectNextPowerup = () => {
-    if (this.lastPowerup === this.POWERUPS.RATE_OF_FIRE) {
-      this.lastPowerup = this.POWERUPS.BULLET_FAN;
-      return this.createNextPowerup(this.lastPowerup);
-    } else {
-      this.lastPowerup = this.POWERUPS.RATE_OF_FIRE;
-      return this.createNextPowerup(this.lastPowerup);
-    }
+    const nextPowerup = this.createNextPowerup(this.currentPowerup);
+    if (this.currentPowerup + 1 < this.powerups.length) this.currentPowerup++;
+    else this.currentPowerup = 0;
+    return nextPowerup;
   };
 
-  createNextPowerup = (type) => {
+  createNextPowerup = (index) => {
+    const powerup = this.powerups[index];
     return new Powerup({
       x: this.p5.random(this.p5.width),
       y: this.p5.random(this.p5.height * 0.5),
-      sprite: this.sprites[type],
+      sprite: this.sprites[powerup.name],
       effect: {
-        stat: type,
-        value: type === this.POWERUPS.RATE_OF_FIRE ? 0.9 : 1, // +10% RoF or +1 bullet for fan
+        stat: powerup.name,
+        value: powerup.value,
       },
-      target: this.target,
+      target: powerup.target,
     });
   };
 }

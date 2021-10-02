@@ -40,7 +40,7 @@ export class Gun {
   };
 
   consumePowerup = (effect) => {
-    if (effect.stat === "rateOfFire") {
+    if (effect.stat === "RATE_OF_FIRE") {
       this.rateOfFire = Math.max(Math.floor(this.rateOfFire * effect.value), 1);
     } else {
       this.numBullets += effect.value;

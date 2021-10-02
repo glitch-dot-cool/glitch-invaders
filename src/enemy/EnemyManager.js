@@ -35,6 +35,12 @@ export class EnemyManager {
 
     if (this.wave % this.powerupManager.period === 0) {
       this.powerupManager.dispatchPowerup();
+      this.powerupManager.dispatchPowerup();
+      this.powerupManager.dispatchPowerup();
+      this.powerupManager.dispatchPowerup();
+      this.powerupManager.dispatchPowerup();
+      this.powerupManager.dispatchPowerup();
+      this.powerupManager.dispatchPowerup();
     }
 
     // retrigger subsequent waves on a shorter and shorter timescale

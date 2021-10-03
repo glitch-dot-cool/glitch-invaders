@@ -98,14 +98,13 @@ const game = (s) => {
 
   s.gameScene = () => {
     player.controls(s);
-    player.showBattery(s);
     s.collisionTest();
     gun.show(s);
-    player.show(s);
     server.show(s);
     enemyManager.show(s);
     enemyManager.displayCurrentWave(s);
     powerupManager.show(s);
+    player.show(s);
     s.renderScore();
     particleManager.renderParticles(s);
   };

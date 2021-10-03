@@ -24,6 +24,7 @@ export class Player {
   show = (s) => {
     s.image(this.sprite, this.x, this.y, this.size, this.size);
     this.showHealth(s);
+    this.showBattery(s);
 
     // recharge battery when not sprinting
     if (!this.isSprinting && this.battery < this.maxBattery)

@@ -24,3 +24,15 @@ export const spriteFileNames = {
   powerups,
   bullets,
 };
+
+// base audio filenames
+const enemyHits = new Array(11).fill().map((_, idx) => `enemyHit${idx + 1}`);
+const playerHits = ["playerDamage"];
+const playerDeaths = ["playerDeath1", "playerDeath2"];
+const playerGuns = ["playerGun"];
+export const audioFileNames = {
+  enemyHits,
+  playerHits,
+  playerDeaths,
+  playerGuns,
+};

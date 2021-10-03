@@ -8,8 +8,8 @@ import { PowerupManager } from "./item/PowerupManager.js";
 import { Server } from "./character/Server.js";
 import { rectCollisionDetect } from "./utils/rectCollisionDetect.js";
 import { getEntityBounds } from "./utils/getEntityBounds.js";
-import { spriteFileNames } from "./constants.js";
-import { loadSprites } from "./utils/loadSprites.js";
+import { spriteFileNames, audioFileNames } from "./constants.js";
+import { loadSprites, loadAudio } from "./utils/assetLoading.js";
 
 const game = (s) => {
   const gameStates = { CHARACTER_SELECT: 0, PLAYING: 1, DEAD: 2 };
@@ -25,7 +25,8 @@ const game = (s) => {
     gameState = gameStates.CHARACTER_SELECT,
     font,
     restartButton,
-    server;
+    server,
+    audio;
 
   const setSelectedPlayer = (character) => {
     gun = new Gun(sprites.bullet);
@@ -48,6 +49,7 @@ const game = (s) => {
 
   s.preload = () => {
     s.preloadSprites();
+    s.preloadAudio();
     font = s.loadFont("assets/JetBrainsMono-Regular.ttf");
   };
 
@@ -70,6 +72,7 @@ const game = (s) => {
         s
       );
     });
+    console.log(audio);
   };
 
   s.draw = () => {
@@ -238,6 +241,15 @@ const game = (s) => {
         BULLET_FAN: s.loadImage("assets/powerups/increase_bullets.png"),
         BATTERY: s.loadImage("assets/powerups/battery.png"),
       },
+    };
+  };
+
+  s.preloadAudio = () => {
+    audio = {
+      enemyHits: loadAudio(s, audioFileNames.enemyHits, "enemy_hit"),
+      playerDeaths: loadAudio(s, audioFileNames.playerDeaths, "player_death"),
+      playerHit: loadAudio(s, audioFileNames.playerHits, "player_hit")[0],
+      playerGun: loadAudio(s, audioFileNames.playerGuns, "player_gun")[0],
     };
   };
 

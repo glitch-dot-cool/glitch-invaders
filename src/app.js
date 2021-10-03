@@ -29,8 +29,8 @@ const game = (s) => {
     audio;
 
   const setSelectedPlayer = (character) => {
-    gun = new Gun(sprites.bullet);
-    player = new Player(s, character, gun);
+    gun = new Gun(s, sprites.bullet, audio.playerGun);
+    player = new Player(s, character, gun, audio);
     gameState = gameStates.PLAYING;
     possiblePlayerCharacters = null;
     powerupManager = new PowerupManager(s, sprites.powerups, gun, player);
@@ -38,7 +38,8 @@ const game = (s) => {
       s,
       powerupManager,
       particleManager,
-      sprites.enemies
+      sprites.enemies,
+      audio.enemyHits
     );
     enemyManager.spawnEnemies(s);
   };
@@ -72,7 +73,6 @@ const game = (s) => {
         s
       );
     });
-    console.log(audio);
   };
 
   s.draw = () => {
@@ -129,6 +129,7 @@ const game = (s) => {
         lifetime: 512,
         numParticles: 100,
       });
+      s.random(audio.enemyHits).play(undefined, s.random(0.025, 0.05));
     }
     particleManager.renderParticles(s);
     s.showHighScores();

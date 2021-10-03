@@ -1,7 +1,14 @@
 import { Enemy } from "./Enemy.js";
 
 export class EnemyManager {
-  constructor(s, powerupManager, particleManager, enemySprites) {
+  constructor(
+    s,
+    powerupManager,
+    particleManager,
+    enemySprites,
+    playerHitSounds
+  ) {
+    this.p5 = s;
     this.baseEnemiesPerRound = 5;
     this.enemies = Array(this.baseEnemiesPerRound)
       .fill()
@@ -12,6 +19,7 @@ export class EnemyManager {
     this.enemySprites = enemySprites;
     this.particleManager = particleManager;
     this.powerupManager = powerupManager;
+    this.playerHitSounds = playerHitSounds;
   }
 
   show = (s) => {
@@ -23,6 +31,9 @@ export class EnemyManager {
     if (enemy) {
       this.particleManager.emit(s, { x: enemy.x, y: enemy.y });
       this.enemies.splice(index, 1);
+      this.p5
+        .random(this.playerHitSounds)
+        .play(undefined, this.p5.random(0.5, 1.5));
     }
   };
 

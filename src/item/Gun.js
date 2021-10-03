@@ -1,12 +1,14 @@
 import { Bullet } from "./Bullet.js";
 
 export class Gun {
-  constructor(sprite) {
+  constructor(p5, sprite, sound) {
+    this.p5 = p5;
     this.bullets = [];
     this.sprite = sprite;
     this.rateOfFire = 15;
     this.bulletSpeed = 20;
     this.numBullets = 1;
+    this.sound = sound;
   }
 
   show = (s) => {
@@ -29,6 +31,7 @@ export class Gun {
         )
       );
     }
+    this.sound.play(null, this.p5.random(0.8, 1.2));
   };
 
   clearOffscreenBullet = (bullet, index) => {

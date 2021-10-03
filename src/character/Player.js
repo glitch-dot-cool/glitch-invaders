@@ -1,5 +1,6 @@
 export class Player {
-  constructor(s, sprite, gun) {
+  constructor(s, sprite, gun, audio) {
+    this.p5 = s;
     this.size = 40;
     this.shootingMovementPenalty = 8.5 / 10;
     this.inverseShootingMovementPenalty = 10 / 8.5;
@@ -19,6 +20,8 @@ export class Player {
     this.maxHealth = 100;
     this.health = this.maxHealth;
     this.gun = gun;
+    this.hitSound = audio.playerHit;
+    this.deathSounds = audio.playerDeaths;
   }
 
   show = (s) => {
@@ -51,6 +54,9 @@ export class Player {
     if (this.health <= 0 && gameState !== gameStates.DEAD) {
       setGameState(gameStates.DEAD);
       saveScore();
+      this.p5.random(this.deathSounds).play();
+    } else {
+      this.hitSound.play();
     }
   };
 

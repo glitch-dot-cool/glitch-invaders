@@ -168,7 +168,13 @@ const game = (s) => {
       if (enemy.y > s.height) {
         enemyManager.killEnemy(s, enemyIdx);
         player.applyPenalty(enemy.pointValue);
-        server.takeDamage(enemy.pointValue, setGameState, gameStates);
+        server.takeDamage(
+          enemy.pointValue,
+          gameState,
+          setGameState,
+          gameStates,
+          s.saveScore
+        );
       }
 
       // handle bullet collisions with enemies
@@ -184,7 +190,7 @@ const game = (s) => {
       // handle enemies hitting player
       const dist = s.dist(enemy.x, enemy.y, player.x, player.y);
       if (dist < enemy.size) {
-        player.hit(enemy, setGameState, gameStates, s.saveScore);
+        player.hit(enemy, gameState, setGameState, gameStates, s.saveScore);
         enemyManager.killEnemy(s, enemyIdx);
       }
     });

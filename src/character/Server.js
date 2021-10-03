@@ -32,11 +32,12 @@ export class Server {
     s.rect(oneThird, s.height - 25, toxicityBarWidth, 10);
   };
 
-  takeDamage = (damage, setGameState, gameStates) => {
+  takeDamage = (damage, gameState, setGameState, gameStates, saveScore) => {
     this.toxicity += damage;
 
-    if (this.toxicity >= this.maxToxicity) {
+    if (this.toxicity >= this.maxToxicity && gameState !== gameStates.DEAD) {
       setGameState(gameStates.DEAD);
+      saveScore();
     }
   };
 }

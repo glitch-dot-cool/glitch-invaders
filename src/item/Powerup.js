@@ -8,17 +8,38 @@ export class Powerup {
     this.effect = effect;
     this.target = target;
     this.speed = 1;
+    this.isHidden = false;
+    this.isConsumed = false;
+    this.textOpacity = 255;
   }
 
   show = (s) => {
-    s.image(this.sprite, this.x, this.y, this.width, this.height);
+    if (!this.isHidden) {
+      s.image(this.sprite, this.x, this.y, this.width, this.height);
+    } else if (this.isConsumed) {
+      this.showPowerupEffect(s);
+    }
+  };
+
+  showPowerupEffect = (s) => {
+    this.speed = -1; // invert speed so description text floats up
+    this.textOpacity -= 3;
+    const textOffset = this.effect.description.length * 4;
+    s.fill(200, 200, 200, this.textOpacity);
+    s.textSize(12);
+    s.text(this.effect.description, this.x - textOffset, this.y - 50);
   };
 
   update = () => {
     this.y += this.speed;
   };
 
+  hide = () => {
+    this.isHidden = true;
+  };
+
   consume = () => {
+    this.isConsumed = true;
     this.target.consumePowerup(this.effect);
   };
 }

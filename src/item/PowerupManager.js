@@ -5,9 +5,24 @@ export class PowerupManager {
     this.p5 = s;
     this.sprites = powerupSprites;
     this.powerups = [
-      { name: "RATE_OF_FIRE", value: 0.9, target: gun },
-      { name: "BULLET_FAN", value: 1, target: gun },
-      { name: "BATTERY", value: null, target: player },
+      {
+        name: "RATE_OF_FIRE",
+        value: 0.9,
+        target: gun,
+        description: "+rate of fire",
+      },
+      {
+        name: "BULLET_FAN",
+        value: 1,
+        target: gun,
+        description: "+bullet spread, -bullet speed",
+      },
+      {
+        name: "BATTERY",
+        value: null,
+        target: player,
+        description: "+battery regen, +max battery",
+      },
     ];
     this.period = 1; // how many rounds between powerups
     this.activePowerups = [];
@@ -27,7 +42,10 @@ export class PowerupManager {
   };
 
   purge = (idx) => {
-    this.activePowerups.splice(idx, 1);
+    this.activePowerups[idx].hide();
+    setTimeout(() => {
+      this.activePowerups.splice(idx, 1);
+    }, 1500);
   };
 
   selectNextPowerup = () => {
@@ -46,6 +64,7 @@ export class PowerupManager {
       effect: {
         stat: powerup.name,
         value: powerup.value,
+        description: powerup.description,
       },
       target: powerup.target,
     });

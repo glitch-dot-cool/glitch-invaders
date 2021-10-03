@@ -107,7 +107,6 @@ const game = (s) => {
     enemyManager.displayCurrentWave(s);
     powerupManager.show(s);
     s.renderScore();
-    particleManager.purgeParticles();
     particleManager.renderParticles(s);
   };
 
@@ -117,10 +116,18 @@ const game = (s) => {
     s.text("YOU ARE DEAD", s.width / 2 - 200, s.height / 2);
     restartButton.position(s.width / 2 - 35, s.height / 2 + 50);
 
-    if (s.frameCount % 3 === 0) {
-      particleManager.emit(s, { x: s.random(s.width), y: s.random(s.height) });
+    if (s.frameCount % 15 === 0) {
+      particleManager.emit(s, {
+        x: s.random(s.width),
+        y: s.random(s.height),
+        spread: 20,
+        accelleration: 10,
+        minSize: 6,
+        maxSize: 8,
+        lifetime: 512,
+        numParticles: 100,
+      });
     }
-    particleManager.purgeParticles();
     particleManager.renderParticles(s);
     s.showHighScores();
   };

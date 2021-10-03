@@ -1,10 +1,27 @@
 export class Particle {
-  constructor(s, x, y) {
-    this.pos = s.createVector(x + s.random(-10, 10), y + s.random(-10, 10));
+  constructor(
+    s,
+    {
+      x,
+      y,
+      spread = 10,
+      accelleration = 0.5,
+      minSize = 4,
+      maxSize = 8,
+      lifetime = 255,
+    }
+  ) {
+    this.pos = s.createVector(
+      x + s.random(-spread, spread),
+      y + s.random(-spread, spread)
+    );
     this.vel = s.createVector(0, 0);
-    this.acc = s.createVector(s.random(-0.5, 0.5), s.random(-0.5, 0.5));
-    this.r = s.random(4, 8);
-    this.lifetime = 255;
+    this.acc = s.createVector(
+      s.random(-accelleration, accelleration),
+      s.random(-accelleration, accelleration)
+    );
+    this.r = s.random(minSize, maxSize);
+    this.lifetime = lifetime;
   }
 
   applyForce = (force) => {

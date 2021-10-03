@@ -20,7 +20,7 @@ export class EnemyManager {
 
   killEnemy = (s, index) => {
     const enemy = this.enemies[index];
-    this.particleManager.emit(s, enemy);
+    this.particleManager.emit(s, { x: enemy.x, y: enemy.y });
     this.enemies.splice(index, 1);
   };
 

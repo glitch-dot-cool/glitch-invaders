@@ -6,11 +6,11 @@ export class ParticleManager {
     this.particlesPerExplosion = 15;
   }
 
-  emit = (s, enemy) => {
-    if (enemy) {
-      for (let i = 0; i < this.particlesPerExplosion; i++) {
-        this.particles.push(new Particle(s, enemy.x, enemy.y));
-      }
+  emit = (s, particleOptions) => {
+    const iterations =
+      particleOptions.numParticles || this.particlesPerExplosion;
+    for (let i = 0; i < iterations; i++) {
+      this.particles.push(new Particle(s, { ...particleOptions }));
     }
   };
 
@@ -19,6 +19,7 @@ export class ParticleManager {
   };
 
   renderParticles = (s) => {
+    this.purgeParticles();
     this.particles.forEach((particle) => {
       particle.update();
       particle.show(s);

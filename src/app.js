@@ -48,7 +48,7 @@ const game = (s) => {
 
   s.preload = () => {
     s.preloadSprites();
-    font = s.loadFont("../assets/JetBrainsMono-Regular.ttf");
+    font = s.loadFont("assets/JetBrainsMono-Regular.ttf");
   };
 
   s.setup = () => {
@@ -220,11 +220,11 @@ const game = (s) => {
     sprites = {
       player: loadSprites(s, spriteFileNames.players, "characters"),
       enemies: loadSprites(s, spriteFileNames.enemies, "enemies"),
-      bullet: s.loadImage("../assets/logo_bullet.png"),
+      bullet: s.loadImage("assets/logo_bullet.png"),
       powerups: {
-        RATE_OF_FIRE: s.loadImage("../assets/powerups/fire_rate.png"),
-        BULLET_FAN: s.loadImage("../assets/powerups/increase_bullets.png"),
-        BATTERY: s.loadImage("../assets/powerups/battery.png"),
+        RATE_OF_FIRE: s.loadImage("assets/powerups/fire_rate.png"),
+        BULLET_FAN: s.loadImage("assets/powerups/increase_bullets.png"),
+        BATTERY: s.loadImage("assets/powerups/battery.png"),
       },
     };
   };

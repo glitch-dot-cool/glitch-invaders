@@ -3,9 +3,9 @@ export class Player {
     this.size = 40;
     this.shootingMovementPenalty = 8.5 / 10;
     this.inverseShootingMovementPenalty = 10 / 8.5;
-    this.baseSpeed = 5;
+    this.baseSpeed = 9;
     this.speed = this.baseSpeed;
-    this.sprintModifier = 3;
+    this.sprintModifier = 2.5;
     this.x = s.width * 0.5;
     this.y = s.height - this.size * 3;
     this.score = 0;

@@ -1,7 +1,6 @@
 export class Enemy {
   constructor(s, enemySprites, speedModifier = 1) {
-    this.size = 24;
-    this.scale = 4;
+    this.size = 28;
     this.x = Math.random() * s.width;
     this.y = 0;
     this.pointValues = [5, 10, 15, 20];

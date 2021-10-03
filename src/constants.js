@@ -30,9 +30,11 @@ const enemyHits = new Array(11).fill().map((_, idx) => `enemyHit${idx + 1}`);
 const playerHits = ["playerDamage"];
 const playerDeaths = ["playerDeath1", "playerDeath2"];
 const playerGuns = ["playerGun"];
+const songs = ["invaders"];
 export const audioFileNames = {
   enemyHits,
   playerHits,
   playerDeaths,
   playerGuns,
+  songs,
 };

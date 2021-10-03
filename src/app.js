@@ -56,6 +56,7 @@ const game = (s) => {
 
   s.setup = () => {
     s.createCanvas(s.windowWidth, s.windowHeight);
+    s.random(audio.songs).loop(0, 1, 0.5);
     s.textFont(font);
     restartButton = s.createButton("restart");
     restartButton.mousePressed(() => location.reload());
@@ -251,6 +252,7 @@ const game = (s) => {
       playerDeaths: loadAudio(s, audioFileNames.playerDeaths, "player_death"),
       playerHit: loadAudio(s, audioFileNames.playerHits, "player_hit")[0],
       playerGun: loadAudio(s, audioFileNames.playerGuns, "player_gun")[0],
+      songs: loadAudio(s, audioFileNames.songs, "music"),
     };
   };
 

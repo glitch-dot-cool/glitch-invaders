@@ -74,23 +74,50 @@ export class Player {
       this.isSprinting = false;
     }
 
-    // move
+    this.movementContols(s);
+  };
+
+  movementContols = (s) => {
     if (s.keyIsDown(s.LEFT_ARROW)) {
       this.move(s, "LEFT");
-    } else if (s.keyIsDown(s.RIGHT_ARROW)) {
+    }
+    if (s.keyIsDown(s.RIGHT_ARROW)) {
       this.move(s, "RIGHT");
+    }
+    if (s.keyIsDown(s.UP_ARROW)) {
+      this.move(s, "UP");
+    }
+    if (s.keyIsDown(s.DOWN_ARROW)) {
+      this.move(s, "DOWN");
     }
   };
 
   move = (s, direction) => {
     this.batteryCheck();
 
-    if (direction === "LEFT" && this.x > this.size * 0.5) {
-      if (this.isSprinting) this.x -= this.speed * this.sprintModifier;
-      else this.x -= this.speed;
-    } else if (direction === "RIGHT" && this.x < s.width - this.size * 0.5) {
-      if (this.isSprinting) this.x += this.speed * this.sprintModifier;
-      else this.x += this.speed;
+    switch (direction) {
+      case "LEFT":
+        if (this.x > this.size * 0.5) {
+          if (this.isSprinting) this.x -= this.speed * this.sprintModifier;
+          else this.x -= this.speed;
+        }
+        break;
+      case "RIGHT":
+        if (this.x < s.width - this.size * 0.5) {
+          if (this.isSprinting) this.x += this.speed * this.sprintModifier;
+          else this.x += this.speed;
+        }
+        break;
+      case "UP":
+        if (this.y > s.height - s.height * 0.334) {
+          this.y -= this.speed;
+        }
+        break;
+      case "DOWN":
+        if (this.y < s.height - 120) {
+          this.y += this.speed;
+        }
+        break;
     }
 
     // consume battery when sprinting

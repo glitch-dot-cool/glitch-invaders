@@ -253,6 +253,7 @@ const game = (s) => {
         RATE_OF_FIRE: s.loadImage("assets/powerups/fire_rate.png"),
         BULLET_FAN: s.loadImage("assets/powerups/increase_bullets.png"),
         BATTERY: s.loadImage("assets/powerups/battery.png"),
+        DAMAGE: s.loadImage("assets/powerups/damage.png"),
       },
     };
   };

@@ -33,7 +33,6 @@ export class PowerupManager {
     ];
     this.period = 1; // how many rounds between powerups
     this.activePowerups = [];
-    this.currentPowerup = 0;
   }
 
   show = (s) => {
@@ -44,7 +43,7 @@ export class PowerupManager {
   };
 
   dispatchPowerup = () => {
-    const nextPowerup = this.selectNextPowerup();
+    const nextPowerup = this.createNextPowerup();
     this.activePowerups.push(nextPowerup);
   };
 
@@ -55,15 +54,8 @@ export class PowerupManager {
     }, 1500);
   };
 
-  selectNextPowerup = () => {
-    const nextPowerup = this.createNextPowerup(this.currentPowerup);
-    if (this.currentPowerup + 1 < this.powerups.length) this.currentPowerup++;
-    else this.currentPowerup = 0;
-    return nextPowerup;
-  };
-
-  createNextPowerup = (index) => {
-    const powerup = this.powerups[index];
+  createNextPowerup = () => {
+    const powerup = this.p5.random(this.powerups);
     return new Powerup({
       x: this.p5.random(this.p5.width * 0.15, this.p5.width * 0.85),
       y: this.p5.random(this.p5.height * 0.5),

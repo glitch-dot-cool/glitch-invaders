@@ -32,12 +32,16 @@ export class EnemyManager {
     if (enemy) {
       enemy.hit(damage);
       this.particleManager.emit(s, { x: enemy.x, y: enemy.y });
-      this.p5
-        .random(this.playerHitSounds)
-        .play(undefined, this.p5.random(0.5, 1.5));
 
       if (this.enemies[index].health <= 0) {
+        this.p5
+          .random(this.playerHitSounds)
+          .play(undefined, this.p5.random(0.1, 0.25));
         this.enemies.splice(index, 1);
+      } else {
+        this.p5
+          .random(this.playerHitSounds)
+          .play(undefined, this.p5.random(2, 4));
       }
     }
   };

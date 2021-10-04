@@ -9,6 +9,7 @@ export class Gun {
     this.bulletSpeed = 20;
     this.numBullets = 1;
     this.sound = sound;
+    this.damage = 10;
   }
 
   show = (s) => {
@@ -27,7 +28,8 @@ export class Gun {
           y,
           (i % this.numBullets) - Math.floor(this.numBullets / 2), // fan bullets out
           this.sprite,
-          this.bulletSpeed
+          this.bulletSpeed,
+          this.damage
         )
       );
     }

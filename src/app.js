@@ -177,7 +177,7 @@ const game = (s) => {
     enemyManager.enemies.forEach((enemy, enemyIdx) => {
       // handle enemies making it "past the front"
       if (enemy.y > s.height) {
-        enemyManager.killEnemy(s, enemyIdx);
+        enemyManager.hitEnemy(s, enemyIdx, Infinity);
         player.applyPenalty(enemy.pointValue);
         server.takeDamage(
           enemy.pointValue,
@@ -193,7 +193,7 @@ const game = (s) => {
         const dist = s.dist(bullet.x, bullet.y, enemy.x, enemy.y);
         if (dist < enemy.size) {
           gun.deleteBullet(bulletIdx);
-          enemyManager.killEnemy(s, enemyIdx);
+          enemyManager.hitEnemy(s, enemyIdx, bullet.damage);
           player.updateScore(enemy.pointValue);
         }
       });
@@ -202,7 +202,7 @@ const game = (s) => {
       const dist = s.dist(enemy.x, enemy.y, player.x, player.y);
       if (dist < enemy.size) {
         player.hit(enemy, gameState, setGameState, gameStates, s.saveScore);
-        enemyManager.killEnemy(s, enemyIdx);
+        enemyManager.hitEnemy(s, enemyIdx, Infinity);
       }
     });
     // handle collisions w/ powerups

@@ -9,6 +9,7 @@ export class Gun {
     this.bulletSpeed = 20;
     this.numBullets = 1;
     this.sound = sound;
+    this.damage = 10;
   }
 
   show = (s) => {
@@ -27,7 +28,8 @@ export class Gun {
           y,
           (i % this.numBullets) - Math.floor(this.numBullets / 2), // fan bullets out
           this.sprite,
-          this.bulletSpeed
+          this.bulletSpeed,
+          this.damage
         )
       );
     }
@@ -45,9 +47,11 @@ export class Gun {
   consumePowerup = (effect) => {
     if (effect.stat === "RATE_OF_FIRE") {
       this.rateOfFire = Math.max(Math.floor(this.rateOfFire * effect.value), 1);
-    } else {
+    } else if (effect.stat === "BULLET_FAN") {
       this.numBullets += effect.value;
       this.bulletSpeed *= 0.9;
+    } else if (effect.stat === "DAMAGE") {
+      this.damage = Math.ceil(this.damage * effect.value);
     }
   };
 }

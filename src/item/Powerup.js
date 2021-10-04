@@ -1,10 +1,10 @@
 export class Powerup {
-  constructor({ x, y, sprite, effect, target }) {
+  constructor({ x, y, sprite, effect, target, scale = 0.5 }) {
     this.x = x;
     this.y = y;
     this.sprite = sprite;
-    this.width = sprite.width / 2;
-    this.height = sprite.height / 2;
+    this.width = sprite.width * scale;
+    this.height = sprite.height * scale;
     this.effect = effect;
     this.target = target;
     this.speed = 1;

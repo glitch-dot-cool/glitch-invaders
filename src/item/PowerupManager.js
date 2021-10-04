@@ -23,6 +23,13 @@ export class PowerupManager {
         target: player,
         description: "+battery regen, +max battery",
       },
+      {
+        name: "DAMAGE",
+        value: 1.2,
+        target: gun,
+        description: "+damage",
+        iconScale: 1,
+      },
     ];
     this.period = 1; // how many rounds between powerups
     this.activePowerups = [];
@@ -67,6 +74,7 @@ export class PowerupManager {
         description: powerup.description,
       },
       target: powerup.target,
+      scale: powerup.iconScale,
     });
   };
 }

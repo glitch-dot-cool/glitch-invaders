@@ -9,7 +9,7 @@ export class EnemyManager {
     playerHitSounds
   ) {
     this.p5 = s;
-    this.baseEnemiesPerRound = 5;
+    this.baseEnemiesPerRound = 2;
     this.enemies = Array(this.baseEnemiesPerRound)
       .fill()
       .map((_) => new Enemy(s, enemySprites));
@@ -23,17 +23,22 @@ export class EnemyManager {
   }
 
   show = (s) => {
+    this.displayCurrentWave(s);
     this.enemies.forEach((enemy) => enemy.show(s));
   };
 
-  killEnemy = (s, index) => {
+  hitEnemy = (s, index, damage) => {
     const enemy = this.enemies[index];
     if (enemy) {
+      enemy.hit(damage);
       this.particleManager.emit(s, { x: enemy.x, y: enemy.y });
-      this.enemies.splice(index, 1);
       this.p5
         .random(this.playerHitSounds)
         .play(undefined, this.p5.random(0.5, 1.5));
+
+      if (this.enemies[index].health <= 0) {
+        this.enemies.splice(index, 1);
+      }
     }
   };
 

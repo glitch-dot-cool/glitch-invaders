@@ -9,7 +9,7 @@ export class EnemyManager {
     playerHitSounds
   ) {
     this.p5 = s;
-    this.baseEnemiesPerRound = 2;
+    this.baseEnemiesPerRound = 1;
     this.enemies = Array(this.baseEnemiesPerRound)
       .fill()
       .map((_) => new Enemy(s, enemySprites));

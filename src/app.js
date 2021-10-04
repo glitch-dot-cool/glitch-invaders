@@ -10,6 +10,8 @@ import { rectCollisionDetect } from "./utils/rectCollisionDetect.js";
 import { getEntityBounds } from "./utils/getEntityBounds.js";
 import { spriteFileNames, audioFileNames } from "./constants.js";
 import { loadSprites, loadAudio } from "./utils/assetLoading.js";
+import { TextFade } from "./fx/TextFade.js";
+import { TextFadeManager } from "./fx/TextFadeManager.js";
 
 const game = (s) => {
   const gameStates = { CHARACTER_SELECT: 0, PLAYING: 1, DEAD: 2 };
@@ -26,7 +28,8 @@ const game = (s) => {
     font,
     restartButton,
     server,
-    audio;
+    audio,
+    textFadeManager;
 
   const setSelectedPlayer = (character) => {
     gun = new Gun(s, sprites.bullet, audio.playerGun);
@@ -63,6 +66,7 @@ const game = (s) => {
     particleManager = new ParticleManager();
     starField = new StarField(s);
     server = new Server();
+    textFadeManager = new TextFadeManager();
     const spriteSize = 48;
     possiblePlayerCharacters = sprites.player.map((sprite, idx) => {
       return new PlayerPreview(
@@ -105,8 +109,8 @@ const game = (s) => {
     s.collisionTest();
     gun.show(s);
     server.show(s);
+    textFadeManager.show(s, Date.now());
     enemyManager.show(s);
-    enemyManager.displayCurrentWave(s);
     powerupManager.show(s);
     player.show(s);
     s.renderScore();
@@ -192,6 +196,13 @@ const game = (s) => {
       gun.bullets.forEach((bullet, bulletIdx) => {
         const dist = s.dist(bullet.x, bullet.y, enemy.x, enemy.y);
         if (dist < enemy.size) {
+          textFadeManager.add(
+            new TextFade({
+              x: enemy.x,
+              y: enemy.y + 30,
+              text: `-${bullet.damage}`,
+            })
+          );
           gun.deleteBullet(bulletIdx);
           enemyManager.hitEnemy(s, enemyIdx, bullet.damage);
           player.updateScore(enemy.pointValue);

@@ -23,6 +23,7 @@ export class EnemyManager {
   }
 
   show = (s) => {
+    this.displayCurrentWave(s);
     this.enemies.forEach((enemy) => enemy.show(s));
   };
 

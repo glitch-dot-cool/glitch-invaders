@@ -1,5 +1,5 @@
 export class Enemy {
-  constructor(s, enemySprites, speedModifier = 1, health = 10) {
+  constructor(s, enemySprites, speedModifier = 1) {
     this.size = 28;
     this.x = s.random(s.width * 0.1, s.width * 0.9);
     this.y = 0;

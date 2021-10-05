@@ -3,13 +3,15 @@ import { Bullet } from "./Bullet.js";
 export class Gun {
   constructor(p5, sprite, sound) {
     this.p5 = p5;
+    this.bulletSize = 20;
     this.bullets = [];
     this.sprite = sprite;
     this.rateOfFire = 15;
     this.bulletSpeed = 20;
     this.numBullets = 1;
     this.sound = sound;
-    this.damage = 10;
+    this.initialDamage = 10;
+    this.damage = this.initialDamage;
   }
 
   show = (s) => {
@@ -29,7 +31,8 @@ export class Gun {
           (i % this.numBullets) - Math.floor(this.numBullets / 2), // fan bullets out
           this.sprite,
           this.bulletSpeed,
-          this.damage
+          this.damage,
+          this.bulletSize
         )
       );
     }
@@ -49,7 +52,11 @@ export class Gun {
       this.rateOfFire = Math.max(Math.floor(this.rateOfFire * effect.value), 1);
     } else if (effect.stat === "BULLET_FAN") {
       this.numBullets += effect.value;
-      this.bulletSpeed *= 0.9;
+      this.bulletSize = Math.max(this.bulletSize - 1, 8);
+      this.damage = Math.max(
+        Math.floor(this.damage * 0.8),
+        this.initialDamage / 2
+      );
     } else if (effect.stat === "DAMAGE") {
       this.damage = Math.ceil(this.damage * effect.value);
     }

@@ -15,7 +15,7 @@ export class PowerupManager {
         name: "BULLET_FAN",
         value: 1,
         target: gun,
-        description: "+bullet spread, -bullet speed",
+        description: "+bullet spread, -damage, -bullet size",
       },
       {
         name: "BATTERY",

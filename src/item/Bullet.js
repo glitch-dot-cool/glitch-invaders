@@ -1,9 +1,9 @@
 export class Bullet {
-  constructor(x, y, xOffset = 0, sprite, speed, damage) {
+  constructor(x, y, xOffset = 0, sprite, speed, damage, size) {
     this.x = x;
     this.y = y;
     this.xOffset = xOffset;
-    this.size = 20;
+    this.size = size;
     this.speed = speed;
     this.sprite = sprite;
     this.damage = damage;

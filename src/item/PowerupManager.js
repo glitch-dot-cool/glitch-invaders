@@ -31,7 +31,7 @@ export class PowerupManager {
         iconScale: 1,
       },
     ];
-    this.period = 1; // how many rounds between powerups
+    this.period = 2; // how many rounds between powerups
     this.activePowerups = [];
   }
 

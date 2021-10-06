@@ -12,7 +12,7 @@ export class EnemyManager {
     this.baseEnemiesPerRound = 1;
     this.enemies = Array(this.baseEnemiesPerRound)
       .fill()
-      .map((_) => new Enemy(s, enemySprites));
+      .map((_) => new Enemy(s, enemySprites, 1));
     this.wave = 0;
     this.waveTimer = 10_000;
     this.minWaveTime = 5_000;
@@ -50,9 +50,7 @@ export class EnemyManager {
     const enemiesThisRound =
       Math.floor((this.wave + 1) ** 1.35) + this.baseEnemiesPerRound;
     for (let i = 0; i < enemiesThisRound; i++) {
-      this.enemies.push(
-        new Enemy(s, this.enemySprites, 1 + this.wave * 0.0525)
-      );
+      this.enemies.push(new Enemy(s, this.enemySprites, this.wave + 1));
     }
 
     if (this.wave % this.powerupManager.period === 0) {

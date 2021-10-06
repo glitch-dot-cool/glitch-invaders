@@ -25,7 +25,7 @@ export class PowerupManager {
       },
       {
         name: "DAMAGE",
-        value: 1.5,
+        value: 1.35,
         target: gun,
         description: "+damage",
         iconScale: 1,

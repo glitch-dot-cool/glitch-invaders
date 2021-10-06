@@ -1,11 +1,11 @@
 export class Enemy {
   constructor(s, enemySprites, wave) {
-    this.size = 28;
+    this.size = 32;
     this.x = s.random(s.width * 0.1, s.width * 0.9);
     this.y = 0;
     this.pointValues = [5, 10, 15, 20];
     this.pointValue = s.random(this.pointValues);
-    this.maxHealth = Math.ceil(this.pointValue + wave * 1.5);
+    this.maxHealth = Math.ceil(this.pointValue + wave * 1.4);
     this.health = this.maxHealth;
     this.speed = this.pointValue * 0.075 * 1 + wave * 0.0525;
     this.sprite =

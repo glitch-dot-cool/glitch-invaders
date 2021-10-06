@@ -48,7 +48,7 @@ export class EnemyManager {
 
   spawnEnemies = (s) => {
     const enemiesThisRound =
-      Math.floor((this.wave + 1) ** 1.35) + this.baseEnemiesPerRound;
+      Math.floor((this.wave + 1) ** 1.3) + this.baseEnemiesPerRound;
     for (let i = 0; i < enemiesThisRound; i++) {
       this.enemies.push(new Enemy(s, this.enemySprites, this.wave + 1));
     }

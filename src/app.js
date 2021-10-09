@@ -212,7 +212,9 @@ const game = (s) => {
       // handle enemies hitting player
       const dist = s.dist(enemy.x, enemy.y, player.x, player.y);
       if (dist < enemy.size) {
-        player.hit(enemy, gameState, setGameState, gameStates, s.saveScore);
+        if (!player.shield.isActive) {
+          player.hit(enemy, gameState, setGameState, gameStates, s.saveScore);
+        } else player.takeShieldDamage(1);
         enemyManager.hitEnemy(s, enemyIdx, Infinity);
       }
     });
@@ -262,6 +264,7 @@ const game = (s) => {
         BULLET_FAN: s.loadImage("assets/powerups/increase_bullets.png"),
         BATTERY: s.loadImage("assets/powerups/battery.png"),
         DAMAGE: s.loadImage("assets/powerups/damage.png"),
+        SHIELD: s.loadImage("assets/powerups/shield.png"),
       },
     };
   };

@@ -1,5 +1,5 @@
 import { Powerup } from "./Powerup.js";
-import { buildPowerupCounter } from "../utils/buildPowerupCounter.js";
+import { initPowerupCounter } from "../utils/initPowerupCounter.js";
 
 export class PowerupManager {
   constructor(s, powerupSprites, gun, player) {
@@ -38,10 +38,18 @@ export class PowerupManager {
         iconScale: 1,
         probability: 0.5,
       },
+      {
+        name: "SHIELD",
+        value: null,
+        target: player,
+        description: "+shield",
+        iconScale: 0.75,
+        probability: 0.5,
+      },
     ];
     this.period = 2; // how many rounds between powerups
     this.activePowerups = [];
-    this.collectedPowerups = buildPowerupCounter(this.powerups, this.sprites);
+    this.collectedPowerups = initPowerupCounter(this.powerups, this.sprites);
   }
 
   show = (s) => {

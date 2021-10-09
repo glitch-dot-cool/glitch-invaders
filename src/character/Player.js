@@ -23,6 +23,12 @@ export class Player {
     this.gun = gun;
     this.hitSound = audio.playerHit;
     this.deathSounds = audio.playerDeaths;
+    this.shield = {
+      maxCapacity: 0,
+      capacity: 0,
+      isActive: false,
+      hasShield: false,
+    };
   }
 
   show = (s) => {
@@ -33,8 +39,19 @@ export class Player {
     this.showBattery(s);
 
     // recharge battery when not sprinting
-    if (!this.isSprinting && this.battery < this.maxBattery)
+    if (!this.isSprinting && this.battery < this.maxBattery) {
       this.battery += this.batteryRechargeRate;
+    }
+
+    // render shield if active
+    if (this.shield.isActive) {
+      s.fill(70, 23, 209, 100);
+      s.circle(this.x, this.y, this.size * 1.5);
+      s.textSize(18);
+      s.fill(255);
+      const xOffset = String(this.shield.capacity).length * 5;
+      s.text(this.shield.capacity, this.x - xOffset, this.y + 5);
+    }
   };
 
   showHealth = (s) => {
@@ -51,6 +68,12 @@ export class Player {
       s.width * 0.5 - 125,
       s.height - 75
     );
+
+    if (this.shield.hasShield) {
+      s.fill(70, 23, 209);
+      s.textSize(14);
+      s.text("shield available!", oneThird + 160, y - 30);
+    }
   };
 
   hit = (enemy, gameState, setGameState, gameStates, saveScore) => {
@@ -82,6 +105,13 @@ export class Player {
       this.isSprinting = true;
     } else {
       this.isSprinting = false;
+    }
+
+    // shield
+    if (s.keyIsDown(90)) {
+      if (this.shield.capacity > 0) {
+        this.useShield();
+      }
     }
 
     this.movementContols(s);
@@ -174,6 +204,20 @@ export class Player {
     if (effect.stat === "BATTERY") {
       this.batteryRechargeRate *= 1.25;
       this.maxBattery += 25;
+    } else if (effect.stat === "SHIELD") {
+      this.shield.maxCapacity++;
+      this.shield.capacity = this.shield.maxCapacity;
+      this.shield.hasShield = true;
     }
+  };
+
+  takeShieldDamage = (damage) => {
+    this.shield.capacity -= damage;
+    if (this.shield.capacity < 1) this.shield.isActive = false;
+  };
+
+  useShield = () => {
+    this.shield.isActive = true;
+    this.shield.hasShield = false;
   };
 }

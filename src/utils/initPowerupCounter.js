@@ -1,4 +1,4 @@
-export const buildPowerupCounter = (arrayOfPowerups, powerupSprites) => {
+export const initPowerupCounter = (arrayOfPowerups, powerupSprites) => {
   const counter = {};
   arrayOfPowerups.forEach((powerup) => {
     counter[powerup.name] = {

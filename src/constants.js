@@ -14,7 +14,13 @@ const players = [
 
 const enemies = ["tears1", "tears2", "tears3", "tears4"];
 
-const powerups = ["fire_rate", "increase_bullets"];
+const powerups = [
+  "fire_rate",
+  "increase_bullets",
+  "damage",
+  "battery",
+  "shield",
+];
 
 const bullets = ["logo_bullet.png"];
 

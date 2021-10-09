@@ -20,6 +20,7 @@ const powerups = [
   "damage",
   "battery",
   "shield",
+  "bomb",
 ];
 
 const bullets = ["logo_bullet.png"];

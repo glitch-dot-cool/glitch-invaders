@@ -46,6 +46,14 @@ export class PowerupManager {
         iconScale: 0.75,
         probability: 0.5,
       },
+      {
+        name: "BOMB",
+        value: null,
+        target: player,
+        description: "+bomb",
+        iconScale: 0.75,
+        probability: 0.1,
+      },
     ];
     this.period = 2; // how many rounds between powerups
     this.activePowerups = [];

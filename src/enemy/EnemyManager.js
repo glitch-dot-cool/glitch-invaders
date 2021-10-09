@@ -24,6 +24,7 @@ export class EnemyManager {
 
   show = (s) => {
     this.displayCurrentWave(s);
+    this.purgeDeadEnemies();
     this.enemies.forEach((enemy) => enemy.show(s));
   };
 
@@ -37,13 +38,16 @@ export class EnemyManager {
         this.p5
           .random(this.playerHitSounds)
           .play(undefined, this.p5.random(0.1, 0.25));
-        this.enemies.splice(index, 1);
       } else {
         this.p5
           .random(this.playerHitSounds)
           .play(undefined, this.p5.random(2, 4));
       }
     }
+  };
+
+  purgeDeadEnemies = () => {
+    this.enemies = this.enemies.filter((enemy) => enemy.health > 0);
   };
 
   spawnEnemies = (s) => {

@@ -29,6 +29,7 @@ export class Player {
       isActive: false,
       hasShield: false,
     };
+    this.bombs = 0;
   }
 
   show = (s) => {
@@ -208,6 +209,8 @@ export class Player {
       this.shield.maxCapacity++;
       this.shield.capacity = this.shield.maxCapacity;
       this.shield.hasShield = true;
+    } else if (effect.stat === "BOMB") {
+      this.bombs++;
     }
   };
 
@@ -219,5 +222,16 @@ export class Player {
   useShield = () => {
     this.shield.isActive = true;
     this.shield.hasShield = false;
+  };
+
+  deployBomb = (s, powerupManager, enemyManager) => {
+    if (this.bombs > 0) {
+      this.multiplier = 1;
+      this.bombs--;
+      powerupManager.collectedPowerups.BOMB.count--;
+      enemyManager.enemies.forEach((_, idx) => {
+        enemyManager.hitEnemy(s, idx, Infinity);
+      });
+    }
   };
 }

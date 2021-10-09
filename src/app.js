@@ -265,6 +265,7 @@ const game = (s) => {
         BATTERY: s.loadImage("assets/powerups/battery.png"),
         DAMAGE: s.loadImage("assets/powerups/damage.png"),
         SHIELD: s.loadImage("assets/powerups/shield.png"),
+        BOMB: s.loadImage("assets/powerups/bomb.png"),
       },
     };
   };
@@ -281,6 +282,12 @@ const game = (s) => {
 
   s.windowResized = () => {
     s.resizeCanvas(s.windowWidth, s.windowHeight);
+  };
+
+  s.keyPressed = () => {
+    if (s.keyCode === 88) {
+      player.deployBomb(s, powerupManager, enemyManager);
+    }
   };
 };
 

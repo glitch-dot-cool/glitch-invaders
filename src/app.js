@@ -224,13 +224,20 @@ const game = (s) => {
         playerBounds,
         powerupBounds
       );
-      if (isPowerupCollidingPlayer && !powerup.isHidden) {
+      if (isPowerupCollidingPlayer) {
         powerup.consume(s);
+        textFadeManager.add(
+          new TextFade({
+            x: powerup.x,
+            y: powerup.y + 30,
+            text: powerup.effect.description,
+          })
+        );
         powerupManager.purge(idx);
       }
 
       // handle powerups going offscreen
-      if (powerupBounds.top > s.height && !powerup.isHidden) {
+      if (powerupBounds.top > s.height) {
         powerupManager.purge(idx);
       }
     });

@@ -52,10 +52,7 @@ export class PowerupManager {
   };
 
   purge = (idx) => {
-    this.activePowerups[idx].hide();
-    setTimeout(() => {
-      this.activePowerups.splice(idx, 1);
-    }, 1500);
+    this.activePowerups.splice(idx, 1);
   };
 
   createNextPowerup = () => {

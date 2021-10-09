@@ -45,6 +45,7 @@ export class Player {
     s.fill(0, 125, 20);
     const healthBarWidth = s.map(this.health, 0, this.maxHealth, 0, oneThird);
     s.rect(oneThird, y, healthBarWidth, 10);
+    s.textSize(16);
     s.text(
       `moderator sanity: ${this.health}/${this.maxHealth}`,
       s.width * 0.5 - 125,

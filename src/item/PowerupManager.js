@@ -80,7 +80,8 @@ export class PowerupManager {
       // display the count
       s.textSize(18);
       s.fill(255);
-      s.text(powerup.count, 45 + idx * scale, 100);
+      const xOffset = String(powerup.count).length * 5;
+      s.text(powerup.count, 50 + idx * scale - xOffset, 100);
     });
   };
 

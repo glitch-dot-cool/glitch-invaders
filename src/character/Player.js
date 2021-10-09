@@ -4,7 +4,8 @@ export class Player {
     this.size = 40;
     this.shootingMovementPenalty = 8.5 / 10;
     this.inverseShootingMovementPenalty = 10 / 8.5;
-    this.baseSpeed = 9;
+    this.movementWidthRatio = 0.0046875;
+    this.baseSpeed = this.movementWidthRatio * s.width;
     this.speed = this.baseSpeed;
     this.sprintModifier = 2.5;
     this.x = s.width * 0.5;
@@ -25,6 +26,8 @@ export class Player {
   }
 
   show = (s) => {
+    // update baseSpeed if window is resized
+    this.baseSpeed = this.movementWidthRatio * s.width;
     s.image(this.sprite, this.x, this.y, this.size, this.size);
     this.showHealth(s);
     this.showBattery(s);

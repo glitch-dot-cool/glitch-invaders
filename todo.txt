@@ -1,0 +1,33 @@
+TODO
+
+MOVEMENT:
+X make player movement proportional to screen width
+X make enemy movement proportional to screen height
+
+TEXT/UI RELATED STUFF:
+- refactor powerup text (use TextFadeManager)
+- increase hit dmg text visibility
+- fix font sizes changing bug
+- fix UI z-index issues
+- add instructions to character selection scene
+
+SOUNDS:
+- add powerup pickup sound
+- glitch up the main theme
+- add ability to mute music
+- investigate broken sound on safari (maybe bump p5.sound version?)
+
+POWERUPS:
+- display how many powerups of each type youve collected
+- add bomb powerup
+- slowmo powerup?
+
+BOSS:
+- add a boss round that triggers every 10(?) rounds
+
+LEADERBOARD:
+- add some code to check that the user is a valid discord member before inserting in DB
+- add form component for entering username + submitting score
+- add GET call to fetch leaderboard on death
+- add formatted output to !invaders command output
+- test & deploy

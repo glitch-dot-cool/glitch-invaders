@@ -5,7 +5,7 @@ export class TextFade {
     text,
     textSize = 12,
     speed = 1,
-    color = { r: 100, g: 100, b: 150 },
+    color = { r: 125, g: 125, b: 175 },
   }) {
     this.x = x;
     this.y = y;

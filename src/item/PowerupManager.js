@@ -10,18 +10,21 @@ export class PowerupManager {
         value: 0.9,
         target: gun,
         description: "+rate of fire",
+        probability: 0.25,
       },
       {
         name: "BULLET_FAN",
         value: 1,
         target: gun,
         description: "+bullet spread, -damage, -bullet size",
+        probability: 0.125,
       },
       {
         name: "BATTERY",
         value: null,
         target: player,
         description: "+battery regen, +max battery",
+        probability: 0.65,
       },
       {
         name: "DAMAGE",
@@ -29,6 +32,7 @@ export class PowerupManager {
         target: gun,
         description: "+damage",
         iconScale: 1,
+        probability: 0.5,
       },
     ];
     this.period = 2; // how many rounds between powerups
@@ -55,7 +59,13 @@ export class PowerupManager {
   };
 
   createNextPowerup = () => {
-    const powerup = this.p5.random(this.powerups);
+    const filteredPowerups = this.powerups.filter(
+      (powerup) => powerup.probability > Math.random()
+    );
+    const pullRandomPowerupFrom = filteredPowerups.length
+      ? filteredPowerups
+      : this.powerups;
+    const powerup = this.p5.random(pullRandomPowerupFrom);
     return new Powerup({
       x: this.p5.random(this.p5.width * 0.15, this.p5.width * 0.85),
       y: this.p5.random(this.p5.height * 0.5),

@@ -1,5 +1,6 @@
 export class Enemy {
   constructor(s, enemySprites, wave) {
+    this.wave = wave;
     this.size = 32;
     this.x = s.random(s.width * 0.1, s.width * 0.9);
     this.y = 0;
@@ -7,7 +8,10 @@ export class Enemy {
     this.pointValue = s.random(this.pointValues);
     this.maxHealth = Math.ceil(this.pointValue + wave * 1.85);
     this.health = this.maxHealth;
-    this.speed = this.pointValue * 0.075 * 1 + wave * 0.0525;
+    this.baselineScreenHeight = 1067; // window.innerHeight of 1080p display
+    this.speed =
+      (this.pointValue * 0.075 * 1 + wave * 0.0525) *
+      (s.height / this.baselineScreenHeight);
     this.sprite =
       enemySprites[
         Math.floor(
@@ -23,6 +27,11 @@ export class Enemy {
   }
 
   show = (s) => {
+    // update speed if window is resized vertically
+    this.speed =
+      (this.pointValue * 0.075 * 1 + this.wave * 0.0525) *
+      (s.height / this.baselineScreenHeight);
+
     s.image(this.sprite, this.x, this.y, this.size, this.size);
     this.move(Math.floor(s.millis() * 0.001));
     this.drawHealth(s);

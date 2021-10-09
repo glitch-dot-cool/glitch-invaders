@@ -199,7 +199,7 @@ const game = (s) => {
           textFadeManager.add(
             new TextFade({
               x: enemy.x,
-              y: enemy.y + 30,
+              y: enemy.y - 30,
               text: `-${bullet.damage}`,
             })
           );

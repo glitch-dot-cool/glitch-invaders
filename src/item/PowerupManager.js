@@ -1,4 +1,5 @@
 import { Powerup } from "./Powerup.js";
+import { buildPowerupCounter } from "../utils/buildPowerupCounter.js";
 
 export class PowerupManager {
   constructor(s, powerupSprites, gun, player) {
@@ -10,6 +11,7 @@ export class PowerupManager {
         value: 0.9,
         target: gun,
         description: "+rate of fire",
+        iconScale: 0.5,
         probability: 0.25,
       },
       {
@@ -17,6 +19,7 @@ export class PowerupManager {
         value: 1,
         target: gun,
         description: "+bullet spread, -damage, -bullet size",
+        iconScale: 0.5,
         probability: 0.125,
       },
       {
@@ -24,6 +27,7 @@ export class PowerupManager {
         value: null,
         target: player,
         description: "+battery regen, +max battery",
+        iconScale: 0.5,
         probability: 0.65,
       },
       {
@@ -37,6 +41,7 @@ export class PowerupManager {
     ];
     this.period = 2; // how many rounds between powerups
     this.activePowerups = [];
+    this.collectedPowerups = buildPowerupCounter(this.powerups, this.sprites);
   }
 
   show = (s) => {
@@ -44,6 +49,7 @@ export class PowerupManager {
       powerup.update(s);
       powerup.show(s);
     });
+    this.displayCollectedPowerups(s);
   };
 
   dispatchPowerup = () => {
@@ -53,6 +59,29 @@ export class PowerupManager {
 
   purge = (idx) => {
     this.activePowerups.splice(idx, 1);
+  };
+
+  addToCollectedPowerups = (powerup) => {
+    this.collectedPowerups[powerup.effect.stat].count++;
+  };
+
+  displayCollectedPowerups = (s) => {
+    Object.keys(this.collectedPowerups).forEach((key, idx) => {
+      const powerup = this.collectedPowerups[key];
+      const scale = 75;
+      // display the image
+      s.image(
+        powerup.sprite,
+        50 + idx * scale,
+        50,
+        powerup.sprite.width * (powerup.iconScale * 0.6),
+        powerup.sprite.height * (powerup.iconScale * 0.6)
+      );
+      // display the count
+      s.textSize(18);
+      s.fill(255);
+      s.text(powerup.count, 45 + idx * scale, 100);
+    });
   };
 
   createNextPowerup = () => {

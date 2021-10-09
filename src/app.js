@@ -233,6 +233,7 @@ const game = (s) => {
             text: powerup.effect.description,
           })
         );
+        powerupManager.addToCollectedPowerups(powerup);
         powerupManager.purge(idx);
       }
 

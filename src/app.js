@@ -108,12 +108,12 @@ const game = (s) => {
     player.controls(s);
     s.collisionTest();
     gun.show(s);
-    server.show(s);
     textFadeManager.show(s, Date.now());
     enemyManager.show(s);
     powerupManager.show(s);
     player.show(s);
     s.renderScore();
+    server.show(s);
     particleManager.renderParticles(s);
   };
 

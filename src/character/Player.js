@@ -72,7 +72,7 @@ export class Player {
     if (this.shield.hasShield) {
       s.fill(70, 23, 209);
       s.textSize(14);
-      s.text("shield available!", oneThird + 160, y - 30);
+      s.text("shield available!", s.width * 0.5 - 65, y - 30);
     }
   };
 

@@ -9,6 +9,11 @@ export class Particle {
       minSize = 4,
       maxSize = 8,
       lifetime = 255,
+      colorRanges = {
+        r: { low: 100, high: 255 },
+        g: { low: 0, high: 100 },
+        b: { low: 0, high: 50 },
+      },
     }
   ) {
     this.pos = s.createVector(
@@ -22,6 +27,7 @@ export class Particle {
     );
     this.r = s.random(minSize, maxSize);
     this.lifetime = lifetime;
+    this.colorRanges = colorRanges;
   }
 
   applyForce = (force) => {
@@ -39,9 +45,9 @@ export class Particle {
   show = (s) => {
     s.strokeWeight(2);
     s.fill(
-      s.random(100, 255),
-      s.random(0, 100),
-      s.random(0, 50),
+      s.random(this.colorRanges.r.low, this.colorRanges.r.high),
+      s.random(this.colorRanges.g.low, this.colorRanges.g.high),
+      s.random(this.colorRanges.b.low, this.colorRanges.b.high),
       this.lifetime
     );
     s.rect(this.pos.x, this.pos.y, this.r * 2);

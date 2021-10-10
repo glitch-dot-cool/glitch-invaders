@@ -32,13 +32,27 @@ export class EnemyManager {
     const enemy = this.enemies[index];
     if (enemy) {
       enemy.hit(damage);
-      this.particleManager.emit(s, { x: enemy.x, y: enemy.y });
 
       if (this.enemies[index].health <= 0) {
+        this.particleManager.emit(s, {
+          x: enemy.x,
+          y: enemy.y,
+          accelleration: 2,
+        });
         this.p5
           .random(this.playerHitSounds)
           .play(undefined, this.p5.random(0.1, 0.25));
       } else {
+        this.particleManager.emit(s, {
+          x: enemy.x,
+          y: enemy.y,
+          numParticles: 10,
+          colorRanges: {
+            r: { low: 5, high: 50 },
+            g: { low: 100, high: 255 },
+            b: { low: 150, high: 200 },
+          },
+        });
         this.p5
           .random(this.playerHitSounds)
           .play(undefined, this.p5.random(2, 4));

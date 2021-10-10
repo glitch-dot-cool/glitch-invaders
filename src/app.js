@@ -10,6 +10,8 @@ import { rectCollisionDetect } from "./utils/rectCollisionDetect.js";
 import { getEntityBounds } from "./utils/getEntityBounds.js";
 import { spriteFileNames, audioFileNames } from "./constants.js";
 import { loadSprites, loadAudio } from "./utils/assetLoading.js";
+import { TextFade } from "./fx/TextFade.js";
+import { TextFadeManager } from "./fx/TextFadeManager.js";
 
 const game = (s) => {
   const gameStates = { CHARACTER_SELECT: 0, PLAYING: 1, DEAD: 2 };
@@ -26,7 +28,8 @@ const game = (s) => {
     font,
     restartButton,
     server,
-    audio;
+    audio,
+    textFadeManager;
 
   const setSelectedPlayer = (character) => {
     gun = new Gun(s, sprites.bullet, audio.playerGun);
@@ -58,11 +61,13 @@ const game = (s) => {
     s.createCanvas(s.windowWidth, s.windowHeight);
     s.random(audio.songs).loop(0, 1, 0.5);
     s.textFont(font);
+    s.textAlign(s.CENTER);
     restartButton = s.createButton("restart");
     restartButton.mousePressed(() => location.reload());
     particleManager = new ParticleManager();
     starField = new StarField(s);
     server = new Server();
+    textFadeManager = new TextFadeManager();
     const spriteSize = 48;
     possiblePlayerCharacters = sprites.player.map((sprite, idx) => {
       return new PlayerPreview(
@@ -96,7 +101,7 @@ const game = (s) => {
   s.characterSelectionScene = () => {
     s.fill(200);
     s.textSize(24);
-    s.text("choose your fighter", s.width / 2 - 120, s.height / 2 - 60);
+    s.text("choose your fighter", s.width / 2, s.height / 2 - 60);
     possiblePlayerCharacters.forEach((character) => character.show(s));
   };
 
@@ -104,19 +109,19 @@ const game = (s) => {
     player.controls(s);
     s.collisionTest();
     gun.show(s);
-    server.show(s);
+    textFadeManager.show(s, Date.now());
     enemyManager.show(s);
-    enemyManager.displayCurrentWave(s);
     powerupManager.show(s);
     player.show(s);
     s.renderScore();
+    server.show(s);
     particleManager.renderParticles(s);
   };
 
   s.deathScene = () => {
     s.fill(175, 0, 0);
     s.textSize(64);
-    s.text("YOU ARE DEAD", s.width / 2 - 200, s.height / 2);
+    s.text("YOU ARE DEAD", s.width / 2, s.height / 2);
     restartButton.position(s.width / 2 - 35, s.height / 2 + 50);
 
     if (s.frameCount % 15 === 0) {
@@ -153,17 +158,13 @@ const game = (s) => {
     const topFiveScores = existingScores
       .sort((a, b) => b - a)
       .slice(0, 5)
-      .map((num) => String(num));
+      .map((num) => num.toLocaleString());
     s.textSize(18);
     s.fill(150, 150, 150);
-    s.text("your high scores:", s.width / 2 - 90, s.height / 2 + 150);
+    s.text("your high scores:", s.width / 2, s.height / 2 + 150);
 
     topFiveScores.forEach((score, i) => {
-      s.text(
-        score,
-        s.width / 2 - score.length * 2,
-        s.height / 2 + 150 + 25 * (i + 1)
-      );
+      s.text(score, s.width / 2, s.height / 2 + 150 + 25 * (i + 1));
     });
   };
 
@@ -177,7 +178,7 @@ const game = (s) => {
     enemyManager.enemies.forEach((enemy, enemyIdx) => {
       // handle enemies making it "past the front"
       if (enemy.y > s.height) {
-        enemyManager.killEnemy(s, enemyIdx);
+        enemyManager.hitEnemy(s, enemyIdx, Infinity);
         player.applyPenalty(enemy.pointValue);
         server.takeDamage(
           enemy.pointValue,
@@ -192,8 +193,15 @@ const game = (s) => {
       gun.bullets.forEach((bullet, bulletIdx) => {
         const dist = s.dist(bullet.x, bullet.y, enemy.x, enemy.y);
         if (dist < enemy.size) {
+          textFadeManager.add(
+            new TextFade({
+              x: enemy.x,
+              y: enemy.y - 30,
+              text: `-${bullet.damage}`,
+            })
+          );
           gun.deleteBullet(bulletIdx);
-          enemyManager.killEnemy(s, enemyIdx);
+          enemyManager.hitEnemy(s, enemyIdx, bullet.damage);
           player.updateScore(enemy.pointValue);
         }
       });
@@ -201,8 +209,10 @@ const game = (s) => {
       // handle enemies hitting player
       const dist = s.dist(enemy.x, enemy.y, player.x, player.y);
       if (dist < enemy.size) {
-        player.hit(enemy, gameState, setGameState, gameStates, s.saveScore);
-        enemyManager.killEnemy(s, enemyIdx);
+        if (!player.shield.isActive) {
+          player.hit(enemy, gameState, setGameState, gameStates, s.saveScore);
+        } else player.takeShieldDamage(1);
+        enemyManager.hitEnemy(s, enemyIdx, Infinity);
       }
     });
     // handle collisions w/ powerups
@@ -213,13 +223,21 @@ const game = (s) => {
         playerBounds,
         powerupBounds
       );
-      if (isPowerupCollidingPlayer && !powerup.isHidden) {
+      if (isPowerupCollidingPlayer) {
         powerup.consume(s);
+        textFadeManager.add(
+          new TextFade({
+            x: powerup.x,
+            y: powerup.y + 30,
+            text: powerup.effect.description,
+          })
+        );
+        powerupManager.addToCollectedPowerups(powerup);
         powerupManager.purge(idx);
       }
 
       // handle powerups going offscreen
-      if (powerupBounds.top > s.height && !powerup.isHidden) {
+      if (powerupBounds.top > s.height) {
         powerupManager.purge(idx);
       }
     });
@@ -228,6 +246,7 @@ const game = (s) => {
   s.renderScore = () => {
     s.fill(200);
     s.textSize(24);
+    s.textAlign(s.LEFT);
     s.text(`score: ${player.score.toLocaleString()}`, 5, s.height - 35);
     s.textSize(16);
     s.text(`multiplier: ${player.multiplier}x`, 5, s.height - 15);
@@ -242,6 +261,9 @@ const game = (s) => {
         RATE_OF_FIRE: s.loadImage("assets/powerups/fire_rate.png"),
         BULLET_FAN: s.loadImage("assets/powerups/increase_bullets.png"),
         BATTERY: s.loadImage("assets/powerups/battery.png"),
+        DAMAGE: s.loadImage("assets/powerups/damage.png"),
+        SHIELD: s.loadImage("assets/powerups/shield.png"),
+        BOMB: s.loadImage("assets/powerups/bomb.png"),
       },
     };
   };
@@ -258,6 +280,12 @@ const game = (s) => {
 
   s.windowResized = () => {
     s.resizeCanvas(s.windowWidth, s.windowHeight);
+  };
+
+  s.keyPressed = () => {
+    if (s.keyCode === 88) {
+      player.deployBomb(s, powerupManager, enemyManager);
+    }
   };
 };
 

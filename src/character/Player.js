@@ -4,7 +4,8 @@ export class Player {
     this.size = 40;
     this.shootingMovementPenalty = 8.5 / 10;
     this.inverseShootingMovementPenalty = 10 / 8.5;
-    this.baseSpeed = 9;
+    this.movementWidthRatio = 0.0046875;
+    this.baseSpeed = this.movementWidthRatio * s.width;
     this.speed = this.baseSpeed;
     this.sprintModifier = 2.5;
     this.x = s.width * 0.5;
@@ -22,16 +23,36 @@ export class Player {
     this.gun = gun;
     this.hitSound = audio.playerHit;
     this.deathSounds = audio.playerDeaths;
+    this.shield = {
+      maxCapacity: 0,
+      capacity: 0,
+      isActive: false,
+      hasShield: false,
+    };
+    this.bombs = 0;
   }
 
   show = (s) => {
+    // update baseSpeed if window is resized
+    this.baseSpeed = this.movementWidthRatio * s.width;
     s.image(this.sprite, this.x, this.y, this.size, this.size);
     this.showHealth(s);
     this.showBattery(s);
 
     // recharge battery when not sprinting
-    if (!this.isSprinting && this.battery < this.maxBattery)
+    if (!this.isSprinting && this.battery < this.maxBattery) {
       this.battery += this.batteryRechargeRate;
+    }
+
+    // render shield if active
+    if (this.shield.isActive) {
+      s.fill(70, 23, 209, 100);
+      s.circle(this.x, this.y, this.size * 1.5);
+      s.textSize(18);
+      s.textAlign(s.CENTER);
+      s.fill(255);
+      s.text(this.shield.capacity, this.x, this.y + 5);
+    }
   };
 
   showHealth = (s) => {
@@ -42,11 +63,20 @@ export class Player {
     s.fill(0, 125, 20);
     const healthBarWidth = s.map(this.health, 0, this.maxHealth, 0, oneThird);
     s.rect(oneThird, y, healthBarWidth, 10);
+    s.textSize(16);
+    s.textAlign(s.CENTER);
     s.text(
       `moderator sanity: ${this.health}/${this.maxHealth}`,
-      s.width * 0.5 - 125,
+      s.width * 0.5,
       s.height - 75
     );
+
+    if (this.shield.hasShield) {
+      s.fill(70, 23, 209);
+      s.textSize(14);
+      s.textAlign(s.CENTER);
+      s.text("shield available!", s.width * 0.5, y - 30);
+    }
   };
 
   hit = (enemy, gameState, setGameState, gameStates, saveScore) => {
@@ -78,6 +108,13 @@ export class Player {
       this.isSprinting = true;
     } else {
       this.isSprinting = false;
+    }
+
+    // shield
+    if (s.keyIsDown(90)) {
+      if (this.shield.capacity > 0) {
+        this.useShield();
+      }
     }
 
     this.movementContols(s);
@@ -150,6 +187,7 @@ export class Player {
     s.fill(0, greenAmount, 20);
     s.rect(s.width - maxWidth - 20, s.height - 50, barWidth, 30);
     s.fill(50, this.battery * 2.55);
+    s.textAlign(s.LEFT);
     s.text("battery", s.width - maxWidth - 10, s.height - 30);
   };
 
@@ -170,6 +208,33 @@ export class Player {
     if (effect.stat === "BATTERY") {
       this.batteryRechargeRate *= 1.25;
       this.maxBattery += 25;
+    } else if (effect.stat === "SHIELD") {
+      this.shield.maxCapacity++;
+      this.shield.capacity = this.shield.maxCapacity;
+      this.shield.hasShield = true;
+    } else if (effect.stat === "BOMB") {
+      this.bombs++;
+    }
+  };
+
+  takeShieldDamage = (damage) => {
+    this.shield.capacity -= damage;
+    if (this.shield.capacity < 1) this.shield.isActive = false;
+  };
+
+  useShield = () => {
+    this.shield.isActive = true;
+    this.shield.hasShield = false;
+  };
+
+  deployBomb = (s, powerupManager, enemyManager) => {
+    if (this.bombs > 0) {
+      this.multiplier = 1;
+      this.bombs--;
+      powerupManager.collectedPowerups.BOMB.count--;
+      enemyManager.enemies.forEach((_, idx) => {
+        enemyManager.hitEnemy(s, idx, Infinity);
+      });
     }
   };
 }

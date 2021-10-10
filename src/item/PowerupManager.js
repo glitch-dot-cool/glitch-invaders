@@ -1,4 +1,5 @@
 import { Powerup } from "./Powerup.js";
+import { initPowerupCounter } from "../utils/initPowerupCounter.js";
 
 export class PowerupManager {
   constructor(s, powerupSprites, gun, player) {
@@ -10,23 +11,53 @@ export class PowerupManager {
         value: 0.9,
         target: gun,
         description: "+rate of fire",
+        iconScale: 0.5,
+        probability: 0.25,
       },
       {
         name: "BULLET_FAN",
         value: 1,
         target: gun,
-        description: "+bullet spread, -bullet speed",
+        description: "+bullet spread, -damage, -bullet size",
+        iconScale: 0.5,
+        probability: 0.125,
       },
       {
         name: "BATTERY",
         value: null,
         target: player,
         description: "+battery regen, +max battery",
+        iconScale: 0.5,
+        probability: 0.65,
+      },
+      {
+        name: "DAMAGE",
+        value: 1.4,
+        target: gun,
+        description: "+damage",
+        iconScale: 1,
+        probability: 0.5,
+      },
+      {
+        name: "SHIELD",
+        value: null,
+        target: player,
+        description: "+shield",
+        iconScale: 0.75,
+        probability: 0.5,
+      },
+      {
+        name: "BOMB",
+        value: null,
+        target: player,
+        description: "+bomb",
+        iconScale: 0.75,
+        probability: 0.1,
       },
     ];
-    this.period = 1; // how many rounds between powerups
+    this.period = 2; // how many rounds between powerups
     this.activePowerups = [];
-    this.currentPowerup = 0;
+    this.collectedPowerups = initPowerupCounter(this.powerups, this.sprites);
   }
 
   show = (s) => {
@@ -34,29 +65,50 @@ export class PowerupManager {
       powerup.update(s);
       powerup.show(s);
     });
+    this.displayCollectedPowerups(s);
   };
 
   dispatchPowerup = () => {
-    const nextPowerup = this.selectNextPowerup();
+    const nextPowerup = this.createNextPowerup();
     this.activePowerups.push(nextPowerup);
   };
 
   purge = (idx) => {
-    this.activePowerups[idx].hide();
-    setTimeout(() => {
-      this.activePowerups.splice(idx, 1);
-    }, 1500);
+    this.activePowerups.splice(idx, 1);
   };
 
-  selectNextPowerup = () => {
-    const nextPowerup = this.createNextPowerup(this.currentPowerup);
-    if (this.currentPowerup + 1 < this.powerups.length) this.currentPowerup++;
-    else this.currentPowerup = 0;
-    return nextPowerup;
+  addToCollectedPowerups = (powerup) => {
+    this.collectedPowerups[powerup.effect.stat].count++;
   };
 
-  createNextPowerup = (index) => {
-    const powerup = this.powerups[index];
+  displayCollectedPowerups = (s) => {
+    Object.keys(this.collectedPowerups).forEach((key, idx) => {
+      const powerup = this.collectedPowerups[key];
+      const scale = 75;
+      // display the image
+      s.image(
+        powerup.sprite,
+        50 + idx * scale,
+        50,
+        powerup.sprite.width * (powerup.iconScale * 0.6),
+        powerup.sprite.height * (powerup.iconScale * 0.6)
+      );
+      // display the count
+      s.textSize(18);
+      s.fill(255);
+      s.textAlign(s.CENTER);
+      s.text(powerup.count, 50 + idx * scale, 100);
+    });
+  };
+
+  createNextPowerup = () => {
+    const filteredPowerups = this.powerups.filter(
+      (powerup) => powerup.probability > Math.random()
+    );
+    const pullRandomPowerupFrom = filteredPowerups.length
+      ? filteredPowerups
+      : this.powerups;
+    const powerup = this.p5.random(pullRandomPowerupFrom);
     return new Powerup({
       x: this.p5.random(this.p5.width * 0.15, this.p5.width * 0.85),
       y: this.p5.random(this.p5.height * 0.5),
@@ -67,6 +119,7 @@ export class PowerupManager {
         description: powerup.description,
       },
       target: powerup.target,
+      scale: powerup.iconScale,
     });
   };
 }

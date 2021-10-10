@@ -3,7 +3,7 @@ import { Star } from "./Star.js";
 export class StarField {
   constructor(s) {
     this.renderer = s;
-    this.maxStars = 200;
+    this.maxStars = 500;
     this.stars = Array(this.maxStars)
       .fill()
       .map((_) => new Star(s));

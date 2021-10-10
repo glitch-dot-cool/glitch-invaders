@@ -9,10 +9,10 @@ export class EnemyManager {
     playerHitSounds
   ) {
     this.p5 = s;
-    this.baseEnemiesPerRound = 5;
+    this.baseEnemiesPerRound = 1;
     this.enemies = Array(this.baseEnemiesPerRound)
       .fill()
-      .map((_) => new Enemy(s, enemySprites));
+      .map((_) => new Enemy(s, enemySprites, 1));
     this.wave = 0;
     this.waveTimer = 10_000;
     this.minWaveTime = 5_000;
@@ -23,30 +23,56 @@ export class EnemyManager {
   }
 
   show = (s) => {
+    this.displayCurrentWave(s);
+    this.purgeDeadEnemies();
     this.enemies.forEach((enemy) => enemy.show(s));
   };
 
-  killEnemy = (s, index) => {
+  hitEnemy = (s, index, damage) => {
     const enemy = this.enemies[index];
     if (enemy) {
-      this.particleManager.emit(s, { x: enemy.x, y: enemy.y });
-      this.enemies.splice(index, 1);
-      this.p5
-        .random(this.playerHitSounds)
-        .play(undefined, this.p5.random(0.5, 1.5));
+      enemy.hit(damage);
+
+      if (this.enemies[index].health <= 0) {
+        this.particleManager.emit(s, {
+          x: enemy.x,
+          y: enemy.y,
+          accelleration: 2,
+        });
+        this.p5
+          .random(this.playerHitSounds)
+          .play(undefined, this.p5.random(0.1, 0.25));
+      } else {
+        this.particleManager.emit(s, {
+          x: enemy.x,
+          y: enemy.y,
+          numParticles: 10,
+          colorRanges: {
+            r: { low: 175, high: 255 },
+            g: { low: 100, high: 200 },
+            b: { low: 25, high: 75 },
+          },
+        });
+        this.p5
+          .random(this.playerHitSounds)
+          .play(undefined, this.p5.random(2, 4));
+      }
     }
   };
 
+  purgeDeadEnemies = () => {
+    this.enemies = this.enemies.filter((enemy) => enemy.health > 0);
+  };
+
   spawnEnemies = (s) => {
-    const enemiesThisRound =
-      Math.floor((this.wave + 1) ** 1.55) + this.baseEnemiesPerRound;
+    const enemiesThisRound = Math.floor((this.wave + 1) ** 1.2);
     for (let i = 0; i < enemiesThisRound; i++) {
-      this.enemies.push(
-        new Enemy(s, this.enemySprites, 1 + this.wave * 0.0525)
-      );
+      this.enemies.push(new Enemy(s, this.enemySprites, this.wave + 1));
     }
 
     if (this.wave % this.powerupManager.period === 0) {
+      this.powerupManager.dispatchPowerup();
+      this.powerupManager.dispatchPowerup();
       this.powerupManager.dispatchPowerup();
     }
 
@@ -58,6 +84,7 @@ export class EnemyManager {
 
   displayCurrentWave = (s) => {
     s.fill(100, 100, 200);
-    s.text(`wave #${this.wave}`, s.width - 100, s.height - 60);
+    s.textAlign(s.RIGHT);
+    s.text(`wave #${this.wave}`, s.width - 65, s.height - 60);
   };
 }

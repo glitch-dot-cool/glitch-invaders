@@ -188,8 +188,9 @@ const game = (s) => {
       localStorage.getItem("glitchInvadersScores")
     );
     const updatedScores = existingScores
-      ? [...existingScores, player.score]
-      : [player.score];
+      ? // ? [...existingScores, player.score]
+        [...existingScores, { score: player.score, wave: enemyManager.wave }]
+      : [{ score: player.score, wave: enemyManager.wave }];
     localStorage.setItem("glitchInvadersScores", JSON.stringify(updatedScores));
   };
 
@@ -198,9 +199,14 @@ const game = (s) => {
       ...new Set(JSON.parse(localStorage.getItem("glitchInvadersScores"))),
     ];
     const topFiveScores = existingScores
-      .sort((a, b) => b - a)
+      .sort((a, b) => b.score - a.score)
       .slice(0, 5)
-      .map((num) => num.toLocaleString());
+      .map((entry) => {
+        return {
+          score: entry.score.toLocaleString(),
+          wave: entry.wave,
+        };
+      });
     const xOffset = s.width / 8;
     s.textSize(22);
     s.textAlign(s.RIGHT);
@@ -208,9 +214,9 @@ const game = (s) => {
     s.text("your high scores:", s.width - xOffset, s.height - s.height * 0.334);
 
     s.fill(200);
-    topFiveScores.forEach((score, i) => {
+    topFiveScores.forEach((entry, i) => {
       s.text(
-        score,
+        `score: ${entry.score} | wave reached: ${entry.wave}`,
         s.width - xOffset,
         s.height - s.height * 0.334 + 50 * (i + 1)
       );

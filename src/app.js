@@ -12,6 +12,7 @@ import { spriteFileNames, audioFileNames } from "./constants.js";
 import { loadSprites, loadAudio } from "./utils/assetLoading.js";
 import { TextFade } from "./fx/TextFade.js";
 import { TextFadeManager } from "./fx/TextFadeManager.js";
+import { Fetch } from "./utils/fetch.js";
 
 const game = (s) => {
   const gameStates = { CHARACTER_SELECT: 0, PLAYING: 1, DEAD: 2 };
@@ -24,12 +25,14 @@ const game = (s) => {
     starField,
     possiblePlayerCharacters,
     sprites,
-    gameState = gameStates.CHARACTER_SELECT,
+    gameState = gameStates.DEAD,
     font,
     restartButton,
     server,
     audio,
-    textFadeManager;
+    textFadeManager,
+    leaderboard,
+    hasFetched = false;
 
   const setSelectedPlayer = (character) => {
     gun = new Gun(s, sprites.bullet, audio.playerGun);
@@ -118,11 +121,12 @@ const game = (s) => {
     particleManager.renderParticles(s);
   };
 
-  s.deathScene = () => {
+  s.deathScene = async () => {
     s.fill(175, 0, 0);
     s.textSize(64);
-    s.text("YOU ARE DEAD", s.width / 2, s.height / 2);
-    restartButton.position(s.width / 2 - 35, s.height / 2 + 50);
+    s.textAlign(s.CENTER);
+    s.text("YOU ARE DEAD", s.width / 2, s.height / 3);
+    restartButton.position(s.width / 2 - 35, s.height / 3 + 50);
 
     if (s.frameCount % 15 === 0) {
       particleManager.emit(s, {
@@ -139,6 +143,44 @@ const game = (s) => {
     }
     particleManager.renderParticles(s);
     s.showHighScores();
+    await s.fetchLeaderBoard();
+    s.renderLeaderboard();
+  };
+
+  s.fetchLeaderBoard = async () => {
+    if (!hasFetched) {
+      hasFetched = true;
+      leaderboard = await Fetch.get();
+      console.log(leaderboard);
+    }
+  };
+
+  s.renderLeaderboard = () => {
+    if (leaderboard instanceof Array) {
+      s.textAlign(s.LEFT);
+      s.textSize(22);
+      const xPos = s.width / 8;
+      s.text("leaderboard:", xPos, s.height - s.height * 0.334);
+      leaderboard?.forEach((entry, idx) => {
+        s.textAlign(s.LEFT);
+        s.fill(255);
+        s.textSize(18);
+        s.text(
+          `${idx + 1}. ${entry.discord_user}`,
+          xPos,
+          s.height - s.height * 0.334 + 50 * (idx + 1)
+        );
+        s.fill(200);
+        s.textSize(12);
+        s.text(
+          `score: ${entry.score.toLocaleString()} | wave reached: ${
+            entry.level_reached
+          }`,
+          xPos,
+          s.height - s.height * 0.334 + 20 + 50 * (idx + 1)
+        );
+      });
+    }
   };
 
   s.saveScore = () => {
@@ -159,12 +201,19 @@ const game = (s) => {
       .sort((a, b) => b - a)
       .slice(0, 5)
       .map((num) => num.toLocaleString());
-    s.textSize(18);
-    s.fill(150, 150, 150);
-    s.text("your high scores:", s.width / 2, s.height / 2 + 150);
+    const xOffset = s.width / 8;
+    s.textSize(22);
+    s.textAlign(s.RIGHT);
+    s.fill(255);
+    s.text("your high scores:", s.width - xOffset, s.height - s.height * 0.334);
 
+    s.fill(200);
     topFiveScores.forEach((score, i) => {
-      s.text(score, s.width / 2, s.height / 2 + 150 + 25 * (i + 1));
+      s.text(
+        score,
+        s.width - xOffset,
+        s.height - s.height * 0.334 + 50 * (i + 1)
+      );
     });
   };
 

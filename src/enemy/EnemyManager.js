@@ -48,9 +48,9 @@ export class EnemyManager {
           y: enemy.y,
           numParticles: 10,
           colorRanges: {
-            r: { low: 5, high: 50 },
-            g: { low: 100, high: 255 },
-            b: { low: 150, high: 200 },
+            r: { low: 175, high: 255 },
+            g: { low: 100, high: 200 },
+            b: { low: 25, high: 75 },
           },
         });
         this.p5

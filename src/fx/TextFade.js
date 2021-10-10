@@ -26,7 +26,7 @@ export class TextFade {
   show = (s) => {
     this.update();
     s.fill(this.color.r, this.color.g, this.color.b, this.opacity);
-    const xOffset = this.text.length * (this.textSize * 0.334);
-    s.text(this.text, this.x - xOffset, this.y);
+    s.textAlign(s.CENTER);
+    s.text(this.text, this.x, this.y);
   };
 }

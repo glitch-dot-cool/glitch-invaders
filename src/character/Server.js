@@ -9,9 +9,10 @@ export class Server {
     // draw boundary of toxicity range + label
     s.fill(50, 50, 50);
     s.rect(oneThird, s.height - 25, oneThird, 10);
+    s.textAlign(s.CENTER);
     s.text(
       `server toxicity: ${this.toxicity}/${this.maxToxicity}`,
-      s.width * 0.5 - 110,
+      s.width * 0.5,
       s.height - 35
     );
 

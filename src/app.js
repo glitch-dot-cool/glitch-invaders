@@ -61,6 +61,7 @@ const game = (s) => {
     s.createCanvas(s.windowWidth, s.windowHeight);
     s.random(audio.songs).loop(0, 1, 0.5);
     s.textFont(font);
+    s.textAlign(s.CENTER);
     restartButton = s.createButton("restart");
     restartButton.mousePressed(() => location.reload());
     particleManager = new ParticleManager();
@@ -100,7 +101,7 @@ const game = (s) => {
   s.characterSelectionScene = () => {
     s.fill(200);
     s.textSize(24);
-    s.text("choose your fighter", s.width / 2 - 120, s.height / 2 - 60);
+    s.text("choose your fighter", s.width / 2, s.height / 2 - 60);
     possiblePlayerCharacters.forEach((character) => character.show(s));
   };
 
@@ -120,7 +121,7 @@ const game = (s) => {
   s.deathScene = () => {
     s.fill(175, 0, 0);
     s.textSize(64);
-    s.text("YOU ARE DEAD", s.width / 2 - 200, s.height / 2);
+    s.text("YOU ARE DEAD", s.width / 2, s.height / 2);
     restartButton.position(s.width / 2 - 35, s.height / 2 + 50);
 
     if (s.frameCount % 15 === 0) {
@@ -157,17 +158,13 @@ const game = (s) => {
     const topFiveScores = existingScores
       .sort((a, b) => b - a)
       .slice(0, 5)
-      .map((num) => String(num));
+      .map((num) => num.toLocaleString());
     s.textSize(18);
     s.fill(150, 150, 150);
-    s.text("your high scores:", s.width / 2 - 90, s.height / 2 + 150);
+    s.text("your high scores:", s.width / 2, s.height / 2 + 150);
 
     topFiveScores.forEach((score, i) => {
-      s.text(
-        score,
-        s.width / 2 - score.length * 2,
-        s.height / 2 + 150 + 25 * (i + 1)
-      );
+      s.text(score, s.width / 2, s.height / 2 + 150 + 25 * (i + 1));
     });
   };
 
@@ -249,6 +246,7 @@ const game = (s) => {
   s.renderScore = () => {
     s.fill(200);
     s.textSize(24);
+    s.textAlign(s.LEFT);
     s.text(`score: ${player.score.toLocaleString()}`, 5, s.height - 35);
     s.textSize(16);
     s.text(`multiplier: ${player.multiplier}x`, 5, s.height - 15);

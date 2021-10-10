@@ -49,9 +49,9 @@ export class Player {
       s.fill(70, 23, 209, 100);
       s.circle(this.x, this.y, this.size * 1.5);
       s.textSize(18);
+      s.textAlign(s.CENTER);
       s.fill(255);
-      const xOffset = String(this.shield.capacity).length * 5;
-      s.text(this.shield.capacity, this.x - xOffset, this.y + 5);
+      s.text(this.shield.capacity, this.x, this.y + 5);
     }
   };
 
@@ -64,16 +64,18 @@ export class Player {
     const healthBarWidth = s.map(this.health, 0, this.maxHealth, 0, oneThird);
     s.rect(oneThird, y, healthBarWidth, 10);
     s.textSize(16);
+    s.textAlign(s.CENTER);
     s.text(
       `moderator sanity: ${this.health}/${this.maxHealth}`,
-      s.width * 0.5 - 125,
+      s.width * 0.5,
       s.height - 75
     );
 
     if (this.shield.hasShield) {
       s.fill(70, 23, 209);
       s.textSize(14);
-      s.text("shield available!", s.width * 0.5 - 65, y - 30);
+      s.textAlign(s.CENTER);
+      s.text("shield available!", s.width * 0.5, y - 30);
     }
   };
 
@@ -185,6 +187,7 @@ export class Player {
     s.fill(0, greenAmount, 20);
     s.rect(s.width - maxWidth - 20, s.height - 50, barWidth, 30);
     s.fill(50, this.battery * 2.55);
+    s.textAlign(s.LEFT);
     s.text("battery", s.width - maxWidth - 10, s.height - 30);
   };
 

@@ -50,6 +50,7 @@ export class Enemy {
     // health text
     s.fill(s.map(this.health, this.maxHealth * 0.5, this.maxHealth, 255, 0));
     s.textSize(10);
+    s.textAlign(s.LEFT);
     s.text(`${this.health}/${this.maxHealth}`, this.x - 24, this.y - 26);
   };
 

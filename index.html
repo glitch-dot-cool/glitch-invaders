@@ -9,8 +9,27 @@
     <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/addons/p5.sound.min.js"></script>
     <script src="./src/app.js" type="module"></script>
+    <script src="./src/ui.js" type="module"></script>
     <link rel="stylesheet" href="./src/style.css">
     <link rel="shortcut icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png" />
 </head>
+
+
+<body>
+    <div class="container flex column center">
+        <label>
+            <div class="flex column center">
+                discord username:
+                <input id="username-input" />
+            </div>
+        </label>
+        <button id="submit-btn">submit score</button>
+    </div>
+
+    <div class="error-modal flex column center">
+        <p>error submitting score</p>
+        <p class="small-text">you must be a member of the glitch.cool discord to submit your scores</p>
+    </div>
+</body>
 
 </html>

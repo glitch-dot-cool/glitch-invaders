@@ -1,5 +1,7 @@
+import { setBaseUrl } from "./setBaseUrl.js";
+
 export class Fetch {
-  static baseUrl = "http://localhost:3000/invaders";
+  static baseUrl = setBaseUrl();
 
   static async get(endpoint = "score") {
     try {

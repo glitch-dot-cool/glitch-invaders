@@ -23,13 +23,14 @@ export class Fetch {
     try {
       const options = {
         method: "POST",
+        mode: "cors",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
         body: data,
       };
-      const response = await fetch(`${baseUrl}/${endpoint}`, options);
+      const response = await fetch(`${this.baseUrl}/${endpoint}`, options);
       if (response.ok) {
         return response.json();
       } else {

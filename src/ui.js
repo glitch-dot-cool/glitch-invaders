@@ -18,7 +18,8 @@ input.addEventListener("input", (e) => {
   inputText = e.target.value;
 });
 
-submitButton.addEventListener("click", async () => {
+submitButton.addEventListener("click", async (e) => {
+  e.preventDefault();
   const [mostRecentScore] = JSON.parse(
     localStorage.getItem("glitchInvadersScores")
   ).sort((a, b) => b.timestamp - a.timestamp);

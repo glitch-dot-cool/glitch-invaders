@@ -111,7 +111,7 @@ export class PowerupManager {
     const powerup = this.p5.random(pullRandomPowerupFrom);
     return new Powerup({
       x: this.p5.random(this.p5.width * 0.15, this.p5.width * 0.85),
-      y: this.p5.random(this.p5.height * 0.5),
+      y: this.p5.random(this.p5.height * 0.35),
       sprite: this.sprites[powerup.name],
       effect: {
         stat: powerup.name,

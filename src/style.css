@@ -3,6 +3,7 @@ body {
   padding: 0;
   overflow: hidden;
   background-color: black;
+  font-family: JetBrains Mono, monospace;
 }
 
 button {
@@ -12,4 +13,64 @@ button {
   padding: 1rem;
   font-family: monospace;
   border-radius: 3px;
+}
+
+button:hover {
+  background: #2c2c2c;
+  cursor: pointer;
+}
+
+label {
+  color: #efefef;
+}
+
+input {
+  background: #3c3c3c;
+  border: none;
+  padding: 0.5rem 1rem;
+  color: #efefef;
+  font-family: JetBrains Mono, monospace;
+  margin-top: 10px;
+}
+
+.flex {
+  display: flex;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.center {
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  display: none;
+  position: absolute;
+  top: 55vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+}
+
+.container > * {
+  margin: 0.5rem;
+}
+
+.error-modal {
+  display: none;
+  position: absolute;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+  background: #eb3734;
+  color: #efefef;
+  padding: 1rem 2rem;
+  border-radius: 3px;
+  text-align: center;
+}
+
+.small-text {
+  font-size: 12px;
 }

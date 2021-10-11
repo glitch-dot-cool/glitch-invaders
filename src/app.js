@@ -16,6 +16,7 @@ import { Fetch } from "./utils/fetch.js";
 
 const game = (s) => {
   const gameStates = { CHARACTER_SELECT: 0, PLAYING: 1, DEAD: 2 };
+  const deathEvent = new Event("death");
 
   let player,
     gun,
@@ -33,6 +34,8 @@ const game = (s) => {
     textFadeManager,
     leaderboard,
     hasFetched = false;
+
+  window.addEventListener("refreshScore", () => (hasFetched = false));
 
   const setSelectedPlayer = (character) => {
     gun = new Gun(s, sprites.bullet, audio.playerGun);
@@ -52,6 +55,9 @@ const game = (s) => {
 
   const setGameState = (state) => {
     gameState = state;
+    if (state === gameStates.DEAD) {
+      window.dispatchEvent(deathEvent);
+    }
   };
 
   s.preload = () => {
@@ -151,7 +157,6 @@ const game = (s) => {
     if (!hasFetched) {
       hasFetched = true;
       leaderboard = await Fetch.get();
-      console.log(leaderboard);
     }
   };
 

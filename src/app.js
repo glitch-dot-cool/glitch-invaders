@@ -25,7 +25,7 @@ const game = (s) => {
     starField,
     possiblePlayerCharacters,
     sprites,
-    gameState = gameStates.DEAD,
+    gameState = gameStates.CHARACTER_SELECT,
     font,
     restartButton,
     server,
@@ -188,9 +188,21 @@ const game = (s) => {
       localStorage.getItem("glitchInvadersScores")
     );
     const updatedScores = existingScores
-      ? // ? [...existingScores, player.score]
-        [...existingScores, { score: player.score, wave: enemyManager.wave }]
-      : [{ score: player.score, wave: enemyManager.wave }];
+      ? [
+          ...existingScores,
+          {
+            score: player.score,
+            wave: enemyManager.wave,
+            timestamp: Date.now(),
+          },
+        ]
+      : [
+          {
+            score: player.score,
+            wave: enemyManager.wave,
+            timestamp: Date.now(),
+          },
+        ];
     localStorage.setItem("glitchInvadersScores", JSON.stringify(updatedScores));
   };
 

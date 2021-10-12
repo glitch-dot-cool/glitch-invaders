@@ -20,7 +20,7 @@ export class PowerupManager {
         target: gun,
         description: "+bullet spread, -damage, -bullet size",
         iconScale: 0.5,
-        probability: 0.125,
+        probability: 0.25,
       },
       {
         name: "BATTERY",
@@ -52,7 +52,7 @@ export class PowerupManager {
         target: player,
         description: "+bomb",
         iconScale: 0.75,
-        probability: 0.1,
+        probability: 0.125,
       },
     ];
     this.period = 2; // how many rounds between powerups

@@ -8,11 +8,16 @@ import { PowerupManager } from "./item/PowerupManager.js";
 import { Server } from "./character/Server.js";
 import { rectCollisionDetect } from "./utils/rectCollisionDetect.js";
 import { getEntityBounds } from "./utils/getEntityBounds.js";
-import { spriteFileNames, audioFileNames } from "./constants.js";
 import { loadSprites, loadAudio } from "./utils/assetLoading.js";
 import { TextFade } from "./fx/TextFade.js";
 import { TextFadeManager } from "./fx/TextFadeManager.js";
 import { Fetch } from "./utils/fetch.js";
+import {
+  spriteFileNames,
+  audioFileNames,
+  perfModes,
+  perfModeSpecs,
+} from "./constants.js";
 
 const game = (s) => {
   const gameStates = { CHARACTER_SELECT: 0, PLAYING: 1, DEAD: 2 };
@@ -33,11 +38,13 @@ const game = (s) => {
     audio,
     textFadeManager,
     leaderboard,
-    hasFetched = false;
+    hasFetched = false,
+    perfMode = perfModes.LOW;
 
   window.addEventListener("refreshScore", () => (hasFetched = false));
 
   const setSelectedPlayer = (character) => {
+    setGraphicsSettings();
     gun = new Gun(s, sprites.bullet, audio.playerGun);
     player = new Player(s, character, gun, audio);
     gameState = gameStates.PLAYING;
@@ -51,6 +58,14 @@ const game = (s) => {
       audio.enemyHits
     );
     enemyManager.spawnEnemies(s);
+  };
+
+  const setGraphicsSettings = () => {
+    particleManager = new ParticleManager({
+      particleDensity: perfModeSpecs[perfMode].particles,
+    });
+    s.pixelDensity(perfModeSpecs[perfMode].renderResolution);
+    starField.updateGraphicsOptions(perfModeSpecs[perfMode].stars);
   };
 
   const setGameState = (state) => {
@@ -73,7 +88,6 @@ const game = (s) => {
     s.textAlign(s.CENTER);
     restartButton = s.createButton("restart");
     restartButton.mousePressed(() => location.reload());
-    particleManager = new ParticleManager();
     starField = new StarField(s);
     server = new Server();
     textFadeManager = new TextFadeManager();
@@ -247,72 +261,74 @@ const game = (s) => {
   };
 
   s.collisionTest = () => {
-    enemyManager.enemies.forEach((enemy, enemyIdx) => {
-      // handle enemies making it "past the front"
-      if (enemy.y > s.height) {
-        enemyManager.hitEnemy(s, enemyIdx, Infinity);
-        player.applyPenalty(enemy.pointValue);
-        server.takeDamage(
-          enemy.pointValue,
-          gameState,
-          setGameState,
-          gameStates,
-          s.saveScore
-        );
-      }
-
-      // handle bullet collisions with enemies
-      gun.bullets.forEach((bullet, bulletIdx) => {
-        const dist = s.dist(bullet.x, bullet.y, enemy.x, enemy.y);
-        if (dist < enemy.size) {
-          textFadeManager.add(
-            new TextFade({
-              x: enemy.x,
-              y: enemy.y - 30,
-              text: `-${bullet.damage}`,
-            })
+    if (s.frameCount % perfModeSpecs[perfMode].collisionTestFrequency === 0) {
+      enemyManager.enemies.forEach((enemy, enemyIdx) => {
+        // handle enemies making it "past the front"
+        if (enemy.y > s.height) {
+          enemyManager.hitEnemy(s, enemyIdx, Infinity);
+          player.applyPenalty(enemy.pointValue);
+          server.takeDamage(
+            enemy.pointValue,
+            gameState,
+            setGameState,
+            gameStates,
+            s.saveScore
           );
-          gun.deleteBullet(bulletIdx);
-          enemyManager.hitEnemy(s, enemyIdx, bullet.damage);
-          player.updateScore(enemy.pointValue);
+        }
+
+        // handle bullet collisions with enemies
+        gun.bullets.forEach((bullet, bulletIdx) => {
+          const dist = s.dist(bullet.x, bullet.y, enemy.x, enemy.y);
+          if (dist < enemy.size) {
+            textFadeManager.add(
+              new TextFade({
+                x: enemy.x,
+                y: enemy.y - 30,
+                text: `-${bullet.damage}`,
+              })
+            );
+            gun.deleteBullet(bulletIdx);
+            enemyManager.hitEnemy(s, enemyIdx, bullet.damage);
+            player.updateScore(enemy.pointValue);
+          }
+        });
+
+        // handle enemies hitting player
+        const dist = s.dist(enemy.x, enemy.y, player.x, player.y);
+        if (dist < enemy.size) {
+          if (!player.shield.isActive) {
+            player.hit(enemy, gameState, setGameState, gameStates, s.saveScore);
+          } else player.takeShieldDamage(1);
+          enemyManager.hitEnemy(s, enemyIdx, Infinity);
         }
       });
-
-      // handle enemies hitting player
-      const dist = s.dist(enemy.x, enemy.y, player.x, player.y);
-      if (dist < enemy.size) {
-        if (!player.shield.isActive) {
-          player.hit(enemy, gameState, setGameState, gameStates, s.saveScore);
-        } else player.takeShieldDamage(1);
-        enemyManager.hitEnemy(s, enemyIdx, Infinity);
-      }
-    });
-    // handle collisions w/ powerups
-    powerupManager.activePowerups.forEach((powerup, idx) => {
-      const playerBounds = getEntityBounds(player);
-      const powerupBounds = getEntityBounds(powerup, "rect");
-      const isPowerupCollidingPlayer = rectCollisionDetect(
-        playerBounds,
-        powerupBounds
-      );
-      if (isPowerupCollidingPlayer) {
-        powerup.consume(s);
-        textFadeManager.add(
-          new TextFade({
-            x: powerup.x,
-            y: powerup.y + 30,
-            text: powerup.effect.description,
-          })
+      // handle collisions w/ powerups
+      powerupManager.activePowerups.forEach((powerup, idx) => {
+        const playerBounds = getEntityBounds(player);
+        const powerupBounds = getEntityBounds(powerup, "rect");
+        const isPowerupCollidingPlayer = rectCollisionDetect(
+          playerBounds,
+          powerupBounds
         );
-        powerupManager.addToCollectedPowerups(powerup);
-        powerupManager.purge(idx);
-      }
+        if (isPowerupCollidingPlayer) {
+          powerup.consume(s);
+          textFadeManager.add(
+            new TextFade({
+              x: powerup.x,
+              y: powerup.y + 30,
+              text: powerup.effect.description,
+            })
+          );
+          powerupManager.addToCollectedPowerups(powerup);
+          powerupManager.purge(idx);
+        }
 
-      // handle powerups going offscreen
-      if (powerupBounds.top > s.height) {
-        powerupManager.purge(idx);
-      }
-    });
+        // handle powerups going offscreen
+        if (powerupBounds.top > s.height) {
+          powerupManager.purge(idx);
+        }
+      });
+    }
   };
 
   s.renderScore = () => {

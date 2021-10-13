@@ -45,3 +45,38 @@ export const audioFileNames = {
   playerGuns,
   songs,
 };
+
+// perf modes
+export const perfModes = { DEFAULT: "default", MEDIUM: "medium", LOW: "low" };
+export const perfModeSpecs = {
+  default: {
+    stars: {
+      density: 1,
+      updateRate: 1,
+    },
+    particles: 1,
+    renderResolution: 1,
+    damageIndicators: true,
+    collisionTestFrequency: 1,
+  },
+  medium: {
+    stars: {
+      density: 0.5,
+      updateRate: 1,
+    },
+    particles: 0.75,
+    renderResolution: 0.9,
+    damageIndicators: true,
+    collisionTestFrequency: 1,
+  },
+  low: {
+    stars: {
+      density: 0.2,
+      updateRate: 2,
+    },
+    particles: 0.25,
+    renderResolution: 0.85,
+    damageIndicators: false,
+    collisionTestFrequency: 2, // every other frame
+  },
+};

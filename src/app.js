@@ -39,9 +39,12 @@ const game = (s) => {
     textFadeManager,
     leaderboard,
     hasFetched = false,
-    perfMode = perfModes.LOW;
+    perfMode = perfModes.DEFAULT;
 
   window.addEventListener("refreshScore", () => (hasFetched = false));
+  window.addEventListener("setPerfMode", ({ detail }) => {
+    perfMode = detail;
+  });
 
   const setSelectedPlayer = (character) => {
     setGraphicsSettings();
@@ -61,6 +64,8 @@ const game = (s) => {
   };
 
   const setGraphicsSettings = () => {
+    document.querySelector(".graphics-options-container").style.display =
+      "none";
     particleManager = new ParticleManager({
       particleDensity: perfModeSpecs[perfMode].particles,
     });

@@ -1,3 +1,9 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -73,4 +79,29 @@ input {
 
 .small-text {
   font-size: 12px;
+}
+
+.graphics-options-container {
+  position: absolute;
+  bottom: 0;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+}
+
+.graphics-options-container p {
+  text-align: center;
+  margin-bottom: 0.75rem;
+  color: #6c6c6c;
+}
+
+#low {
+  background: #eb3734;
+}
+
+#mid {
+  background: #ee7606;
+}
+
+#high {
+  background: #0ff751;
 }

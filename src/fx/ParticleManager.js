@@ -1,14 +1,17 @@
 import { Particle } from "./Particle.js";
 
 export class ParticleManager {
-  constructor() {
+  constructor({ particleDensity }) {
     this.particles = [];
     this.particlesPerExplosion = 15;
+    this.particleDensity = particleDensity;
   }
 
   emit = (s, particleOptions) => {
-    const iterations =
-      particleOptions.numParticles || this.particlesPerExplosion;
+    const iterations = Math.floor(
+      (particleOptions.numParticles || this.particlesPerExplosion) *
+        this.particleDensity
+    );
     for (let i = 0; i < iterations; i++) {
       this.particles.push(new Particle(s, { ...particleOptions }));
     }

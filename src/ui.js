@@ -1,9 +1,13 @@
 import { Fetch } from "./utils/fetch.js";
+import { perfModes } from "./constants.js";
 
 const input = document.querySelector("#username-input");
 const inputContainer = document.querySelector(".container");
 const submitButton = document.querySelector("#submit-btn");
 const errorModal = document.querySelector(".error-modal");
+const graphicsOptionsContainer = document.querySelector(
+  ".graphics-options-container"
+);
 
 const refreshScore = new Event("refreshScore");
 
@@ -43,4 +47,23 @@ submitButton.addEventListener("click", async (e) => {
       window.dispatchEvent(refreshScore);
     }
   }
+});
+
+graphicsOptionsContainer.addEventListener("click", (e) => {
+  let selectedPerfMode = perfModes.DEFAULT;
+  switch (e.target.id) {
+    case "low":
+      selectedPerfMode = perfModes.LOW;
+      break;
+    case "mid":
+      selectedPerfMode = perfModes.MEDIUM;
+      break;
+    case "high":
+      selectedPerfMode = perfModes.DEFAULT;
+      break;
+  }
+  const setPerfMode = new CustomEvent("setPerfMode", {
+    detail: selectedPerfMode,
+  });
+  dispatchEvent(setPerfMode);
 });

@@ -110,7 +110,7 @@ const game = (s) => {
   };
 
   s.draw = () => {
-    s.background(0);
+    s.background(0, 80);
     starField.update();
 
     switch (gameState) {

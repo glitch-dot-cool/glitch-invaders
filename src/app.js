@@ -92,6 +92,7 @@ const game = (s) => {
     s.textFont(font);
     s.textAlign(s.CENTER);
     restartButton = s.createButton("restart");
+    restartButton.class("hide restart-button");
     restartButton.mousePressed(() => location.reload());
     starField = new StarField(s);
     server = new Server();
@@ -151,7 +152,7 @@ const game = (s) => {
     s.textSize(64);
     s.textAlign(s.CENTER);
     s.text("YOU ARE DEAD", s.width / 2, s.height / 3);
-    restartButton.position(s.width / 2 - 35, s.height / 3 + 50);
+    restartButton.class("show restart-button");
 
     if (s.frameCount % 15 === 0) {
       particleManager.emit(s, {

@@ -39,6 +39,14 @@ input {
   margin-top: 10px;
 }
 
+.hide {
+  display: none;
+}
+
+.show {
+  display: flex;
+}
+
 .flex {
   display: flex;
 }
@@ -119,4 +127,11 @@ input {
   color: #efefef;
   border-radius: 3px;
   text-align: center;
+}
+
+.restart-button {
+  position: absolute;
+  top: 40vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
 }

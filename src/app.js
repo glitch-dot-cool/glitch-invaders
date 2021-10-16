@@ -58,7 +58,7 @@ const game = (s) => {
       s,
       powerupManager,
       particleManager,
-      sprites.enemies,
+      sprites,
       audio.enemyHits
     );
     enemyManager.spawnEnemies(s);
@@ -271,7 +271,11 @@ const game = (s) => {
 
   s.collisionTest = () => {
     if (s.frameCount % perfModeSpecs[perfMode].collisionTestFrequency === 0) {
+      const playerBounds = getEntityBounds(player);
+
       enemyManager.enemies.forEach((enemy, enemyIdx) => {
+        const enemyBounds = getEntityBounds(enemy, "rect");
+
         // handle enemies making it "past the front"
         if (enemy.y > s.height) {
           enemyManager.hitEnemy(s, enemyIdx, Infinity);
@@ -287,8 +291,13 @@ const game = (s) => {
 
         // handle bullet collisions with enemies
         gun.bullets.forEach((bullet, bulletIdx) => {
-          const dist = s.dist(bullet.x, bullet.y, enemy.x, enemy.y);
-          if (dist < enemy.size) {
+          const bulletBounds = getEntityBounds(bullet);
+          const isBulletCollidingEnemy = rectCollisionDetect(
+            bulletBounds,
+            enemyBounds
+          );
+
+          if (isBulletCollidingEnemy) {
             textFadeManager.add(
               new TextFade({
                 x: enemy.x,
@@ -297,14 +306,17 @@ const game = (s) => {
               })
             );
             gun.deleteBullet(bulletIdx);
-            enemyManager.hitEnemy(s, enemyIdx, bullet.damage);
+            enemyManager.hitEnemy(s, enemyIdx, bullet.damage, bullet);
             player.updateScore(enemy.pointValue);
           }
         });
 
         // handle enemies hitting player
-        const dist = s.dist(enemy.x, enemy.y, player.x, player.y);
-        if (dist < enemy.size) {
+        const isEnemyColidingPlayer = rectCollisionDetect(
+          playerBounds,
+          enemyBounds
+        );
+        if (isEnemyColidingPlayer) {
           if (!player.shield.isActive) {
             player.hit(enemy, gameState, setGameState, gameStates, s.saveScore);
           } else player.takeShieldDamage(1);
@@ -313,7 +325,6 @@ const game = (s) => {
       });
       // handle collisions w/ powerups
       powerupManager.activePowerups.forEach((powerup, idx) => {
-        const playerBounds = getEntityBounds(player);
         const powerupBounds = getEntityBounds(powerup, "rect");
         const isPowerupCollidingPlayer = rectCollisionDetect(
           playerBounds,
@@ -355,6 +366,7 @@ const game = (s) => {
       player: loadSprites(s, spriteFileNames.players, "characters"),
       enemies: loadSprites(s, spriteFileNames.enemies, "enemies"),
       bullet: s.loadImage("assets/logo_bullet.png"),
+      boss: s.loadImage("assets/boss/boss.png"),
       powerups: {
         RATE_OF_FIRE: s.loadImage("assets/powerups/fire_rate.png"),
         BULLET_FAN: s.loadImage("assets/powerups/increase_bullets.png"),

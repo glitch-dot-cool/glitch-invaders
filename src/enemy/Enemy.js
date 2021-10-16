@@ -1,7 +1,9 @@
 export class Enemy {
   constructor(s, enemySprites, wave) {
+    this.type = "REGULAR";
     this.wave = wave;
-    this.size = 32;
+    this.width = 32;
+    this.height = this.width;
     this.x = s.random(s.width * 0.1, s.width * 0.9);
     this.y = 0;
     this.pointValues = [5, 10, 15, 20];
@@ -24,6 +26,7 @@ export class Enemy {
           )
         )
       ];
+    this.healthBarWidth = 50;
   }
 
   show = (s) => {
@@ -32,26 +35,38 @@ export class Enemy {
       (this.pointValue * 0.075 * 1 + this.wave * 0.0525) *
       (s.height / this.baselineScreenHeight);
 
-    s.image(this.sprite, this.x, this.y, this.size, this.size);
+    s.image(this.sprite, this.x, this.y, this.width, this.height);
     this.move(Math.floor(s.millis() * 0.001));
     this.drawHealth(s);
   };
 
   drawHealth = (s) => {
-    const healthbarWidth = s.map(this.health, 0, this.maxHealth, 0, 50);
+    const currentHealthWidth = s.map(
+      this.health,
+      0,
+      this.maxHealth,
+      0,
+      this.healthBarWidth
+    );
+    const halfHealthWidth = this.healthBarWidth * 0.5;
     const red = s.map(this.health, this.maxHealth, 0, 0, 255);
     const green = s.map(this.health, 0, this.maxHealth, 0, 200);
 
     // health bar
+    const yPos = this.y - this.height * 0.5 - 30;
     s.fill(50, 50, 50);
-    s.rect(this.x - 25, this.y - 35, 50, 10);
+    s.rect(this.x - halfHealthWidth, yPos, this.healthBarWidth, 10);
     s.fill(red, green, 0);
-    s.rect(this.x - 25, this.y - 35, healthbarWidth, 10);
+    s.rect(this.x - halfHealthWidth, yPos, currentHealthWidth, 10);
     // health text
     s.fill(s.map(this.health, this.maxHealth * 0.5, this.maxHealth, 255, 0));
     s.textSize(10);
     s.textAlign(s.LEFT);
-    s.text(`${this.health}/${this.maxHealth}`, this.x - 24, this.y - 26);
+    s.text(
+      `${this.health}/${this.maxHealth}`,
+      this.x - halfHealthWidth,
+      yPos + 9
+    );
   };
 
   move = (seconds) => {

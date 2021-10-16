@@ -13,6 +13,7 @@ const players = [
 ];
 
 const enemies = ["tears1", "tears2", "tears3", "tears4"];
+const boss = ["boss"];
 
 const powerups = [
   "fire_rate",
@@ -30,6 +31,7 @@ export const spriteFileNames = {
   enemies,
   powerups,
   bullets,
+  boss,
 };
 
 // base audio filenames

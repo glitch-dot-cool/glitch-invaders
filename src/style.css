@@ -141,3 +141,7 @@ input {
 #print {
   color: #3c3c3c;
 }
+
+.dim {
+  filter: brightness(50%);
+}

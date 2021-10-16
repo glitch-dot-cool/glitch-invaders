@@ -56,6 +56,7 @@ submitButton.addEventListener("click", async (e) => {
 
 graphicsOptionsContainer.addEventListener("click", (e) => {
   let selectedPerfMode = perfModes.DEFAULT;
+  dimSelectedGraphicsSetting(e.target);
   switch (e.target.id) {
     case "low":
       selectedPerfMode = perfModes.LOW;
@@ -72,3 +73,11 @@ graphicsOptionsContainer.addEventListener("click", (e) => {
   });
   dispatchEvent(setPerfMode);
 });
+
+const dimSelectedGraphicsSetting = (target) => {
+  target.classList.add("dim");
+  const otherOptions = graphicsOptionsContainer.querySelectorAll("button");
+  [...otherOptions]
+    .filter((btn) => btn.id !== target.id)
+    .forEach((btn) => btn.classList.remove("dim"));
+};

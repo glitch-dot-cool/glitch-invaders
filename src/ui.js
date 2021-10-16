@@ -3,12 +3,10 @@ import { perfModes } from "./constants.js";
 import { detectMobile } from "./utils/detectMobile.js";
 
 const input = document.querySelector("#username-input");
-const inputContainer = document.querySelector(".container");
+const inputContainer = document.querySelector(".form");
 const submitButton = document.querySelector("#submit-btn");
 const errorModal = document.querySelector(".error-modal");
-const graphicsOptionsContainer = document.querySelector(
-  ".graphics-options-container"
-);
+const graphicsOptionsContainer = document.querySelector(".graphics-options");
 const mobileWarningModal = document.querySelector(".mobile-modal");
 
 const isMobile = detectMobile();
@@ -49,7 +47,7 @@ submitButton.addEventListener("click", async (e) => {
       errorModal.style.display = "block";
       setTimeout(() => {
         errorModal.style.display = "none";
-      }, 2000);
+      }, 3000);
     } else {
       hasSubmitted = true;
       window.dispatchEvent(refreshScore);

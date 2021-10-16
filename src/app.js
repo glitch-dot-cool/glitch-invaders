@@ -64,8 +64,7 @@ const game = (s) => {
   };
 
   const setGraphicsSettings = () => {
-    document.querySelector(".graphics-options-container").style.display =
-      "none";
+    document.querySelector(".graphics-options").style.display = "none";
     particleManager = new ParticleManager({
       particleDensity: perfModeSpecs[perfMode].particles,
     });

@@ -231,16 +231,16 @@ export class Player {
   };
 
   deployBomb = (s, powerupManager, enemyManager) => {
-    this.bombSound.play();
-    setTimeout(() => {
-      if (this.bombs > 0) {
+    if (this.bombs > 0) {
+      this.bombSound.play();
+      setTimeout(() => {
         this.multiplier = 1;
         this.bombs--;
         powerupManager.collectedPowerups.BOMB.count--;
         enemyManager.enemies.forEach((_, idx) => {
           enemyManager.hitEnemy(s, idx, Infinity);
         });
-      }
-    }, 500);
+      }, 500);
+    }
   };
 }

@@ -12,6 +12,7 @@ import { loadSprites, loadAudio } from "./utils/assetLoading.js";
 import { TextFade } from "./fx/TextFade.js";
 import { TextFadeManager } from "./fx/TextFadeManager.js";
 import { Fetch } from "./utils/fetch.js";
+import { detectMobile } from "./utils/detectMobile.js";
 import {
   spriteFileNames,
   audioFileNames,
@@ -80,9 +81,11 @@ const game = (s) => {
   };
 
   s.preload = () => {
-    s.preloadSprites();
-    s.preloadAudio();
     font = s.loadFont("assets/JetBrainsMono-Regular.ttf");
+    if (!detectMobile()) {
+      s.preloadSprites();
+      s.preloadAudio();
+    }
   };
 
   s.setup = () => {

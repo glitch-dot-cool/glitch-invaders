@@ -130,6 +130,7 @@ const game = (s) => {
   };
 
   s.characterSelectionScene = () => {
+    document.querySelector(".graphics-options").style.display = "block";
     s.fill(200);
     s.textSize(24);
     s.text("choose your fighter", s.width / 2, s.height / 2 - 60);

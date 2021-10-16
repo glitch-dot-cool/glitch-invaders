@@ -128,3 +128,16 @@ input {
   left: 50vw;
   transform: translate(-50%, -50%);
 }
+
+#p5_loading {
+  color: #efefef;
+  font-size: 72;
+}
+
+#command {
+  color: #efefef;
+}
+
+#print {
+  color: #3c3c3c;
+}

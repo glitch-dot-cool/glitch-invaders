@@ -12,7 +12,7 @@ const mobileWarningModal = document.querySelector(".mobile-modal");
 const isMobile = detectMobile();
 if (isMobile) {
   mobileWarningModal.style.display = "flex";
-} else graphicsOptionsContainer.style.display = "block";
+}
 
 const refreshScore = new Event("refreshScore");
 

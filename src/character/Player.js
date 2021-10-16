@@ -23,6 +23,8 @@ export class Player {
     this.gun = gun;
     this.hitSound = audio.playerHit;
     this.deathSounds = audio.playerDeaths;
+    this.bombSound = audio.bomb;
+    this.shieldSound = audio.shield;
     this.shield = {
       maxCapacity: 0,
       capacity: 0,
@@ -223,18 +225,22 @@ export class Player {
   };
 
   useShield = () => {
+    this.shieldSound.play();
     this.shield.isActive = true;
     this.shield.hasShield = false;
   };
 
   deployBomb = (s, powerupManager, enemyManager) => {
-    if (this.bombs > 0) {
-      this.multiplier = 1;
-      this.bombs--;
-      powerupManager.collectedPowerups.BOMB.count--;
-      enemyManager.enemies.forEach((_, idx) => {
-        enemyManager.hitEnemy(s, idx, Infinity);
-      });
-    }
+    this.bombSound.play();
+    setTimeout(() => {
+      if (this.bombs > 0) {
+        this.multiplier = 1;
+        this.bombs--;
+        powerupManager.collectedPowerups.BOMB.count--;
+        enemyManager.enemies.forEach((_, idx) => {
+          enemyManager.hitEnemy(s, idx, Infinity);
+        });
+      }
+    }, 500);
   };
 }

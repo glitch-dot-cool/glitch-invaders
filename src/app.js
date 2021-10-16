@@ -326,6 +326,7 @@ const game = (s) => {
           );
           powerupManager.addToCollectedPowerups(powerup);
           powerupManager.purge(idx);
+          audio.powerupPickup.play();
         }
 
         // handle powerups going offscreen
@@ -368,6 +369,9 @@ const game = (s) => {
       playerHit: loadAudio(s, audioFileNames.playerHits, "player_hit")[0],
       playerGun: loadAudio(s, audioFileNames.playerGuns, "player_gun")[0],
       songs: loadAudio(s, audioFileNames.songs, "music"),
+      powerupPickup: loadAudio(s, audioFileNames.powerup, "powerup")[0],
+      shield: loadAudio(s, audioFileNames.shield, "shield")[0],
+      bomb: loadAudio(s, audioFileNames.bomb, "bomb")[0],
     };
   };
 

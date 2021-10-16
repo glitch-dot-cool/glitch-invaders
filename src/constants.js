@@ -38,12 +38,18 @@ const playerHits = ["playerDamage"];
 const playerDeaths = ["playerDeath1", "playerDeath2"];
 const playerGuns = ["playerGun"];
 const songs = ["invaders"];
+const powerup = ["powerup"];
+const shield = ["shield"];
+const bomb = ["bomb"];
 export const audioFileNames = {
   enemyHits,
   playerHits,
   playerDeaths,
   playerGuns,
   songs,
+  powerup,
+  shield,
+  bomb,
 };
 
 // perf modes

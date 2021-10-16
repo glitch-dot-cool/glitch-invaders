@@ -89,6 +89,7 @@ input {
 }
 
 .graphics-options {
+  display: none;
   bottom: 0;
   top: inherit;
 }

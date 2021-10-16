@@ -113,7 +113,7 @@ export class Player {
     }
 
     // shield
-    if (s.keyIsDown(90)) {
+    if (s.keyIsDown(90) || s.keyIsDown(83)) {
       if (this.shield.capacity > 0) {
         this.useShield();
       }

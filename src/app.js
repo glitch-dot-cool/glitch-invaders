@@ -384,7 +384,7 @@ const game = (s) => {
   };
 
   s.keyPressed = () => {
-    if (s.keyCode === 88) {
+    if (s.keyCode === 88 || s.keyCode === 68) {
       player.deployBomb(s, powerupManager, enemyManager);
     }
   };

@@ -154,7 +154,17 @@ const game = (s) => {
     s.fill(175, 0, 0);
     s.textSize(64);
     s.textAlign(s.CENTER);
-    s.text("YOU ARE DEAD", s.width / 2, s.height / 3);
+    s.text("YOU ARE DEAD", s.width / 2, s.height / 3 - 30);
+    const score = JSON.parse(localStorage.getItem("glitchInvadersScores")).sort(
+      (a, b) => b.timestamp - a.timestamp
+    )[0];
+    s.textSize(18);
+    s.text(
+      `your score: ${score.score} | wave reached: ${score.wave}`,
+      s.width * 0.5,
+      s.height / 3
+    );
+
     restartButton.class("show restart-button");
 
     if (s.frameCount % 15 === 0) {

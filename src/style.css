@@ -105,3 +105,18 @@ input {
 #high {
   background: #0ff751;
 }
+
+.mobile-modal {
+  display: none;
+  position: absolute;
+  padding: 2rem;
+  width: 100%;
+  height: 80vh;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+  background: #eb3734;
+  color: #efefef;
+  border-radius: 3px;
+  text-align: center;
+}

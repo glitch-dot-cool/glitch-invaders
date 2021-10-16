@@ -1,5 +1,6 @@
 import { Fetch } from "./utils/fetch.js";
 import { perfModes } from "./constants.js";
+import { detectMobile } from "./utils/detectMobile.js";
 
 const input = document.querySelector("#username-input");
 const inputContainer = document.querySelector(".container");
@@ -8,6 +9,13 @@ const errorModal = document.querySelector(".error-modal");
 const graphicsOptionsContainer = document.querySelector(
   ".graphics-options-container"
 );
+const mobileWarningModal = document.querySelector(".mobile-modal");
+
+const isMobile = detectMobile();
+if (isMobile) {
+  mobileWarningModal.style.display = "flex";
+  graphicsOptionsContainer.style.display = "none";
+}
 
 const refreshScore = new Event("refreshScore");
 

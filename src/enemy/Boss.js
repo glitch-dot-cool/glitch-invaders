@@ -4,13 +4,13 @@ export class Boss extends Enemy {
   constructor(s, sprite, wave) {
     super(s, sprite, wave);
     this.type = "BOSS";
-    this.maxHealth = 400 + wave * 5;
+    this.maxHealth = 850 + wave * 15;
     this.health = this.maxHealth;
-    this.width = sprite.width;
-    this.height = sprite.height;
+    this.width = sprite.width * 0.6;
+    this.height = sprite.height * 0.6;
     this.sprite = sprite;
     this.pointValue = 200 + wave * 5;
-    this.speed = 1.25;
+    this.speed = 0.6;
     this.healthBarWidth = 200;
   }
 

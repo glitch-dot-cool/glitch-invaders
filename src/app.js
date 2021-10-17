@@ -52,7 +52,6 @@ const game = (s) => {
     gun = new Gun(s, sprites.bullet, audio.playerGun);
     player = new Player(s, character, gun, audio);
     gameState = gameStates.PLAYING;
-    possiblePlayerCharacters = null;
     powerupManager = new PowerupManager(s, sprites.powerups, gun, player);
     enemyManager = new EnemyManager(
       s,
@@ -95,7 +94,7 @@ const game = (s) => {
     s.textAlign(s.CENTER);
     restartButton = s.createButton("restart");
     restartButton.class("hide restart-button");
-    restartButton.mousePressed(() => location.reload());
+    restartButton.mousePressed(() => setGameState(gameStates.CHARACTER_SELECT));
     starField = new StarField(s);
     server = new Server();
     textFadeManager = new TextFadeManager();
@@ -131,8 +130,12 @@ const game = (s) => {
 
   s.characterSelectionScene = () => {
     document.querySelector(".graphics-options").style.display = "block";
+    document.querySelector(".form").style.display = "none";
+    restartButton.class("hide restart-button");
+    server.toxicity = 0;
     s.fill(200);
     s.textSize(24);
+    s.textAlign(s.CENTER);
     s.text("choose your fighter", s.width / 2, s.height / 2 - 60);
     possiblePlayerCharacters.forEach((character) => character.show(s));
   };

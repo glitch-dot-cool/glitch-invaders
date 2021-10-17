@@ -12,7 +12,6 @@ export class PowerupManager {
         target: gun,
         description: "+rate of fire",
         iconScale: 0.5,
-        probability: 0.25,
       },
       {
         name: "BULLET_FAN",
@@ -20,7 +19,6 @@ export class PowerupManager {
         target: gun,
         description: "+bullet spread, -damage, -bullet size",
         iconScale: 0.5,
-        probability: 0.25,
       },
       {
         name: "BATTERY",
@@ -28,7 +26,6 @@ export class PowerupManager {
         target: player,
         description: "+battery regen, +max battery",
         iconScale: 0.5,
-        probability: 0.65,
       },
       {
         name: "DAMAGE",
@@ -36,7 +33,6 @@ export class PowerupManager {
         target: gun,
         description: "+damage",
         iconScale: 1,
-        probability: 0.5,
       },
       {
         name: "SHIELD",
@@ -44,7 +40,6 @@ export class PowerupManager {
         target: player,
         description: "+shield",
         iconScale: 0.75,
-        probability: 0.5,
       },
       {
         name: "BOMB",
@@ -52,12 +47,12 @@ export class PowerupManager {
         target: player,
         description: "+bomb",
         iconScale: 0.75,
-        probability: 0.125,
       },
     ];
     this.period = 2; // how many rounds between powerups
     this.activePowerups = [];
     this.collectedPowerups = initPowerupCounter(this.powerups, this.sprites);
+    this.currentPowerup = 0;
   }
 
   show = (s) => {
@@ -102,13 +97,9 @@ export class PowerupManager {
   };
 
   createNextPowerup = () => {
-    const filteredPowerups = this.powerups.filter(
-      (powerup) => powerup.probability > Math.random()
-    );
-    const pullRandomPowerupFrom = filteredPowerups.length
-      ? filteredPowerups
-      : this.powerups;
-    const powerup = this.p5.random(pullRandomPowerupFrom);
+    if (this.currentPowerup < this.powerups.length - 1) this.currentPowerup++;
+    else this.currentPowerup = 0;
+    const powerup = this.powerups[this.currentPowerup];
     return new Powerup({
       x: this.p5.random(this.p5.width * 0.15, this.p5.width * 0.85),
       y: this.p5.random(this.p5.height * 0.35),

@@ -422,9 +422,20 @@ const game = (s) => {
 
     // esc or p key
     if (s.keyCode === 27 || s.keyCode === 80) {
-      isPaused = isPaused ? false : true;
-      isPaused ? s.noLoop() : s.loop();
-      isPaused ? s.background(0) : null; // removes "motion blur" on pause for effect
+      s.handlePause();
+    }
+  };
+
+  s.handlePause = () => {
+    isPaused = isPaused ? false : true;
+    enemyManager.isPaused = isPaused;
+
+    if (isPaused) {
+      s.noLoop();
+      s.background(0); // removes "motion blur" on pause for effect
+    } else {
+      enemyManager.spawnEnemies(s);
+      s.loop();
     }
   };
 

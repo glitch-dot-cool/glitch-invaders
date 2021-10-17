@@ -282,7 +282,9 @@ const game = (s) => {
 
   s.mousePressed = () => {
     if (gameState === gameStates.CHARACTER_SELECT) {
-      possiblePlayerCharacters.forEach((character) => character.clicked(s));
+      possiblePlayerCharacters.forEach((character) =>
+        character.clicked(s, isPaused)
+      );
     }
   };
 

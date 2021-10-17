@@ -15,10 +15,12 @@ export class PlayerPreview {
     this.x = this.renderer.width * this.xRatio;
   };
 
-  clicked = (s) => {
-    const dist = s.dist(s.mouseX, s.mouseY, this.x, this.y);
-    if (dist < this.size / 2) {
-      this.setSelectedPlayer(this.sprite);
+  clicked = (s, isPaused) => {
+    if (!isPaused) {
+      const dist = s.dist(s.mouseX, s.mouseY, this.x, this.y);
+      if (dist < this.size / 2) {
+        this.setSelectedPlayer(this.sprite);
+      }
     }
   };
 }

@@ -86,6 +86,7 @@ export class EnemyManager {
   displayCurrentWave = (s) => {
     s.fill(100, 100, 200);
     s.textAlign(s.RIGHT);
+    s.textSize(18);
     s.text(`wave #${this.wave}`, s.width - 65, s.height - 60);
   };
 }

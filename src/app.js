@@ -40,7 +40,8 @@ const game = (s) => {
     textFadeManager,
     leaderboard,
     hasFetched = false,
-    perfMode = perfModes.DEFAULT;
+    perfMode = perfModes.DEFAULT,
+    isPaused = false;
 
   window.addEventListener("refreshScore", () => (hasFetched = false));
   window.addEventListener("setPerfMode", ({ detail }) => {
@@ -126,6 +127,9 @@ const game = (s) => {
         s.deathScene();
         break;
     }
+
+    // need to run in draw loop to run on top of whatever is drawn into scene
+    s.drawIsPaused();
   };
 
   s.characterSelectionScene = () => {
@@ -409,8 +413,29 @@ const game = (s) => {
   };
 
   s.keyPressed = () => {
+    // x or d key
     if (s.keyCode === 88 || s.keyCode === 68) {
       player.deployBomb(s, powerupManager, enemyManager);
+    }
+
+    // esc or p key
+    if (s.keyCode === 27 || s.keyCode === 80) {
+      isPaused = isPaused ? false : true;
+      isPaused ? s.noLoop() : s.loop();
+      isPaused ? s.background(0) : null; // removes "motion blur" on pause for effect
+    }
+  };
+
+  s.drawIsPaused = () => {
+    if (isPaused) {
+      s.textAlign(s.CENTER);
+      s.textSize(48);
+      s.fill(255, 0, 0, 100);
+      s.text("PAUSED", s.width / 2 + 3, s.height / 3);
+      s.fill(0, 255, 0, 100);
+      s.text("PAUSED", s.width / 2, s.height / 3);
+      s.fill(0, 0, 255, 100);
+      s.text("PAUSED", s.width / 2 - 3, s.height / 3);
     }
   };
 };

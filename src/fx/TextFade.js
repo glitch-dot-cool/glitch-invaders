@@ -27,6 +27,7 @@ export class TextFade {
     this.update();
     s.fill(this.color.r, this.color.g, this.color.b, this.opacity);
     s.textAlign(s.CENTER);
+    s.textSize(18);
     s.text(this.text, this.x, this.y);
   };
 }

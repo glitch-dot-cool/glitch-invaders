@@ -415,7 +415,7 @@ const game = (s) => {
   s.keyPressed = () => {
     // x or d key
     if (s.keyCode === 88 || s.keyCode === 68) {
-      player.deployBomb(s, powerupManager, enemyManager);
+      player?.deployBomb(s, powerupManager, enemyManager);
     }
 
     // esc or p key

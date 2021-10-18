@@ -102,7 +102,7 @@ const game = (s) => {
     const spriteSize = 48;
     possiblePlayerCharacters = sprites.player.map((sprite, idx) => {
       return new PlayerPreview(
-        s.width / 2 + idx * (spriteSize * 1.2) - 250,
+        s.width / 2 + idx * (spriteSize * 1.2) - 300,
         s.height / 2,
         sprite,
         spriteSize,

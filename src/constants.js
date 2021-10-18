@@ -10,6 +10,7 @@ const players = [
   "sunnk",
   "vaeprism",
   "abroxis",
+  "hlessi",
 ];
 
 const enemies = ["tears1", "tears2", "tears3", "tears4"];

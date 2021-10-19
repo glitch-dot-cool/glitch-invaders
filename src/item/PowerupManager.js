@@ -52,7 +52,19 @@ export class PowerupManager {
     this.period = 2; // how many rounds between powerups
     this.activePowerups = [];
     this.collectedPowerups = initPowerupCounter(this.powerups, this.sprites);
-    this.currentPowerup = 0;
+    this.currentPowerup = -1;
+    this.powerupSequence = [
+      "BATTERY",
+      "DAMAGE",
+      "SHIELD",
+      "RATE_OF_FIRE",
+      "BATTERY",
+      "DAMAGE",
+      "BOMB",
+      "BULLET_FAN",
+      "RATE_OF_FIRE",
+      "SHIELD",
+    ];
   }
 
   show = (s) => {
@@ -97,9 +109,13 @@ export class PowerupManager {
   };
 
   createNextPowerup = () => {
-    if (this.currentPowerup < this.powerups.length - 1) this.currentPowerup++;
-    else this.currentPowerup = 0;
-    const powerup = this.powerups[this.currentPowerup];
+    if (this.currentPowerup < this.powerupSequence.length - 1) {
+      this.currentPowerup++;
+    } else this.currentPowerup = 0;
+    const nextPowerup = this.powerupSequence[this.currentPowerup];
+    const [powerup] = this.powerups.filter(
+      (powerup) => powerup.name === nextPowerup
+    );
     return new Powerup({
       x: this.p5.random(this.p5.width * 0.15, this.p5.width * 0.85),
       y: this.p5.random(this.p5.height * 0.35),

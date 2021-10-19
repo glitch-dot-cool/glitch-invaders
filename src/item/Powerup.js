@@ -7,7 +7,7 @@ export class Powerup {
     this.height = sprite.height * scale;
     this.effect = effect;
     this.target = target;
-    this.speed = 4;
+    this.speed = 5;
     this.textOpacity = 255;
   }
 

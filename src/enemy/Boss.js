@@ -4,7 +4,7 @@ export class Boss extends Enemy {
   constructor(s, sprite, wave) {
     super(s, sprite, wave);
     this.type = "BOSS";
-    this.maxHealth = 2500 + wave * 50;
+    this.maxHealth = 500 + wave * 100;
     this.health = this.maxHealth;
     this.width = sprite.width * 0.6;
     this.height = sprite.height * 0.6;

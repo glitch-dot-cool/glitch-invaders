@@ -16,6 +16,7 @@ export class EnemyManager {
     this.powerupManager = powerupManager;
     this.playerHitSounds = playerHitSounds;
     this.isPaused = false;
+    this.isBossRound = false;
   }
 
   show = (s) => {
@@ -29,7 +30,11 @@ export class EnemyManager {
     if (enemy) {
       enemy.hit(damage);
 
-      if (this.enemies[index].health <= 0) {
+      if (enemy.health <= 0) {
+        if (enemy.type === "BOSS") {
+          this.isBossRound = false;
+          this.spawnEnemies(s);
+        }
         this.particleManager.emit(s, {
           x: bullet?.x || enemy.x,
           y: bullet?.y || enemy.y,
@@ -63,26 +68,31 @@ export class EnemyManager {
 
   spawnEnemies = (s) => {
     if (!this.isPaused) {
-      const enemiesThisRound = Math.floor((this.wave + 1) ** 1.2);
+      if (!this.isBossRound) {
+        const enemiesThisRound = Math.floor((this.wave + 1) ** 1.2);
 
-      if ((this.wave + 1) % 10 === 0) {
-        this.enemies.push(new Boss(s, this.sprites.boss, this.wave + 1));
-      } else {
-        for (let i = 0; i < enemiesThisRound; i++) {
-          this.enemies.push(new Enemy(s, this.sprites.enemies, this.wave + 1));
+        if ((this.wave + 1) % 10 === 0) {
+          this.enemies.push(new Boss(s, this.sprites.boss, this.wave + 1));
+          this.isBossRound = true;
+        } else {
+          for (let i = 0; i < enemiesThisRound; i++) {
+            this.enemies.push(
+              new Enemy(s, this.sprites.enemies, this.wave + 1)
+            );
+          }
         }
-      }
 
-      if ((this.wave + 1) % this.powerupManager.period === 0) {
-        this.powerupManager.dispatchPowerup();
-        this.powerupManager.dispatchPowerup();
-        this.powerupManager.dispatchPowerup();
-        this.powerupManager.dispatchPowerup();
+        if ((this.wave + 1) % this.powerupManager.period === 0) {
+          this.powerupManager.dispatchPowerup();
+          this.powerupManager.dispatchPowerup();
+          this.powerupManager.dispatchPowerup();
+          this.powerupManager.dispatchPowerup();
+        }
+        // retrigger subsequent waves on a shorter and shorter timescale
+        setTimeout(this.spawnEnemies.bind(null, s), this.waveTimer);
+        this.waveTimer = Math.max(this.waveTimer * 0.96, this.minWaveTime);
+        this.wave++;
       }
-      // retrigger subsequent waves on a shorter and shorter timescale
-      setTimeout(this.spawnEnemies.bind(null, s), this.waveTimer);
-      this.waveTimer = Math.max(this.waveTimer * 0.96, this.minWaveTime);
-      this.wave++;
     }
   };
 

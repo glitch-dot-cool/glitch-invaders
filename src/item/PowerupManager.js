@@ -8,7 +8,7 @@ export class PowerupManager {
     this.powerups = [
       {
         name: "RATE_OF_FIRE",
-        value: 0.9,
+        value: 0.95,
         target: gun,
         description: "+rate of fire",
         iconScale: 0.5,
@@ -29,7 +29,7 @@ export class PowerupManager {
       },
       {
         name: "DAMAGE",
-        value: 1.4,
+        value: 1.25,
         target: gun,
         description: "+damage",
         iconScale: 1,
@@ -57,13 +57,20 @@ export class PowerupManager {
       "BATTERY",
       "DAMAGE",
       "SHIELD",
+
       "RATE_OF_FIRE",
       "BATTERY",
       "DAMAGE",
+
       "BOMB",
       "BULLET_FAN",
       "RATE_OF_FIRE",
+
       "SHIELD",
+      "BATTERY",
+      "DAMAGE",
+
+      "RATE_OF_FIRE", // non multiple of 3 so it loops irregularly for spice
     ];
   }
 

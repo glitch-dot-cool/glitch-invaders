@@ -73,7 +73,7 @@ export class EnemyManager {
         }
       }
 
-      if (this.wave % this.powerupManager.period === 0) {
+      if ((this.wave + 1) % this.powerupManager.period === 0) {
         this.powerupManager.dispatchPowerup();
         this.powerupManager.dispatchPowerup();
         this.powerupManager.dispatchPowerup();

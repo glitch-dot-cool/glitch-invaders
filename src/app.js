@@ -23,6 +23,7 @@ import {
 const game = (s) => {
   const gameStates = { CHARACTER_SELECT: 0, PLAYING: 1, DEAD: 2 };
   const deathEvent = new Event("death");
+  const restartEvent = new Event("restart");
 
   let player,
     gun,
@@ -95,7 +96,10 @@ const game = (s) => {
     s.textAlign(s.CENTER);
     restartButton = s.createButton("restart");
     restartButton.class("hide restart-button");
-    restartButton.mousePressed(() => setGameState(gameStates.CHARACTER_SELECT));
+    restartButton.mousePressed(() => {
+      setGameState(gameStates.CHARACTER_SELECT);
+      dispatchEvent(restartEvent);
+    });
     starField = new StarField(s);
     server = new Server();
     textFadeManager = new TextFadeManager();
@@ -423,6 +427,11 @@ const game = (s) => {
     // esc or p key
     if (s.keyCode === 27 || s.keyCode === 80) {
       s.handlePause();
+    }
+
+    // r key
+    if (s.keyCode === 82) {
+      setGameState(gameStates.CHARACTER_SELECT);
     }
   };
 

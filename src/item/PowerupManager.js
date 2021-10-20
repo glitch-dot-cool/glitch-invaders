@@ -8,7 +8,7 @@ export class PowerupManager {
     this.powerups = [
       {
         name: "RATE_OF_FIRE",
-        value: 0.9,
+        value: 0.95,
         target: gun,
         description: "+rate of fire",
         iconScale: 0.5,
@@ -29,7 +29,7 @@ export class PowerupManager {
       },
       {
         name: "DAMAGE",
-        value: 1.4,
+        value: 1.25,
         target: gun,
         description: "+damage",
         iconScale: 1,
@@ -57,13 +57,20 @@ export class PowerupManager {
       "BATTERY",
       "DAMAGE",
       "SHIELD",
+
       "RATE_OF_FIRE",
       "BATTERY",
       "DAMAGE",
+
       "BOMB",
       "BULLET_FAN",
       "RATE_OF_FIRE",
+
       "SHIELD",
+      "BATTERY",
+      "DAMAGE",
+
+      "RATE_OF_FIRE", // non multiple of 3 so it loops irregularly for spice
     ];
   }
 
@@ -75,8 +82,8 @@ export class PowerupManager {
     this.displayCollectedPowerups(s);
   };
 
-  dispatchPowerup = () => {
-    const nextPowerup = this.createNextPowerup();
+  dispatchPowerup = (x, y) => {
+    const nextPowerup = this.createNextPowerup(x, y);
     this.activePowerups.push(nextPowerup);
   };
 
@@ -108,7 +115,7 @@ export class PowerupManager {
     });
   };
 
-  createNextPowerup = () => {
+  createNextPowerup = (x, y) => {
     if (this.currentPowerup < this.powerupSequence.length - 1) {
       this.currentPowerup++;
     } else this.currentPowerup = 0;
@@ -117,8 +124,10 @@ export class PowerupManager {
       (powerup) => powerup.name === nextPowerup
     );
     return new Powerup({
-      x: this.p5.random(this.p5.width * 0.15, this.p5.width * 0.85),
-      y: this.p5.random(this.p5.height * 0.35),
+      x: x || this.p5.random(this.p5.width * 0.15, this.p5.width * 0.85),
+      y:
+        y ||
+        this.p5.random(-this.p5.height * 2, this.sprites[powerup.name].height),
       sprite: this.sprites[powerup.name],
       effect: {
         stat: powerup.name,

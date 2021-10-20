@@ -210,6 +210,7 @@ export class Player {
     if (effect.stat === "BATTERY") {
       this.batteryRechargeRate *= 1.25;
       this.maxBattery += 25;
+      this.battery = this.maxBattery;
     } else if (effect.stat === "SHIELD") {
       this.shield.maxCapacity++;
       this.shield.capacity = this.shield.maxCapacity;

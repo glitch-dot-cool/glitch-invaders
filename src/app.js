@@ -428,6 +428,11 @@ const game = (s) => {
     if (s.keyCode === 27 || s.keyCode === 80) {
       s.handlePause();
     }
+
+    // r key
+    if (s.keyCode === 82) {
+      setGameState(gameStates.CHARACTER_SELECT);
+    }
   };
 
   s.handlePause = () => {

@@ -82,8 +82,8 @@ export class PowerupManager {
     this.displayCollectedPowerups(s);
   };
 
-  dispatchPowerup = () => {
-    const nextPowerup = this.createNextPowerup();
+  dispatchPowerup = (x, y) => {
+    const nextPowerup = this.createNextPowerup(x, y);
     this.activePowerups.push(nextPowerup);
   };
 
@@ -115,7 +115,7 @@ export class PowerupManager {
     });
   };
 
-  createNextPowerup = () => {
+  createNextPowerup = (x, y) => {
     if (this.currentPowerup < this.powerupSequence.length - 1) {
       this.currentPowerup++;
     } else this.currentPowerup = 0;
@@ -124,8 +124,10 @@ export class PowerupManager {
       (powerup) => powerup.name === nextPowerup
     );
     return new Powerup({
-      x: this.p5.random(this.p5.width * 0.15, this.p5.width * 0.85),
-      y: this.p5.random(-this.p5.height * 2, this.sprites[powerup.name].height),
+      x: x || this.p5.random(this.p5.width * 0.15, this.p5.width * 0.85),
+      y:
+        y ||
+        this.p5.random(-this.p5.height * 2, this.sprites[powerup.name].height),
       sprite: this.sprites[powerup.name],
       effect: {
         stat: powerup.name,

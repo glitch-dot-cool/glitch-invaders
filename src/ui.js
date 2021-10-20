@@ -19,13 +19,11 @@ const refreshScore = new Event("refreshScore");
 let inputText = "";
 let hasSubmitted = false;
 
-window.addEventListener("death", () => {
-  inputContainer.style.display = "flex";
-});
+window.addEventListener("death", () => (inputContainer.style.display = "flex"));
 
-input.addEventListener("input", (e) => {
-  inputText = e.target.value;
-});
+input.addEventListener("input", (e) => (inputText = e.target.value));
+
+window.addEventListener("restart", () => (hasSubmitted = false));
 
 submitButton.addEventListener("click", async (e) => {
   e.preventDefault();

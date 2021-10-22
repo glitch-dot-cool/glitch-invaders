@@ -13,7 +13,7 @@ const players = [
   "hlessi",
 ];
 
-const enemies = ["tears1", "tears2", "tears3", "tears4"];
+const enemies = ["enemy1", "enemy2", "enemy3", "enemy4"];
 const boss = ["boss"];
 
 const powerups = [

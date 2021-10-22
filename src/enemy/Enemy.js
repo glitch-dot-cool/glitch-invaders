@@ -1,9 +1,7 @@
 export class Enemy {
-  constructor(s, enemySprites, wave) {
+  constructor(s, sprites, wave) {
     this.type = "REGULAR";
     this.wave = wave;
-    this.width = 32;
-    this.height = this.width;
     this.x = s.random(s.width * 0.1, s.width * 0.9);
     this.y = 0;
     this.pointValues = [5, 10, 15, 20];
@@ -15,17 +13,19 @@ export class Enemy {
       (this.pointValue * 0.05 * 1 + wave * 0.025) *
       (s.height / this.baselineScreenHeight);
     this.sprite =
-      enemySprites[
+      sprites.enemies[
         Math.floor(
           s.map(
             this.pointValue,
             this.pointValues[0],
             this.pointValues[this.pointValues.length - 1],
             0,
-            enemySprites.length - 1
+            sprites.enemies.length - 1
           )
         )
       ];
+    this.width = this.sprite.width * 0.6;
+    this.height = this.sprite.height * 0.65;
     this.healthBarWidth = 50;
   }
 

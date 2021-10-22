@@ -419,19 +419,21 @@ const game = (s) => {
   };
 
   s.keyPressed = () => {
-    // x or d key
-    if (s.keyCode === 88 || s.keyCode === 68) {
-      player?.deployBomb(s, powerupManager, enemyManager);
-    }
+    if (gameState === gameStates.PLAYING) {
+      // x or d key
+      if (s.keyCode === 88 || s.keyCode === 68) {
+        player?.deployBomb(s, powerupManager, enemyManager);
+      }
 
-    // esc or p key
-    if (s.keyCode === 27 || s.keyCode === 80) {
-      s.handlePause();
-    }
+      // esc or p key
+      if (s.keyCode === 27 || s.keyCode === 80) {
+        s.handlePause();
+      }
 
-    // r key
-    if (s.keyCode === 82) {
-      setGameState(gameStates.CHARACTER_SELECT);
+      // r key
+      if (s.keyCode === 82) {
+        setGameState(gameStates.CHARACTER_SELECT);
+      }
     }
   };
 

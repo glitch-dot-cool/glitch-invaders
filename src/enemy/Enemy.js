@@ -24,8 +24,8 @@ export class Enemy {
           )
         )
       ];
-    this.width = this.sprite.width * 0.75;
-    this.height = this.sprite.height * 0.75;
+    this.width = this.sprite.width * 0.6;
+    this.height = this.sprite.height * 0.65;
     this.healthBarWidth = 50;
   }
 

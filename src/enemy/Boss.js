@@ -1,14 +1,14 @@
 import { Enemy } from "./Enemy.js";
 
 export class Boss extends Enemy {
-  constructor(s, sprite, wave) {
-    super(s, sprite, wave);
+  constructor(s, sprites, wave) {
+    super(s, sprites, wave);
     this.type = "BOSS";
     this.maxHealth = 500 + wave * 100;
     this.health = this.maxHealth;
-    this.width = sprite.width * 0.6;
-    this.height = sprite.height * 0.6;
-    this.sprite = sprite;
+    this.width = sprites.boss.width * 0.5;
+    this.height = sprites.boss.height * 0.5;
+    this.sprite = sprites.boss;
     this.pointValue = 200 + wave * 5;
     this.speed = 0.6;
     this.healthBarWidth = 200;

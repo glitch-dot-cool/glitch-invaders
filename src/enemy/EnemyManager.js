@@ -7,7 +7,7 @@ export class EnemyManager {
     this.baseEnemiesPerRound = 1;
     this.enemies = Array(this.baseEnemiesPerRound)
       .fill()
-      .map((_) => new Enemy(s, sprites.enemies, 1));
+      .map((_) => new Enemy(s, sprites, 1));
     this.wave = 0;
     this.waveTimer = 10_000;
     this.minWaveTime = 5_000;
@@ -73,13 +73,11 @@ export class EnemyManager {
         const enemiesThisRound = Math.floor((this.wave + 1) ** 1.2);
 
         if ((this.wave + 1) % 10 === 0) {
-          this.enemies.push(new Boss(s, this.sprites.boss, this.wave + 1));
+          this.enemies.push(new Boss(s, this.sprites, this.wave + 1));
           this.isBossRound = true;
         } else {
           for (let i = 0; i < enemiesThisRound; i++) {
-            this.enemies.push(
-              new Enemy(s, this.sprites.enemies, this.wave + 1)
-            );
+            this.enemies.push(new Enemy(s, this.sprites, this.wave + 1));
           }
         }
 

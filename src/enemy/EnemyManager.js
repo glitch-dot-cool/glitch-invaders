@@ -85,7 +85,6 @@ export class EnemyManager {
           this.powerupManager.dispatchPowerup();
           this.powerupManager.dispatchPowerup();
           this.powerupManager.dispatchPowerup();
-          this.powerupManager.dispatchPowerup();
         }
         // retrigger subsequent waves on a shorter and shorter timescale
         setTimeout(this.spawnEnemies.bind(null, s), this.waveTimer);

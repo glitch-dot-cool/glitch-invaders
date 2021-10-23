@@ -13,6 +13,13 @@ body {
   font-family: JetBrains Mono, monospace;
 }
 
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
 button {
   background: #1c1c1c;
   color: #efefef;
@@ -38,14 +45,6 @@ input {
   color: #efefef;
   font-family: JetBrains Mono, monospace;
   margin-top: 10px;
-}
-
-.hide {
-  display: none;
-}
-
-.show {
-  display: flex;
 }
 
 .flex {
@@ -145,4 +144,115 @@ input {
 
 .dim {
   filter: brightness(50%);
+}
+
+#instructions-button-container {
+  position: relative;
+  display: none;
+  justify-content: center;
+  margin-top: 2rem;
+  z-index: 2;
+}
+
+.instructions-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  padding: 4rem;
+}
+
+.blur {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+@supports ((backdrop-filter: none)) {
+  .blur {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(12px);
+  }
+}
+
+.inner-container {
+  padding: 4rem;
+  background: rgba(26, 26, 26, 0.8);
+  border-radius: 4px;
+}
+
+table {
+  text-align: left;
+  font-size: 1.2rem;
+}
+
+th:nth-child(odd) {
+  padding-right: 4rem;
+}
+
+th {
+  color: #efefef;
+  padding: 1rem;
+}
+
+td {
+  color: #9c9c9c;
+  padding: 0.5rem 1rem;
+}
+
+kbd {
+  background-color: #eee;
+  border-radius: 3px;
+  border: 1px solid #b4b4b4;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),
+    0 2px 0 0 rgba(255, 255, 255, 0.7) inset;
+  color: #333;
+  display: inline-block;
+  font-weight: 700;
+  line-height: 1;
+  padding: 2px 5px;
+  white-space: nowrap;
+}
+
+kbd.key {
+  border-radius: 3px;
+  padding: 1px 2px 0;
+  border: 1px solid black;
+}
+
+pre {
+  color: #fefefe;
+  margin-left: -4rem;
+  margin-top: -12rem;
+  font-size: 12px;
+}
+
+.title {
+  top: 500;
+  display: none;
+}
+
+#insert-coin {
+  color: #e6a40c;
+  text-align: center;
+  font-size: 24px;
+  animation: blink 0.5s linear infinite alternate-reverse;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: flex;
+}
+
+@keyframes blink {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

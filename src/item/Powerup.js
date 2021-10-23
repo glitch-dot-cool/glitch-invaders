@@ -3,8 +3,8 @@ export class Powerup {
     this.x = x;
     this.y = y;
     this.sprite = sprite;
-    this.width = sprite.width * scale;
-    this.height = sprite.height * scale;
+    this.width = sprite.width * scale * 0.75;
+    this.height = sprite.height * scale * 0.75;
     this.effect = effect;
     this.target = target;
     this.speed = 7;

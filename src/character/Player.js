@@ -1,7 +1,7 @@
 export class Player {
   constructor(s, sprite, gun, audio) {
     this.p5 = s;
-    this.size = 40;
+    this.size = 50;
     this.shootingMovementPenalty = 8.5 / 10;
     this.inverseShootingMovementPenalty = 10 / 8.5;
     this.movementWidthRatio = 0.0046875;

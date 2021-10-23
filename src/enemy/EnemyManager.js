@@ -70,7 +70,7 @@ export class EnemyManager {
   spawnEnemies = (s) => {
     if (!this.isPaused) {
       if (!this.isBossRound) {
-        const enemiesThisRound = Math.floor((this.wave + 1) ** 1.2);
+        const enemiesThisRound = Math.floor((this.wave + 1) * 1.35);
 
         if ((this.wave + 1) % 10 === 0) {
           this.enemies.push(new Boss(s, this.sprites, this.wave + 1));

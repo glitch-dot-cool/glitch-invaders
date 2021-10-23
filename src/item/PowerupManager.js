@@ -11,21 +11,21 @@ export class PowerupManager {
         value: 0.95,
         target: gun,
         description: "+rate of fire",
-        iconScale: 0.5,
+        iconScale: 1,
       },
       {
         name: "BULLET_FAN",
         value: 1,
         target: gun,
         description: "+bullet spread, -damage, -bullet size",
-        iconScale: 0.5,
+        iconScale: 0.75,
       },
       {
         name: "BATTERY",
         value: null,
         target: player,
         description: "+battery regen, +max battery",
-        iconScale: 0.5,
+        iconScale: 0.85,
       },
       {
         name: "DAMAGE",
@@ -39,14 +39,14 @@ export class PowerupManager {
         value: null,
         target: player,
         description: "+shield",
-        iconScale: 0.75,
+        iconScale: 0.65,
       },
       {
         name: "BOMB",
         value: null,
         target: player,
         description: "+bomb",
-        iconScale: 0.75,
+        iconScale: 0.8,
       },
     ];
     this.period = 2; // how many rounds between powerups

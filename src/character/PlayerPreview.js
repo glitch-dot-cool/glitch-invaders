@@ -20,6 +20,11 @@ export class PlayerPreview {
       const dist = s.dist(s.mouseX, s.mouseY, this.x, this.y);
       if (dist < this.size / 2) {
         this.setSelectedPlayer(this.sprite);
+        // hide title, controls button, controls modal when game starts
+        document.querySelector("#toggle-instructions").style.display = "none";
+        document.querySelector(".title").style.display = "none";
+        document.querySelector(".instructions-container").style.display =
+          "none";
       }
     }
   };

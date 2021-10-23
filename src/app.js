@@ -107,7 +107,7 @@ const game = (s) => {
     possiblePlayerCharacters = sprites.player.map((sprite, idx) => {
       return new PlayerPreview(
         s.width / 2 + idx * (spriteSize * 1.2) - 300,
-        s.height / 2,
+        s.height / 2 + 100,
         sprite,
         spriteSize,
         setSelectedPlayer,
@@ -138,13 +138,16 @@ const game = (s) => {
 
   s.characterSelectionScene = () => {
     document.querySelector(".graphics-options").style.display = "block";
+    document.querySelector(".title").style.display = "block";
+    document.querySelector("#instructions-button-container").style.display =
+      "flex";
     document.querySelector(".form").style.display = "none";
     restartButton.class("hide restart-button");
     server.toxicity = 0;
     s.fill(200);
-    s.textSize(24);
+    s.textSize(18);
     s.textAlign(s.CENTER);
-    s.text("choose your fighter", s.width / 2, s.height / 2 - 60);
+    s.text("choose your fighter", s.width / 2, s.height / 2 + 160);
     possiblePlayerCharacters.forEach((character) => character.show(s));
   };
 

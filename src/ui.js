@@ -8,6 +8,8 @@ const submitButton = document.querySelector("#submit-btn");
 const errorModal = document.querySelector(".error-modal");
 const graphicsOptionsContainer = document.querySelector(".graphics-options");
 const mobileWarningModal = document.querySelector(".mobile-modal");
+const instructionsButton = document.querySelector("#toggle-instructions");
+const instructionsModal = document.querySelector(".instructions-container");
 
 const isMobile = detectMobile();
 if (isMobile) {
@@ -24,6 +26,15 @@ window.addEventListener("death", () => (inputContainer.style.display = "flex"));
 input.addEventListener("input", (e) => (inputText = e.target.value));
 
 window.addEventListener("restart", () => (hasSubmitted = false));
+
+instructionsButton.addEventListener("click", () => {
+  instructionsModal.classList.toggle("hide");
+  if (instructionsModal.classList.contains("hide")) {
+    instructionsButton.textContent = "show controls";
+  } else {
+    instructionsButton.textContent = "hide controls";
+  }
+});
 
 submitButton.addEventListener("click", async (e) => {
   e.preventDefault();

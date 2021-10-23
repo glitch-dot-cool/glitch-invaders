@@ -7,7 +7,7 @@ export class Gun {
     this.bullets = [];
     this.sprite = sprite;
     this.rateOfFire = 15;
-    this.bulletSpeed = 20;
+    this.bulletSpeed = 25;
     this.numBullets = 1;
     this.sound = sound;
     this.initialDamage = 10;

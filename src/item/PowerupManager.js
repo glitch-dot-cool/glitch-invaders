@@ -8,7 +8,7 @@ export class PowerupManager {
     this.powerups = [
       {
         name: "RATE_OF_FIRE",
-        value: 0.95,
+        value: 0.97,
         target: gun,
         description: "+rate of fire",
         iconScale: 1,

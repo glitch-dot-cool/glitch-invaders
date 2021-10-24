@@ -70,7 +70,8 @@ export class PowerupManager {
       "BATTERY",
       "DAMAGE",
 
-      "RATE_OF_FIRE", // non multiple of 3 so it loops irregularly for spice
+      "RATE_OF_FIRE",
+      "BATTERY", // non multiple of 3 so it loops irregularly for spice
     ];
   }
 

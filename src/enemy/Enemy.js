@@ -6,7 +6,7 @@ export class Enemy {
     this.y = s.random(0, -200);
     this.pointValues = [5, 10, 15, 20];
     this.pointValue = s.random(this.pointValues);
-    this.maxHealth = Math.ceil(this.pointValue + wave * 2);
+    this.maxHealth = Math.ceil(this.pointValue + wave * 2.5);
     this.health = this.maxHealth;
     this.baselineScreenHeight = 1067; // window.innerHeight of 1080p display
     this.speed =

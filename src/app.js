@@ -62,7 +62,6 @@ const game = (s) => {
       sprites,
       audio.enemyHits
     );
-    enemyManager.spawnEnemies(s);
   };
 
   const setGraphicsSettings = () => {
@@ -453,7 +452,6 @@ const game = (s) => {
       s.noLoop();
       s.background(0); // removes "motion blur" on pause for effect
     } else {
-      enemyManager.spawnEnemies(s);
       s.loop();
     }
   };

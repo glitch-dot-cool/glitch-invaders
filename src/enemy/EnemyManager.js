@@ -4,13 +4,8 @@ import { Boss } from "./Boss.js";
 export class EnemyManager {
   constructor(s, powerupManager, particleManager, sprites, playerHitSounds) {
     this.p5 = s;
-    this.baseEnemiesPerRound = 1;
-    this.enemies = Array(this.baseEnemiesPerRound)
-      .fill()
-      .map((_) => new Enemy(s, sprites, 1));
+    this.enemies = [];
     this.wave = 0;
-    this.waveTimer = 10_000;
-    this.minWaveTime = 5_000;
     this.sprites = sprites;
     this.particleManager = particleManager;
     this.powerupManager = powerupManager;
@@ -20,8 +15,9 @@ export class EnemyManager {
   }
 
   show = (s) => {
-    this.displayCurrentWave(s);
     this.purgeDeadEnemies();
+    if (!this.enemies.length) this.spawnEnemies(s);
+    this.displayCurrentWave(s);
     this.enemies.forEach((enemy) => enemy.show(s));
   };
 
@@ -33,7 +29,6 @@ export class EnemyManager {
       if (enemy.health <= 0) {
         if (enemy.type === "BOSS") {
           this.isBossRound = false;
-          this.spawnEnemies(s);
           this.powerupManager.dispatchPowerup(enemy.x, enemy.y);
         }
         this.particleManager.emit(s, {
@@ -68,35 +63,31 @@ export class EnemyManager {
   };
 
   spawnEnemies = (s) => {
+    this.wave++;
     if (!this.isPaused) {
       if (!this.isBossRound) {
-        const enemiesThisRound = Math.floor((this.wave + 1) * 1.35);
-
-        if ((this.wave + 1) % 10 === 0) {
+        if (this.wave % 3 === 0) {
           const bossXPos = s.random(s.width * 0.1, s.width * 0.9);
           this.enemies.push(
-            new Boss(s, this.sprites, this.wave + 1, bossXPos, -200),
-            new Boss(s, this.sprites, this.wave + 1, bossXPos - 150, -200, 0.5),
-            new Boss(s, this.sprites, this.wave + 1, bossXPos + 150, -200, 0.5),
-            new Boss(s, this.sprites, this.wave + 1, bossXPos, -350, 0.5),
-            new Boss(s, this.sprites, this.wave + 1, bossXPos, -50, 0.5)
+            new Boss(s, this.sprites, this.wave, bossXPos, -200),
+            new Boss(s, this.sprites, this.wave, bossXPos - 150, -200, 0.5),
+            new Boss(s, this.sprites, this.wave, bossXPos + 150, -200, 0.5),
+            new Boss(s, this.sprites, this.wave, bossXPos, -350, 0.5),
+            new Boss(s, this.sprites, this.wave, bossXPos, -50, 0.5)
           );
           this.isBossRound = true;
         } else {
+          const enemiesThisRound = Math.floor(this.wave * 1.35);
           for (let i = 0; i < enemiesThisRound; i++) {
-            this.enemies.push(new Enemy(s, this.sprites, this.wave + 1));
+            this.enemies.push(new Enemy(s, this.sprites, this.wave));
           }
         }
 
-        if ((this.wave + 1) % this.powerupManager.period === 0) {
+        if (this.wave % this.powerupManager.period === 0) {
           this.powerupManager.dispatchPowerup();
           this.powerupManager.dispatchPowerup();
           this.powerupManager.dispatchPowerup();
         }
-        // retrigger subsequent waves on a shorter and shorter timescale
-        setTimeout(this.spawnEnemies.bind(null, s), this.waveTimer);
-        this.waveTimer = Math.max(this.waveTimer * 0.96, this.minWaveTime);
-        this.wave++;
       }
     }
   };

@@ -39,8 +39,8 @@ export class EnemyManager {
         this.particleManager.emit(s, {
           x: bullet?.x || enemy.x,
           y: bullet?.y || enemy.y,
-          accelleration: enemy.type === "BOSS" ? 10 : 2,
-          numParticles: enemy.type === "BOSS" ? 100 : null, // default for regular enemies
+          accelleration: enemy.type === "REGULAR" ? 2 : 10,
+          numParticles: enemy.type === "REGULAR" ? null : 100, // default for regular enemies
         });
         this.p5
           .random(this.playerHitSounds)
@@ -73,7 +73,14 @@ export class EnemyManager {
         const enemiesThisRound = Math.floor((this.wave + 1) * 1.35);
 
         if ((this.wave + 1) % 10 === 0) {
-          this.enemies.push(new Boss(s, this.sprites, this.wave + 1));
+          const bossXPos = s.random(s.width * 0.1, s.width * 0.9);
+          this.enemies.push(
+            new Boss(s, this.sprites, this.wave + 1, bossXPos, -200),
+            new Boss(s, this.sprites, this.wave + 1, bossXPos - 150, -200, 0.5),
+            new Boss(s, this.sprites, this.wave + 1, bossXPos + 150, -200, 0.5),
+            new Boss(s, this.sprites, this.wave + 1, bossXPos, -350, 0.5),
+            new Boss(s, this.sprites, this.wave + 1, bossXPos, -50, 0.5)
+          );
           this.isBossRound = true;
         } else {
           for (let i = 0; i < enemiesThisRound; i++) {

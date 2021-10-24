@@ -73,7 +73,7 @@ export class Player {
       s.height - 75
     );
 
-    if (this.shield.hasShield) {
+    if (this.shield.hasShield && !this.shield.isActive) {
       s.fill(70, 23, 209);
       s.textSize(14);
       s.textAlign(s.CENTER);

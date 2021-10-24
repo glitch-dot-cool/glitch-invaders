@@ -66,7 +66,7 @@ export class EnemyManager {
     this.wave++;
     if (!this.isPaused) {
       if (!this.isBossRound) {
-        if (this.wave % 3 === 0) {
+        if (this.wave % 10 === 0) {
           const bossXPos = s.random(s.width * 0.1, s.width * 0.9);
           this.enemies.push(
             new Boss(s, this.sprites, this.wave, bossXPos, -200),

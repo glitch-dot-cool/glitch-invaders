@@ -3,7 +3,7 @@ export class Enemy {
     this.type = "REGULAR";
     this.wave = wave;
     this.x = s.random(s.width * 0.1, s.width * 0.9);
-    this.y = 0;
+    this.y = s.random(0, -200);
     this.pointValues = [5, 10, 15, 20];
     this.pointValue = s.random(this.pointValues);
     this.maxHealth = Math.ceil(this.pointValue + wave * 2);

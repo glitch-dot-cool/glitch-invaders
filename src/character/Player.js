@@ -29,7 +29,6 @@ export class Player {
       maxCapacity: 0,
       capacity: 0,
       isActive: false,
-      hasShield: false,
     };
     this.bombs = 0;
   }
@@ -73,7 +72,7 @@ export class Player {
       s.height - 75
     );
 
-    if (this.shield.hasShield && !this.shield.isActive) {
+    if (this.shield.capacity && !this.shield.isActive) {
       s.fill(70, 23, 209);
       s.textSize(14);
       s.textAlign(s.CENTER);
@@ -214,7 +213,6 @@ export class Player {
     } else if (effect.stat === "SHIELD") {
       this.shield.maxCapacity++;
       this.shield.capacity = this.shield.maxCapacity;
-      this.shield.hasShield = true;
     } else if (effect.stat === "BOMB") {
       this.bombs++;
     }
@@ -228,7 +226,6 @@ export class Player {
   useShield = () => {
     this.shieldSound.play();
     this.shield.isActive = true;
-    this.shield.hasShield = false;
   };
 
   deployBomb = (s, powerupManager, enemyManager) => {

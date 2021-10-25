@@ -10,11 +10,17 @@ export class StarField {
   }
 
   updateGraphicsOptions = (graphicsOptions) => {
-    const numStars = Math.floor(this.maxStars * graphicsOptions.density);
+    const numStars = graphicsOptions.density;
+    this.maxStars = numStars;
     this.stars = this.stars.slice(0, numStars);
   };
 
   update = () => {
+    // respawn new stars if graphics options increased
+    if (this.stars.length < this.maxStars) {
+      this.stars.push(new Star(this.renderer));
+    }
+
     this.stars.forEach((star) => {
       star.show(this.renderer);
       star.update();

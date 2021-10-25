@@ -47,10 +47,10 @@ const game = (s) => {
   window.addEventListener("refreshScore", () => (hasFetched = false));
   window.addEventListener("setPerfMode", ({ detail }) => {
     perfMode = detail;
+    setGraphicsSettings();
   });
 
   const setSelectedPlayer = (character) => {
-    setGraphicsSettings();
     gun = new Gun(s, sprites.bullet, audio.playerGun);
     player = new Player(s, character, gun, audio);
     gameState = gameStates.PLAYING;

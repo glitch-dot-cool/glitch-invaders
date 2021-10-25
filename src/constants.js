@@ -60,7 +60,7 @@ export const perfModes = { DEFAULT: "default", MEDIUM: "medium", LOW: "low" };
 export const perfModeSpecs = {
   default: {
     stars: {
-      density: 1,
+      density: 500,
     },
     particles: 1,
     renderResolution: 1,
@@ -69,7 +69,7 @@ export const perfModeSpecs = {
   },
   medium: {
     stars: {
-      density: 0.5,
+      density: 500 * 0.5,
     },
     particles: 0.5,
     renderResolution: 0.95,
@@ -78,7 +78,7 @@ export const perfModeSpecs = {
   },
   low: {
     stars: {
-      density: 0.075,
+      density: 500 * 0.075,
     },
     particles: 0.2,
     renderResolution: 0.85,

@@ -7,7 +7,7 @@ export class Boss extends Enemy {
     this.type = scale === 1 ? "BOSS" : "MINIBOSS";
     this.x = x;
     this.y = y;
-    this.maxHealth = 250 * scale + wave * (200 * scale);
+    this.maxHealth = 100 * scale + wave * (150 * scale);
     this.health = this.maxHealth;
     this.width = sprites.boss.width * 0.5 * scale;
     this.height = sprites.boss.height * 0.5 * scale;

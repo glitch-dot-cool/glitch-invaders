@@ -166,7 +166,7 @@ export class Player {
 
     // consume battery when sprinting
     if (this.isSprinting && this.battery > 0) {
-      this.battery -= 1;
+      this.battery -= 0.75;
     }
   };
 

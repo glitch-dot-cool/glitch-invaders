@@ -51,6 +51,7 @@ const game = (s) => {
   });
 
   const setSelectedPlayer = (character) => {
+    setGraphicsSettings();
     gun = new Gun(s, sprites.bullet, audio.playerGun);
     player = new Player(s, character, gun, audio);
     gameState = gameStates.PLAYING;

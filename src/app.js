@@ -71,6 +71,7 @@ const game = (s) => {
     });
     s.pixelDensity(perfModeSpecs[perfMode].renderResolution);
     starField.updateGraphicsOptions(perfModeSpecs[perfMode].stars);
+    textFadeManager = new TextFadeManager(perfMode);
   };
 
   const setGameState = (state) => {
@@ -101,7 +102,6 @@ const game = (s) => {
     });
     starField = new StarField(s);
     server = new Server();
-    textFadeManager = new TextFadeManager();
     const spriteSize = 48;
     possiblePlayerCharacters = sprites.player.map((sprite, idx) => {
       return new PlayerPreview(

@@ -67,13 +67,29 @@ export class EnemyManager {
     if (!this.isPaused) {
       if (!this.isBossRound) {
         if (this.wave % 10 === 0) {
-          const bossXPos = s.random(s.width * 0.1, s.width * 0.9);
+          const bossXPos = s.random(s.width * 0.25, s.width * 0.75);
           this.enemies.push(
             new Boss(s, this.sprites, this.wave, bossXPos, -200),
-            new Boss(s, this.sprites, this.wave, bossXPos - 150, -200, 0.5),
-            new Boss(s, this.sprites, this.wave, bossXPos + 150, -200, 0.5),
-            new Boss(s, this.sprites, this.wave, bossXPos, -350, 0.5),
-            new Boss(s, this.sprites, this.wave, bossXPos, -50, 0.5)
+            new Boss(
+              s,
+              this.sprites,
+              this.wave,
+              bossXPos - 150,
+              -200,
+              "LEFT",
+              0.5
+            ), // left
+            new Boss(
+              s,
+              this.sprites,
+              this.wave,
+              bossXPos + 150,
+              -200,
+              "RIGHT",
+              0.5
+            ), // right
+            new Boss(s, this.sprites, this.wave, bossXPos, -350, "BOTTOM", 0.5), // bottom
+            new Boss(s, this.sprites, this.wave, bossXPos, -50, "TOP", 0.5) // top
           );
           this.isBossRound = true;
         } else {

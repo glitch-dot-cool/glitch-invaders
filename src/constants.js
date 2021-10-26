@@ -60,8 +60,7 @@ export const perfModes = { DEFAULT: "default", MEDIUM: "medium", LOW: "low" };
 export const perfModeSpecs = {
   default: {
     stars: {
-      density: 1,
-      updateRate: 1,
+      density: 500,
     },
     particles: 1,
     renderResolution: 1,
@@ -70,20 +69,18 @@ export const perfModeSpecs = {
   },
   medium: {
     stars: {
-      density: 0.5,
-      updateRate: 1,
+      density: 500 * 0.5,
     },
-    particles: 0.75,
-    renderResolution: 0.9,
+    particles: 0.5,
+    renderResolution: 0.95,
     damageIndicators: true,
     collisionTestFrequency: 1,
   },
   low: {
     stars: {
-      density: 0.2,
-      updateRate: 2,
+      density: 500 * 0.075,
     },
-    particles: 0.25,
+    particles: 0.2,
     renderResolution: 0.85,
     damageIndicators: false,
     collisionTestFrequency: 2, // every other frame

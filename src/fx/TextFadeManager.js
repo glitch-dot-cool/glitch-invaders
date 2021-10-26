@@ -1,6 +1,9 @@
+import { perfModes } from "../constants.js";
+
 export class TextFadeManager {
-  constructor() {
+  constructor(perfMode) {
     this.textQueue = [];
+    this.perfMode = perfMode;
   }
 
   show = (s, now) => {
@@ -9,6 +12,8 @@ export class TextFadeManager {
   };
 
   add = (textFade) => {
-    this.textQueue.push(textFade);
+    if (this.perfMode !== perfModes.LOW) {
+      this.textQueue.push(textFade);
+    }
   };
 }

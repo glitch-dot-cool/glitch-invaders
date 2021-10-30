@@ -24,9 +24,10 @@ export class Enemy {
           )
         )
       ];
-    this.width = this.sprite.width * 0.2;
-    this.height = this.sprite.height * 0.2;
-    this.healthBarWidth = 50;
+    this.spriteAspectRatio = this.sprite.width / this.sprite.height;
+    this.height = 48;
+    this.width = this.height * this.spriteAspectRatio;
+    this.healthBarWidth = 60;
   }
 
   show = (s) => {

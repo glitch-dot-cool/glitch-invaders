@@ -21,7 +21,7 @@ export class EnemyManager {
     this.enemies.forEach((enemy) => enemy.show(s));
   };
 
-  hitEnemy = (s, index, damage, bullet, updatePlayerScore) => {
+  hitEnemy = (s, index, damage, bullet, updatePlayerScore = () => {}) => {
     const enemy = this.enemies[index];
     if (enemy) {
       enemy.hit(damage);

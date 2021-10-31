@@ -171,7 +171,7 @@ export class Player {
   };
 
   updateScore = (points) => {
-    this.multiplier += 0.125;
+    this.multiplier += points * 0.05;
     this.score += Math.floor(points * this.multiplier);
   };
 

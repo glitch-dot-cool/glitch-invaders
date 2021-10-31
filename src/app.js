@@ -380,6 +380,7 @@ const game = (s) => {
         if (isEnemyColidingPlayer) {
           if (!player.shield.isActive) {
             player.hit(enemy, gameState, setGameState, gameStates, s.saveScore);
+            player.applyPenalty(enemy.pointValue);
           } else player.takeShieldDamage(1);
           enemyManager.hitEnemy(s, enemyIdx, Infinity);
         }

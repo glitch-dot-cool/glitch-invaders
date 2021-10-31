@@ -230,11 +230,11 @@ export class Player {
 
   deployBomb = (s, powerupManager, enemyManager) => {
     if (this.bombs > 0) {
+      this.bombs--;
       this.bombSound.play();
       setTimeout(() => {
         this.multiplier = 1;
-        this.bombs--;
-        powerupManager.collectedPowerups.BOMB.count--;
+        powerupManager.collectedPowerups.BOMB.count = this.bombs;
         enemyManager.enemies.forEach((_, idx) => {
           enemyManager.hitEnemy(s, idx, Infinity);
         });

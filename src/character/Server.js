@@ -1,6 +1,6 @@
 export class Server {
   constructor() {
-    this.maxToxicity = 1_000;
+    this.maxToxicity = 100;
     this.toxicity = 0;
   }
 

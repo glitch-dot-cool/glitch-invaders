@@ -106,6 +106,7 @@ const game = (s) => {
     restartButton.mousePressed(() => {
       setGameState(gameStates.CHARACTER_SELECT);
       dispatchEvent(restartEvent);
+      timer.pause();
     });
     starField = new StarField(s);
     server = new Server();
@@ -473,6 +474,7 @@ const game = (s) => {
       if (s.keyCode === 82) {
         if (!isPaused) {
           setGameState(gameStates.CHARACTER_SELECT);
+          timer.pause();
         }
       }
     }

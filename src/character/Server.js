@@ -1,6 +1,6 @@
 export class Server {
   constructor() {
-    this.maxToxicity = 1_000;
+    this.maxToxicity = 100;
     this.toxicity = 0;
   }
 
@@ -37,8 +37,8 @@ export class Server {
     this.toxicity += damage;
 
     if (this.toxicity >= this.maxToxicity && gameState !== gameStates.DEAD) {
-      setGameState(gameStates.DEAD);
       saveScore();
+      setGameState(gameStates.DEAD, "GAME OVER");
     }
   };
 }

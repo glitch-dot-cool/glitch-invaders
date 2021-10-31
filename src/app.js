@@ -362,8 +362,13 @@ const game = (s) => {
               })
             );
             gun.deleteBullet(bulletIdx);
-            enemyManager.hitEnemy(s, enemyIdx, bullet.damage, bullet);
-            player.updateScore(enemy.pointValue);
+            enemyManager.hitEnemy(
+              s,
+              enemyIdx,
+              bullet.damage,
+              bullet,
+              player.updateScore
+            );
           }
         });
 

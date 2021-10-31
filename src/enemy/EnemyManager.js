@@ -21,12 +21,13 @@ export class EnemyManager {
     this.enemies.forEach((enemy) => enemy.show(s));
   };
 
-  hitEnemy = (s, index, damage, bullet) => {
+  hitEnemy = (s, index, damage, bullet, updatePlayerScore) => {
     const enemy = this.enemies[index];
     if (enemy) {
       enemy.hit(damage);
 
       if (enemy.health <= 0) {
+        updatePlayerScore(enemy.pointValue);
         if (enemy.type === "BOSS") {
           this.isBossRound = false;
           this.powerupManager.dispatchPowerup(enemy.x, enemy.y);

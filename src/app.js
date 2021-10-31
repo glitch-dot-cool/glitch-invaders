@@ -488,9 +488,11 @@ const game = (s) => {
       s.noLoop();
       s.background(0); // removes "motion blur" on pause for effect
       timer.pause();
+      audio.songs[0].rate(0.5);
     } else {
       s.loop();
       timer.run();
+      audio.songs[0].rate(1);
     }
   };
 

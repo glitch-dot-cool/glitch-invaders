@@ -37,8 +37,8 @@ export class Server {
     this.toxicity += damage;
 
     if (this.toxicity >= this.maxToxicity && gameState !== gameStates.DEAD) {
-      setGameState(gameStates.DEAD);
       saveScore();
+      setGameState(gameStates.DEAD, "GAME OVER");
     }
   };
 }

@@ -83,7 +83,7 @@ export class Player {
   hit = (enemy, gameState, setGameState, gameStates, saveScore) => {
     this.health -= enemy.pointValue * 2;
     if (this.health <= 0 && gameState !== gameStates.DEAD) {
-      setGameState(gameStates.DEAD);
+      setGameState(gameStates.DEAD, "YOU ARE DEAD");
       saveScore();
       this.p5.random(this.deathSounds).play();
     } else {

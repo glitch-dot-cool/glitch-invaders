@@ -13,6 +13,7 @@ import { TextFade } from "./fx/TextFade.js";
 import { TextFadeManager } from "./fx/TextFadeManager.js";
 import { Fetch } from "./utils/fetch.js";
 import { detectMobile } from "./utils/detectMobile.js";
+import { Timer } from "./Timer.js";
 import {
   spriteFileNames,
   audioFileNames,
@@ -42,7 +43,9 @@ const game = (s) => {
     leaderboard,
     hasFetched = false,
     perfMode = perfModes.DEFAULT,
-    isPaused = false;
+    isPaused = false,
+    timer,
+    deathMessage;
 
   window.addEventListener("refreshScore", () => (hasFetched = false));
   window.addEventListener("setPerfMode", ({ detail }) => {
@@ -55,6 +58,8 @@ const game = (s) => {
     gun = new Gun(s, sprites.bullet, audio.playerGun);
     player = new Player(s, character, gun, audio);
     gameState = gameStates.PLAYING;
+    timer = new Timer(gameStates, setGameState, s.saveScore);
+    timer.run();
     powerupManager = new PowerupManager(s, sprites.powerups, gun, player);
     enemyManager = new EnemyManager(
       s,
@@ -75,10 +80,11 @@ const game = (s) => {
     textFadeManager = new TextFadeManager(perfMode);
   };
 
-  const setGameState = (state) => {
+  const setGameState = (state, message) => {
     gameState = state;
     if (state === gameStates.DEAD) {
       window.dispatchEvent(deathEvent);
+      deathMessage = message;
     }
   };
 
@@ -185,13 +191,14 @@ const game = (s) => {
     s.renderScore();
     server.show(s);
     particleManager.renderParticles(s);
+    timer.show(s);
   };
 
   s.deathScene = async () => {
     s.fill(175, 0, 0);
     s.textSize(64);
     s.textAlign(s.CENTER);
-    s.text("YOU ARE DEAD", s.width / 2, s.height / 3 - 30);
+    s.text(deathMessage, s.width / 2, s.height / 3 - 30);
     const score = JSON.parse(localStorage.getItem("glitchInvadersScores")).sort(
       (a, b) => b.timestamp - a.timestamp
     )[0];
@@ -470,8 +477,10 @@ const game = (s) => {
     if (isPaused) {
       s.noLoop();
       s.background(0); // removes "motion blur" on pause for effect
+      timer.pause();
     } else {
       s.loop();
+      timer.run();
     }
   };
 

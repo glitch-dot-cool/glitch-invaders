@@ -471,7 +471,9 @@ const game = (s) => {
 
       // r key
       if (s.keyCode === 82) {
-        setGameState(gameStates.CHARACTER_SELECT);
+        if (!isPaused) {
+          setGameState(gameStates.CHARACTER_SELECT);
+        }
       }
     }
   };

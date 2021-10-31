@@ -23,7 +23,7 @@ export class Enemy {
             sprites.enemies.length - 1
           )
         )
-      ];
+      ].file;
     this.spriteAspectRatio = this.sprite.width / this.sprite.height;
     this.height = 48;
     this.width = this.height * this.spriteAspectRatio;

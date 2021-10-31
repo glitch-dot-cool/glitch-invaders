@@ -1,11 +1,11 @@
 // base filenames
 const players = [
   "woulg",
-  "nuan",
+  "nuan sonar",
   "soup",
-  "mfs_square",
+  "man from sol",
   "oddlogic",
-  "jim",
+  "jim kimchi",
   "meii",
   "sunnk",
   "vaeprism",

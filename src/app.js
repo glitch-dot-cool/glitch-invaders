@@ -154,6 +154,24 @@ const game = (s) => {
     s.textAlign(s.CENTER);
     s.text("choose your fighter", s.width / 2, s.height / 2 + 160);
     possiblePlayerCharacters.forEach((character) => character.show(s));
+    s.characterHover();
+  };
+
+  s.characterHover = () => {
+    let shouldHover = false;
+    possiblePlayerCharacters.forEach((character) => {
+      const dist = s.dist(character.x, character.y, s.mouseX, s.mouseY);
+      if (dist < character.size * 0.5) {
+        shouldHover = true;
+        character.showTooltip(s);
+      }
+    });
+
+    if (shouldHover) {
+      document.body.style.cursor = "pointer";
+    } else {
+      document.body.style.cursor = "default";
+    }
   };
 
   s.gameScene = () => {

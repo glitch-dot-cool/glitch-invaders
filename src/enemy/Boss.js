@@ -27,10 +27,10 @@ export class Boss extends Enemy {
   move = (seconds) => {
     this.y += this.speed;
     if (seconds % 2 === 0) {
-      this.x += this.speed * 4;
-    } else this.x -= this.speed * 4;
+      this.x += this.speed * 8;
+    } else this.x -= this.speed * 8;
 
-    const miniBossSpeed = this.speed * 2;
+    const miniBossSpeed = this.speed * 4;
     if (this.position === "LEFT") {
       if (seconds % 2 === 0) {
         this.y += miniBossSpeed;

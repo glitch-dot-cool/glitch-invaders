@@ -43,7 +43,7 @@ const game = (s) => {
     textFadeManager,
     leaderboard,
     hasFetched = false,
-    perfMode = perfModes.DEFAULT,
+    perfMode = perfModes.MEDIUM,
     isPaused = false,
     timer,
     deathMessage,

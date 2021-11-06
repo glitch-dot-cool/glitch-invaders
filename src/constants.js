@@ -56,9 +56,9 @@ export const audioFileNames = {
 };
 
 // perf modes
-export const perfModes = { DEFAULT: "default", MEDIUM: "medium", LOW: "low" };
+export const perfModes = { HIGH: "high", MEDIUM: "medium", LOW: "low" };
 export const perfModeSpecs = {
-  default: {
+  high: {
     stars: {
       density: 500,
     },
@@ -72,7 +72,7 @@ export const perfModeSpecs = {
       density: 500 * 0.5,
     },
     particles: 0.5,
-    renderResolution: 0.95,
+    renderResolution: 1,
     damageIndicators: true,
     collisionTestFrequency: 1,
   },

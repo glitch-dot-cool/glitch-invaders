@@ -69,7 +69,7 @@ const formatDiscordUsername = (username) => {
 };
 
 graphicsOptionsContainer.addEventListener("click", (e) => {
-  let selectedPerfMode = perfModes.DEFAULT;
+  let selectedPerfMode = perfModes.MEDIUM;
   dimSelectedGraphicsSetting(e.target);
   switch (e.target.id) {
     case "low":
@@ -79,7 +79,7 @@ graphicsOptionsContainer.addEventListener("click", (e) => {
       selectedPerfMode = perfModes.MEDIUM;
       break;
     case "high":
-      selectedPerfMode = perfModes.DEFAULT;
+      selectedPerfMode = perfModes.HIGH;
       break;
   }
   const setPerfMode = new CustomEvent("setPerfMode", {

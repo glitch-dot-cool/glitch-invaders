@@ -78,7 +78,7 @@ export const perfModeSpecs = {
   },
   low: {
     stars: {
-      density: 500 * 0.075,
+      density: Math.floor(500 * 0.075),
     },
     particles: 0.2,
     renderResolution: 0.85,

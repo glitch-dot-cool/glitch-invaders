@@ -26,6 +26,7 @@ const game = (s) => {
   const gameStates = { CHARACTER_SELECT: 0, PLAYING: 1, DEAD: 2 };
   const deathEvent = new Event("death");
   const restartEvent = new Event("restart");
+  const setupDone = new Event("setupDone");
 
   let player,
     gun,
@@ -81,14 +82,18 @@ const game = (s) => {
       particleDensity: perfModeSpecs[perfMode].particles,
     });
     s.pixelDensity(perfModeSpecs[perfMode].renderResolution);
-    starField.updateGraphicsOptions(perfModeSpecs[perfMode].stars);
     textFadeManager = new TextFadeManager(perfMode);
+    if (!starField) {
+      starField = new StarField(s, perfModeSpecs[perfMode].stars.density);
+    } else {
+      starField.updateGraphicsOptions(perfModeSpecs[perfMode].stars);
+    }
   };
 
   const setGameState = (state, message) => {
     gameState = state;
     if (state === gameStates.DEAD) {
-      window.dispatchEvent(deathEvent);
+      dispatchEvent(deathEvent);
       deathMessage = message;
     }
   };
@@ -113,7 +118,6 @@ const game = (s) => {
       dispatchEvent(restartEvent);
       timer.pause();
     });
-    starField = new StarField(s);
     server = new Server();
     const spriteSize = 48;
     possiblePlayerCharacters = sprites.player.map((sprite, idx) => {
@@ -126,6 +130,7 @@ const game = (s) => {
         s
       );
     });
+    dispatchEvent(setupDone);
   };
 
   s.draw = () => {

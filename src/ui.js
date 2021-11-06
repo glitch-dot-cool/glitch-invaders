@@ -69,13 +69,18 @@ const formatDiscordUsername = (username) => {
 };
 
 graphicsOptionsContainer.addEventListener("click", (e) => {
-  let selectedPerfMode = perfModes.MEDIUM;
+  localStorage.setItem("graphics_setting", e.target.id);
   dimSelectedGraphicsSetting(e.target);
-  switch (e.target.id) {
+  setGraphicsSettings(e.target.id);
+});
+
+const setGraphicsSettings = (mode) => {
+  let selectedPerfMode;
+  switch (mode) {
     case "low":
       selectedPerfMode = perfModes.LOW;
       break;
-    case "mid":
+    case "medium":
       selectedPerfMode = perfModes.MEDIUM;
       break;
     case "high":
@@ -86,7 +91,7 @@ graphicsOptionsContainer.addEventListener("click", (e) => {
     detail: selectedPerfMode,
   });
   dispatchEvent(setPerfMode);
-});
+};
 
 const dimSelectedGraphicsSetting = (target) => {
   target.classList.add("dim");
@@ -95,3 +100,16 @@ const dimSelectedGraphicsSetting = (target) => {
     .filter((btn) => btn.id !== target.id)
     .forEach((btn) => btn.classList.remove("dim"));
 };
+
+// init w/ cached graphics preference if present, otherwise default to medium
+window.addEventListener("setupDone", () => {
+  const cachedGraphicsPreference = localStorage.getItem("graphics_setting");
+  let graphicsSetting = perfModes.MEDIUM;
+  if (cachedGraphicsPreference) {
+    graphicsSetting = cachedGraphicsPreference;
+  }
+
+  const selectedButton = document.querySelector(`#${graphicsSetting}`);
+  dimSelectedGraphicsSetting(selectedButton);
+  setGraphicsSettings(graphicsSetting);
+});

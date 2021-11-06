@@ -1,10 +1,9 @@
 import { Star } from "./Star.js";
-import { perfModeSpecs } from "../constants.js";
 
 export class StarField {
-  constructor(s) {
+  constructor(s, numStars) {
     this.renderer = s;
-    this.maxStars = perfModeSpecs.medium.stars.density;
+    this.maxStars = numStars;
     this.stars = Array(this.maxStars)
       .fill()
       .map((_) => new Star(s));

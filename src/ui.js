@@ -43,13 +43,12 @@ submitButton.addEventListener("click", async (e) => {
   ).sort((a, b) => b.timestamp - a.timestamp);
 
   const payload = JSON.stringify({
-    discord_user: inputText,
+    discord_user: formatDiscordUsername(inputText),
     score: mostRecentScore.score,
     level_reached: mostRecentScore.wave,
   });
   if (!hasSubmitted) {
     const res = await Fetch.post("score", payload);
-    console.log(res);
 
     if (res.includes("error")) {
       errorModal.style.display = "block";
@@ -62,6 +61,12 @@ submitButton.addEventListener("click", async (e) => {
     }
   }
 });
+
+const formatDiscordUsername = (username) => {
+  if (username.indexOf("#") > 0) {
+    return username.substring(0, username.indexOf("#"));
+  } else return username;
+};
 
 graphicsOptionsContainer.addEventListener("click", (e) => {
   let selectedPerfMode = perfModes.DEFAULT;

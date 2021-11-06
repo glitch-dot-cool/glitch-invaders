@@ -20,6 +20,7 @@ import {
   perfModes,
   perfModeSpecs,
 } from "./constants.js";
+import { toggleSoundFxVolume } from "./utils/toggleSoundFxVolume.js";
 
 const game = (s) => {
   const gameStates = { CHARACTER_SELECT: 0, PLAYING: 1, DEAD: 2 };
@@ -45,7 +46,11 @@ const game = (s) => {
     perfMode = perfModes.DEFAULT,
     isPaused = false,
     timer,
-    deathMessage;
+    deathMessage,
+    audioLevels = {
+      music: 0.5,
+      fx: 1,
+    };
 
   window.addEventListener("refreshScore", () => (hasFetched = false));
   window.addEventListener("setPerfMode", ({ detail }) => {
@@ -98,7 +103,7 @@ const game = (s) => {
 
   s.setup = () => {
     s.createCanvas(s.windowWidth, s.windowHeight);
-    s.random(audio.songs).loop(0, 1, 0.5);
+    s.random(audio.songs).loop(0, 1, audioLevels.music);
     s.textFont(font);
     s.textAlign(s.CENTER);
     restartButton = s.createButton("restart");
@@ -477,6 +482,19 @@ const game = (s) => {
           timer.pause();
         }
       }
+    }
+
+    // m key
+    if (s.keyCode === 77) {
+      if (audioLevels.music == 0.5) audioLevels.music = 0;
+      else audioLevels.music = 0.5;
+
+      audio.songs[0].setVolume(audioLevels.music);
+    }
+
+    // n key
+    if (s.keyCode === 78) {
+      toggleSoundFxVolume(audio, audioLevels);
     }
   };
 

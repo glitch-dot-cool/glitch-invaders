@@ -31,6 +31,8 @@ export class EnemyManager {
         if (enemy.type === "BOSS") {
           this.isBossRound = false;
           this.powerupManager.dispatchPowerup(enemy.x, enemy.y);
+        } else if (enemy.type === "MINIBOSS") {
+          this.powerupManager.dispatchPowerup(enemy.x, enemy.y, "TIMER");
         }
         this.particleManager.emit(s, {
           x: bullet?.x || enemy.x,

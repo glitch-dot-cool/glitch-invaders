@@ -66,7 +66,13 @@ const game = (s) => {
     gameState = gameStates.PLAYING;
     timer = new Timer(gameStates, setGameState, s.saveScore);
     timer.run();
-    powerupManager = new PowerupManager(s, sprites.powerups, gun, player);
+    powerupManager = new PowerupManager(
+      s,
+      sprites.powerups,
+      gun,
+      player,
+      timer
+    );
     enemyManager = new EnemyManager(
       s,
       powerupManager,
@@ -447,6 +453,7 @@ const game = (s) => {
         DAMAGE: s.loadImage("assets/powerups/damage.png"),
         SHIELD: s.loadImage("assets/powerups/shield.png"),
         BOMB: s.loadImage("assets/powerups/bomb.png"),
+        TIMER: s.loadImage("assets/powerups/timer.png"),
       },
     };
   };

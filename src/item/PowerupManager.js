@@ -2,7 +2,7 @@ import { Powerup } from "./Powerup.js";
 import { initPowerupCounter } from "../utils/initPowerupCounter.js";
 
 export class PowerupManager {
-  constructor(s, powerupSprites, gun, player) {
+  constructor(s, powerupSprites, gun, player, timer) {
     this.p5 = s;
     this.sprites = powerupSprites;
     this.powerups = [
@@ -48,6 +48,13 @@ export class PowerupManager {
         description: "+bomb",
         iconScale: 0.5,
       },
+      {
+        name: "TIMER",
+        value: 7.5, // seconds
+        target: timer,
+        description: "+time",
+        iconScale: 0.5,
+      },
     ];
     this.period = 2; // how many rounds between powerups
     this.activePowerups = [];
@@ -83,8 +90,8 @@ export class PowerupManager {
     this.displayCollectedPowerups(s);
   };
 
-  dispatchPowerup = (x, y) => {
-    const nextPowerup = this.createNextPowerup(x, y);
+  dispatchPowerup = (x, y, powerup) => {
+    const nextPowerup = this.createNextPowerup(x, y, powerup);
     this.activePowerups.push(nextPowerup);
   };
 
@@ -116,14 +123,21 @@ export class PowerupManager {
     });
   };
 
-  createNextPowerup = (x, y) => {
-    if (this.currentPowerup < this.powerupSequence.length - 1) {
-      this.currentPowerup++;
-    } else this.currentPowerup = 0;
-    const nextPowerup = this.powerupSequence[this.currentPowerup];
-    const [powerup] = this.powerups.filter(
-      (powerup) => powerup.name === nextPowerup
-    );
+  createNextPowerup = (x, y, givenPowerup) => {
+    let powerup;
+    if (!givenPowerup) {
+      if (this.currentPowerup < this.powerupSequence.length - 1) {
+        this.currentPowerup++;
+      } else this.currentPowerup = 0;
+      const nextPowerup = this.powerupSequence[this.currentPowerup];
+      powerup = this.powerups.filter(
+        (powerup) => powerup.name === nextPowerup
+      )[0];
+    } else
+      powerup = this.powerups.filter(
+        (powerup) => powerup.name === givenPowerup
+      )[0];
+
     return new Powerup({
       x: x || this.p5.random(this.p5.width * 0.15, this.p5.width * 0.85),
       y:

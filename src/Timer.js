@@ -38,4 +38,8 @@ export class Timer {
     const s = seconds.toString();
     return s.length == 2 ? s : `0${s}`;
   };
+
+  consumePowerup = (effect) => {
+    this.time += effect.value;
+  };
 }

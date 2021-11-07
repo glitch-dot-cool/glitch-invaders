@@ -126,10 +126,23 @@ export class PowerupManager {
   createNextPowerup = (x, y, givenPowerup) => {
     let powerup;
     if (!givenPowerup) {
-      if (this.currentPowerup < this.powerupSequence.length - 1) {
-        this.currentPowerup++;
-      } else this.currentPowerup = 0;
-      const nextPowerup = this.powerupSequence[this.currentPowerup];
+      let nextPowerup = this.incrementPowerupSequence();
+
+      // skip powerups if max # already collected
+      if (
+        nextPowerup === "BULLET_FAN" &&
+        this.collectedPowerups.BULLET_FAN.count > 4
+      ) {
+        nextPowerup = this.incrementPowerupSequence();
+      }
+
+      if (
+        nextPowerup === "RATE_OF_FIRE" &&
+        this.collectedPowerups.RATE_OF_FIRE.count > 9
+      ) {
+        nextPowerup = this.incrementPowerupSequence();
+      }
+
       powerup = this.powerups.filter(
         (powerup) => powerup.name === nextPowerup
       )[0];
@@ -152,5 +165,13 @@ export class PowerupManager {
       target: powerup.target,
       scale: powerup.iconScale,
     });
+  };
+
+  incrementPowerupSequence = () => {
+    if (this.currentPowerup < this.powerupSequence.length - 1) {
+      this.currentPowerup++;
+    } else this.currentPowerup = 0;
+
+    return this.powerupSequence[this.currentPowerup];
   };
 }

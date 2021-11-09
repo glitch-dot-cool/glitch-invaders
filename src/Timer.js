@@ -35,7 +35,7 @@ export class Timer {
   };
 
   formatSeconds = (seconds) => {
-    const s = seconds.toString();
+    const s = Math.floor(seconds).toString();
     return s.length == 2 ? s : `0${s}`;
   };
 

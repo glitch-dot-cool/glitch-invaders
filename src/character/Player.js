@@ -67,7 +67,7 @@ export class Player {
     s.textSize(16);
     s.textAlign(s.CENTER);
     s.text(
-      `moderator sanity: ${this.health}/${this.maxHealth}`,
+      `health: ${this.health}/${this.maxHealth}`,
       s.width * 0.5,
       s.height - 75
     );

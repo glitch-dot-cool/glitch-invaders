@@ -11,7 +11,7 @@ export class Server {
     s.rect(oneThird, s.height - 25, oneThird, 10);
     s.textAlign(s.CENTER);
     s.text(
-      `server toxicity: ${this.toxicity}/${this.maxToxicity}`,
+      `dither amount: ${this.toxicity}/${this.maxToxicity}`,
       s.width * 0.5,
       s.height - 35
     );

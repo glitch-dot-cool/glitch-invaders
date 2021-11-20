@@ -11,6 +11,7 @@ const players = [
   "vaeprism",
   "abroxis",
   "hlessi",
+  "heavyhearted",
 ];
 
 const enemies = ["enemy1", "enemy2", "enemy3", "enemy4"];

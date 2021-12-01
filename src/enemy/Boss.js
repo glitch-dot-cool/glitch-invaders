@@ -14,7 +14,7 @@ export class Boss extends Enemy {
     this.height = sprites.boss.height * 0.5 * scale;
     this.sprite = sprites.boss;
     this.pointValue = 200 * scale + wave * (5 * scale);
-    this.speed = 0.4;
+    this.speed = 0.4 * (0.9 + wave / 100);
     this.healthBarWidth = 200 * scale;
   }
 

@@ -11,7 +11,7 @@ export class Enemy {
     this.health = this.maxHealth;
     this.baselineScreenHeight = 1067; // window.innerHeight of 1080p display
     this.speed =
-      (this.pointValue * 0.05 * 1 + wave * 0.025) *
+      (this.pointValue * 0.05 * 1 + Math.min(wave, 40) * 0.025) *
       (s.height / this.baselineScreenHeight);
     this.sprite =
       sprites.enemies[
